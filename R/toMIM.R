@@ -118,3 +118,16 @@ toMIM.table <- function(data){
 
 
 
+.partition.mim.input <- function(input,token=NULL){    
+  curr     <- input
+  n.char   <- 50 
+  res <- NULL
+    while(sum(nchar(curr))>n.char){
+    cs <- cumsum(nchar(curr)+1)
+    res <- c(res, paste(curr[cs<=n.char], collapse=' '))
+    curr <- curr[!(cs<=n.char)]
+  }
+  value <- c(res, paste(curr, collapse=' '))
+  return(value)
+}
+

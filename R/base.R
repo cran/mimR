@@ -26,7 +26,7 @@ require(RDCOMClient)
   cat("    MIM can be downloaded from http://www.hypergraph.dk.\n")
   cat("  - that the R package RDCOMClient package is installed.\n")
   cat("    The RDCOMClient package can be downloaded from http://www.omegahat.org/RDCOMClient/\n")
-  #cat("\n  For a demo of mimR, type demo(mimR)\n")
+  cat("\n  For more information type ?mimR\n")
   cat("-------------------------------------------------------------\n")
   return(invisible(0))
 }

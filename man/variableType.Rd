@@ -9,8 +9,8 @@ Retrieve information about variables in MIM model
 }
 \usage{
 variableType(mim)
-is.discrete(mim)
-is.continuous(mim)
+%is.discrete(mim)
+%is.continuous(mim)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

@@ -1,5 +1,6 @@
 
-editmim <- function(x, add=NULL, hadd=NULL, del=NULL, letter=FALSE){
+editmim <- function(x, deleteEdge=NULL, addEdge=NULL, haddEdge=NULL,
+                    deleteTerm=NULL, addTerm=NULL, letter=FALSE){
   .to <- function(str){
     str2 <-lapply(str, .partition.string.by,":")
     str3 <-.namesToLetters(str2,x$data)
@@ -7,15 +8,19 @@ editmim <- function(x, add=NULL, hadd=NULL, del=NULL, letter=FALSE){
     return(str3)
   }
   if (letter==FALSE){
-    add.let  <-    if (!is.null(add))  paste("Add",  paste(.to(add), collapse=","))
-    hadd.let <-    if (!is.null(hadd)) paste("HAdd", paste(.to(hadd),collapse=","))
-    del.let  <-    if (!is.null(del))  paste("Del",  paste(.to(del), collapse=","))
+    DE.let  <-    if (!is.null(deleteEdge))  paste("DeleteEdge",  paste(.to(deleteEdge), collapse=","))
+    AE.let  <-    if (!is.null(addEdge))     paste("AddEdge",     paste(.to(addEdge),    collapse=","))
+    HAE.let <-    if (!is.null(haddEdge))    paste("HAddEdge",    paste(.to(haddEdge),   collapse=","))
+    DT.let  <-    if (!is.null(deleteTerm))  paste("DeleteTerm",  paste(.to(deleteTerm), collapse=","))
+    AT.let  <-    if (!is.null(addTerm))     paste("AddTerm",     paste(.to(addTerm),    collapse=","))
   } else {
-    add.let  <-    if (!is.null(add))  paste("Add",  paste(add, collapse=","))
-    hadd.let <-    if (!is.null(hadd)) paste("HAdd", paste(hadd,collapse=","))
-    del.let  <-    if (!is.null(del))  paste("Del",  paste(del, collapse=","))
+    DE.let  <-    if (!is.null(deleteEdge))  paste("DeleteEdge",  paste(deleteEdge, collapse=","))
+    AE.let  <-    if (!is.null(addEdge))     paste("AddEdge",     paste(addEdge,    collapse=","))
+    HAE.let <-    if (!is.null(haddEdge))    paste("HAddEdge",    paste(haddEdge,   collapse=","))
+    DT.let  <-    if (!is.null(deleteTerm))  paste("DeleteTerm",  paste(deleteTerm, collapse=","))
+    AT.let  <-    if (!is.null(addTerm))     paste("AddTerm",     paste(addTerm,    collapse=","))
   }
-  str  <- paste(add.let,";", hadd.let,";", del.let)
+  str  <- paste(DE.let,";", AE.let,";", HAE.let,";", DT.let, ";",AT.let)
   mim.cmd(paste("Model ", .Formula.as.string(x)))
   mim.cmd(str, look.nice=FALSE)  
   value <- retrieveMIMvalues(x$data)

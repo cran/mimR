@@ -8,15 +8,18 @@
   Editing a mim model object by adding/deleting edges.
 }
 \usage{
-editmim(x, add = NULL, hadd = NULL, del = NULL, letter = FALSE)
+editmim(x, deleteEdge=NULL, addEdge=NULL, haddEdge=NULL,
+                    deleteTerm=NULL, addTerm=NULL, letter=FALSE)
 testdelete(edge, mim, options=NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{A mim model object }
-  \item{add}{Edges to be added}
-  \item{hadd}{Edges to be added (homogeneously)}
-  \item{del}{Edges to be deleted}
+  \item{deleteEdge}{Edges to be deleted}
+  \item{addEdge}{Edges to be added}
+  \item{haddEdge}{Edges to be added (homogeneously)}
+  \item{deleteTerm}{Terms to be deleted}
+  \item{addTerm}{Terms to be added}
   \item{letter}{If TRUE, the variables are specified using single
     letters.}
   \item{edge}{Edge to be tested}
@@ -41,8 +44,8 @@ testdelete(edge, mim, options=NULL)
 data(rats)
 gmd.rats <- as.gmData(rats)
 m.main <- mim(".",  data=gmd.rats)
-m2 <- editmim(m.main, add=c("Sex:Drug", "Sex:W2"))
-m3 <- editmim(m.main, add=c("Sex:Drug", "Sex:W2"),hadd="Drug:W1:W2")
+m2 <- editmim(m.main, addEdge=c("Sex:Drug", "Sex:W2"))
+m3 <- editmim(m.main, addEdge=c("Sex:Drug", "Sex:W2"),haddEdge="Drug:W1:W2")
 
 summary(m2)
 summary(m3)

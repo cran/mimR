@@ -1,5 +1,6 @@
 \name{fitted.mim}
 \alias{fitted.mim}
+\alias{modelInfo}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Extract fitted values (parameter estimates) }
 \description{
@@ -7,6 +8,7 @@
 }
 \usage{
 fitted.mim(object, ...)
+modelInfo(object)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

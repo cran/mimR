@@ -14,7 +14,6 @@ likelihood            <- function(x) x$modelInfo$likelihood
 cliques               <- function(x) x$modelInfo$Cliques
 deviance.mim          <- function(object, ...) object$deviance
 
-
 mim <- function(mimFormula, data, letter=FALSE, marginal=data$name){
   mimStringFormula <- mimFormula 
   if (class(mimStringFormula)=="formula")
@@ -24,22 +23,17 @@ mim <- function(mimFormula, data, letter=FALSE, marginal=data$name){
   vs  <- .nt.to.varspec (data)
   lapply(vs, function(s){if(!is.null(s)) mim.cmd(s)})
   
-  ##if( !is.na(match(mimStringFormula, c("*", "*h", ".")))){
   if( !is.na(match(mimStringFormula, c("..", "..h", ".")))){
     marg <- if (letter==FALSE)
       .namesToLetters(marginal, data)
     else 
       marginal
-    ##model.type <-switch(mimStringFormula,
-    ##                    "*"  = {"SatMod"   },
-    ##                    "*h" = {"HomSatMod"},
-    ##                    "."  = {"Main"     })
 
     model.type <-switch(mimStringFormula,
                         ".."  = {"SatMod"   },
                         "..h" = {"HomSatMod"},
-                        "."  = {"Main"     })
-
+                        "."   = {"Main"     })
+    
     mim.cmd(paste(model.type, paste(marg,collapse=' ')))
     rsm <- .RSmodel();    
     mimFormula.letter <- rsm$Formula.as.string

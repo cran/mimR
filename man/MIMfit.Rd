@@ -56,8 +56,8 @@ math     <- mathmark
 math$L   <- factor(NA, levels=1:2)
 gmd.math <- as.gmData(math)
 latent(gmd.math) <- "L"
-m1  <- mim(~.., data=gmd.math)
-m2  <- editmim(m1, del=paste(names(math)[1:5],":",collapse='')) 
+m1  <- mim("..", data=gmd.math)
+m2  <- editmim(m1, deleteEdge=paste(names(math)[1:5],":",collapse='')) 
 m2f <- emfit(m2)
 imputeMissing()
 d.imp <- retrieveData()
