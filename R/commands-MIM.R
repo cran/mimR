@@ -1,5 +1,5 @@
 
-retrieveData <- function(arg="d", impute=FALSE){
+retrieveData <- function(impute=FALSE,arg="d"){
   if (impute==TRUE)
     mim.cmd("impute")
   value<- .rsprint(arg)

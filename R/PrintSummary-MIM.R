@@ -3,7 +3,7 @@ print.mim <- function(x, ...){
   #print.default(x)
   #cat("------------------------------------\n")
   cat("Formula:", .mimFormula(x),"\n")
-  cat("Formula(letter):", .mimFormula.letter(x),"\n")
+  #cat("Formula(letter):", .mimFormula.letter(x),"\n")
   if (.is.fitted(x)){
     cat("likelihood:", .likelihood(x), "DF:", .DF(x),"\n")
   }

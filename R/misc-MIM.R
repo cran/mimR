@@ -450,45 +450,6 @@ variableType <- function(mim){
 }
 
 
-fitted.mim <- function(object, ...){
-
-  fv      <- object$modelInfo$FittedValues
-  is.homo <- object$modelInfo$Homogeneous
-  
-  dd <- .d.by(fv)
-  ll <- .l.by(fv)
-  qq <- .q.by(fv)
-  
-  counts <- as.data.frame(as.vector(dd))
-  names(counts) <- "Freq"
-  
-  if (length(dd)>1){
-    tab <- create.table(.d.levels(fv), .d.names(fv))
-    value <- cbind(tab, counts)
-  } else {
-    value <- counts
-  }
-  if (!is.null(ll)){
-    means<-as.data.frame(matrix(unlist(ll),
-                                ncol=length(.c.names(fv)), byrow=TRUE))
-    names(means) <- .c.names(fv) 
-    covm <- matrix(unlist(qq), ncol=length(.c.names(fv))^2, byrow=TRUE)
-    
-    if (is.homo==TRUE){
-      v <- NULL
-      for (i in 1:nrow(means))
-        v <- rbind(v, covm)
-      covm <- v
-    }
-    
-    covariances <- as.data.frame(covm)
-    names(covariances)<-
-      unlist(lapply(.c.names(fv),
-                    function(x)paste(x,":", .c.names(fv),sep='')))
-    value <- cbind(value, means, covariances)    
-  }
-  return(value)
-}
 
 
 
@@ -574,16 +535,15 @@ fitted.mim <- function(object, ...){
   return(v)
 }
 
+
 .generic.FittedValues <- function(fv, is.homo=NULL){
   if (is.null(is.homo))
     is.homo <- FALSE
-  #fv      <- object$modelInfo$FittedValues
-  #is.homo <- object$modelInfo$Homogeneous
-  
+
   dd <- .d.by(fv)
   ll <- .l.by(fv)
   qq <- .q.by(fv)
-  
+
   counts <- as.data.frame(as.vector(dd))
   names(counts) <- "Freq"
   

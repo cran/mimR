@@ -95,8 +95,34 @@ gmd.rats.nodata  <-  gmData(c("Sex","Drug","W1","W2"),
     factor=c(2,3,FALSE,FALSE),
     vallabels=list("Sex"=c("M","F"), "Drug"=c("D1","D2","D3")))
 
-# Sending a data frame to MIM
+# Note care should be taken to be consistent when specifying vallabels manually:
+
+#This works
+nt1  <-  gmData(c("Sex","Drug","W1","W2"),factor=c(2,3,FALSE,FALSE))
+vallabels(nt1)
+
+#This works
+nt12  <-  gmData(c("Sex","Drug","W1","W2"),factor=c(2,3,FALSE,FALSE), vallabels=list("Sex"=c(1,2), "Drug"=c(1,2,3)))
+vallabels(nt1)
+
+\dontrun{
+#This will not work
+nt1  <-  gmData(c("Sex","Drug","W1","W2"),factor=c(2,3,FALSE,FALSE), vallabels=list("Sex"=c(1,2,3), "Drug"=c(1,2,3)))
+vallabels(nt1)
+
+#This will not work
+nt1  <-  gmData(c("Sex","Drug","W1","W2"),factor=c(2,3,FALSE,FALSE), vallabels=list("Sex"=c(1,2,3)))
+vallabels(nt1)
+}
+
+
 data(rats)
+
+#NOTE: This works, but it should not because names in 'data' is not checked for consistency with what is specified
+nt1  <-  gmData(c("Sex","Drug","W1","W2"),factor=c(2,3,FALSE,FALSE), vallabels=list("Sex"=c(1,2), "Drug"=c(1,2,3)), data=rats)
+vallabels(nt1)
+
+# Sending a data frame to MIM
 gm.rats <- as.gmData(rats)
 toMIM(gm.rats)
 }

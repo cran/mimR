@@ -7,7 +7,7 @@
   is useful in connection with latent variable models
 }
 \usage{
-retrieveData(arg="c", impute = FALSE)
+retrieveData(impute = FALSE,arg="d")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

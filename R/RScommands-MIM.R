@@ -1,4 +1,5 @@
 .rsprint <- function(arg="f"){
+  mim.cmd("pf 12,8",look.nice=FALSE)
   fvobj <- .mim.cmd.term(paste("RSprint ",arg),
                          look.nice=FALSE, return.look.nice=TRUE)
   fvobj <- paste(fvobj,collapse='');

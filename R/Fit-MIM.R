@@ -24,7 +24,6 @@ emfit <- function(mim,arg="R", submitData=TRUE, emconv=0.0001, emmax=1000,plot=F
   }
   else
     toMIM(mim$data)
-  ##if (toupper(arg)=="S")
 
   if (info==TRUE)
     cat("Fitting using EM algorithm... ")
@@ -44,19 +43,19 @@ emfit <- function(mim,arg="R", submitData=TRUE, emconv=0.0001, emmax=1000,plot=F
     cat ("Initialization with given starting values failed - trying with random starting values\n")
     res <- .mim.cmd.term(paste("Emfit", "r"),look.nice=FALSE)
   }
-    
-  rrr <- grep(c("Successful","Error","exceeded."), res)
-  theend<-match(c("Successful","Maximum"), res)
+
+  rrr    <- match(c("Successful","Error","exceeded."), res)
+  theend <- match(c("Successful","Maximum"), res)
   endidx <- theend[which(!is.na(theend))]
-  
-  result <-
-    rbind(
-          c(as.numeric(res[9:10]), NA),
-          matrix(as.numeric(res[11:(endidx-1)]),ncol=3,byrow=TRUE)
-          )  
-  
+
+  result <- rbind(
+                  c(as.numeric(res[9:10]), NA),
+                  matrix(as.numeric(res[11:(endidx-1)]),ncol=3,byrow=TRUE)
+                  )  
+
   result<-as.data.frame(result)
   names(result)<-c("cycle","m2logL","change")
+
   if (plot != FALSE){
     opar <- par("mfrow")
     par(mfrow=c(1,2))

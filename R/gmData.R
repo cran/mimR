@@ -27,7 +27,6 @@ obs             <- function(x) UseMethod("observations")
 
 .dataOrigin   <- function(x) attr(x,"dataOrigin")
 
-
 gmData <- function(name, letter=c(letters,LETTERS), factor=rep(FALSE,length(name)),
                    vallabels=NULL, data=NULL){
   value <- as.data.frame(cbind(name, letter[1:length(name)]))
@@ -37,8 +36,30 @@ gmData <- function(name, letter=c(letters,LETTERS), factor=rep(FALSE,length(name
   names(value) <- c("name","letter")
   value$factor <- fac;
   value$levels <- lev
-  class(value) <- c("gmData","data.frame")
 
+  #print(factor)
+
+  factor.index <- which(!is.na(value$levels))
+
+  vl <- NULL
+  for (j in factor.index){
+    #print(name[j])
+    #print(length(vallabels[[j]]))
+    #print(factor[j])
+    if (!is.null(vallabels)){
+      if (factor[j]!=length(vallabels[[j]])){
+        cat("Error: Factor",name[j], "has", factor[j],"levels, but", length(vallabels[[j]]), "labels have been specified\n These are", vallabels[[j]],"\n")
+        stop("Exiting", call.=FALSE)
+      }
+      vl <- c(vl, list(vallabels[[j]]))
+    } else {
+      vl <- c(vl, list(1:factor[j]))
+    }
+  }
+  names(vl) <- name[factor.index]
+  #print(vl)
+  class(value) <- c("gmData","data.frame")
+  
   attr(value,"vallabels")      <- vallabels
   attr(value,"observations")   <- data
   switch(class(data),
@@ -48,6 +69,32 @@ gmData <- function(name, letter=c(letters,LETTERS), factor=rep(FALSE,length(name
   return(value)
 }
 
+
+.extract.nt <- function(data,letter=c(letters,LETTERS)) UseMethod(".extract.nt")
+
+.extract.nt.data.frame <- function(data,letter=c(letters,LETTERS)){    
+  name   <- names(data)  
+  fact   <- unlist(lapply(1:ncol(data), function(j) is.factor(data[,j])))
+  levels <- unlist(lapply(1:ncol(data),
+                          function(j){if(is.factor(data[,j])) length(levels(data[,j])) else NA}))
+
+  value     <- data.frame(name, letter[1:length(name)], fact, levels)
+  names(value) <- c("name", "letter", "factor", "levels")
+
+  if (length(which(fact))>0){
+    vallabels <- NULL
+    for (j in which(fact)){
+      vallabels <- c(vallabels, list(levels(data[,j])))
+    }
+    names(vallabels) <- names(data[which(fact)])
+    #print(vallabels)
+  } else {
+    vallabels <- NULL
+  }
+  attr(value,"vallabels") <- vallabels
+  class(value) <- c("gmData","data.frame")
+  return(value)
+}
 
 ##################################################################################
 as.gmData       <- function(data,letter=c(letters,LETTERS)) UseMethod("as.gmData")
@@ -92,29 +139,4 @@ print.gmData        <- function(x, ...){
   return(nt)
 }
 
-.extract.nt <- function(data,letter=c(letters,LETTERS)) UseMethod(".extract.nt")
-
-.extract.nt.data.frame <- function(data,letter=c(letters,LETTERS)){    
-  name   <- names(data)  
-  fact   <- unlist(lapply(1:ncol(data), function(j) is.factor(data[,j])))
-  levels <- unlist(lapply(1:ncol(data),
-                          function(j){if(is.factor(data[,j])) length(levels(data[,j])) else NA}))
-
-  value     <- data.frame(name, letter[1:length(name)], fact, levels)
-  names(value) <- c("name", "letter", "factor", "levels")
-
-  if (length(which(fact))>0){
-    vallabels <- NULL
-    for (j in which(fact)){
-      vallabels <- c(vallabels, list(levels(data[,j])))
-    }
-    names(vallabels) <- names(data[which(fact)])
-    ##print(vallabels)
-  } else {
-    vallabels <- NULL
-  }
-  attr(value,"vallabels") <- vallabels
-  class(value) <- c("gmData","data.frame")
-  return(value)
-}
 

@@ -1,5 +1,4 @@
 
-
 as.gmData.suffStats <- function(data, letter=c(letters,LETTERS)){
 
   nt <- data$Variables

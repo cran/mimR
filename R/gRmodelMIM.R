@@ -149,7 +149,7 @@ retrieve <- function(data=NULL){
 
 
 
-stepwise <- function(x,arg=NULL) UseMethod("stepwise", x, arg)
+stepwise <- function(x,arg=NULL) UseMethod("stepwise")
 
 stepwise.mim <- function(x,arg=NULL){
   .stepwiseMIM <- function(options=NULL,short=FALSE){
