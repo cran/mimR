@@ -9,16 +9,20 @@
   case of incomplete data
 }
 \usage{
-fit(mim)
-emfit(mim, arg = "R", emconv=0.0001, emmax=1000) %, plot = FALSE)
+fit(mim, submitData=TRUE)
+emfit(mim, arg = "R", submitData=TRUE, emconv=0.0001, emmax=1000, plot = FALSE) %
 }
 \arguments{
   \item{mim}{ A mim model object}
+  \item{submitData}{If TRUE  data are submitted to MIM, otherwise
+    not. If data is already loaded in MIM, setting submitData=FALSE
+    saves some time}
   \item{arg}{ can be one of the letters "R", "S" or "F"}
   %\item{plot}{ if TRUE, a plot of the convergence history of the EM
   %  algorithm is made.}
   \item{emconv}{Convergence criterion for EM algorithm}
   \item{emmax} {Maximum number of iterations for EM algorithm}
+  \item{plot}{If TRUE, the convergence history of the EM algorithm is plotted}
 }
 \details{
   The S option enables the user to supply start values for the missing

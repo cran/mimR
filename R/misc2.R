@@ -1,3 +1,35 @@
+.silent.as.numeric <-function(string.vec) {
+    unlist(lapply(string.vec,function(x){x2<-type.convert(x); 
+     if(is.factor(x2)||is.logical(x2)||is.complex(x2)) NA else x2}))
+}
+
+is.discrete <- function(mim){
+  used <- .used.names(mim)
+  d <- mim$data
+  a <- match(used,d$name)
+  v <-all(d$factor[a])
+  return(v)
+}
+
+is.continuous <- function(mim){
+  used <- .used.names(mim)
+  d <- mim$data
+  a <- match(used,d$name)
+  v <-all(!d$factor[a])
+  return(v)
+}
+
+variableType <- function(mim){
+  if (is.discrete(mim))
+    value <- "discrete"
+  else
+    if (is.continuous(mim))
+      value <- "continuous"
+    else
+      value <- "mixed"
+  return(value)
+}
+
 .used.names <- function(mim,letter=FALSE){
   value <- unique(unlist(mim$modelInfo$Formula.as.list))
   if (letter==FALSE)
@@ -43,10 +75,6 @@
   }
 }
 
-
-
-
-
 .l.by <- function(fvobj){
   l <- fvobj$linear
   if (!is.null(l)){
@@ -90,18 +118,17 @@
 
 
 fitted.mim <- function(object, ...){
-  
+
+  fv      <- object$modelInfo$FittedValues
   is.homo <- object$modelInfo$Homogeneous
-  fv <- object$modelInfo$FittedValues
+  
   dd <- .d.by(fv)
   ll <- .l.by(fv)
   qq <- .q.by(fv)
-
-
+  
   counts <- as.data.frame(as.vector(dd))
-  names(counts) <- ".Counts"
-
-
+  names(counts) <- "Freq"
+  
   if (length(dd)>1){
     tab <- create.table(.d.levels(fv), .d.names(fv))
     value <- cbind(tab, counts)
@@ -109,20 +136,156 @@ fitted.mim <- function(object, ...){
     value <- counts
   }
   if (!is.null(ll)){
-    means<-as.data.frame(matrix(unlist(ll), ncol=length(.c.names(fv)), byrow=TRUE))
-    names(means) <- .c.names(fv)
-
+    means<-as.data.frame(matrix(unlist(ll),
+                                ncol=length(.c.names(fv)), byrow=TRUE))
+    names(means) <- .c.names(fv) 
     covm <- matrix(unlist(qq), ncol=length(.c.names(fv))^2, byrow=TRUE)
-
+    
     if (is.homo==TRUE){
       v <- NULL
       for (i in 1:nrow(means))
         v <- rbind(v, covm)
       covm <- v
     }
-
+    
     covariances <- as.data.frame(covm)
-    names(covariances)<-unlist(lapply(.c.names(fv), function(x)paste(x,":", .c.names(fv),sep='')))
+    names(covariances)<-
+      unlist(lapply(.c.names(fv),
+                    function(x)paste(x,":", .c.names(fv),sep='')))
+    value <- cbind(value, means, covariances)    
+  }
+  return(value)
+}
+
+
+
+
+
+
+
+############# NEW ###################
+
+.returnValuesPrimitive <- function(object, type, marginal=NULL){
+  value <- switch(type,
+                  "fitted"={
+                    .generic.FittedValues(object$modelInfo$FittedValues,
+                            object$modelInfo$Homogeneous)},
+                  "obs"=,"observed"=,"counts"={
+                    .generic.FittedValues(object$suffStats)},
+                  )
+  
+  if (!is.null(marginal)){
+    if (variableType(object)=="discrete"){
+      marginal <- gsub(' +','', marginal)
+      marginal <- unlist(strsplit( marginal, '[ +: +]'))
+      str   <- formula(paste("Freq ~ ",paste(marginal,collapse='+')))
+      value <- as.data.frame(xtabs(str, data=value))
+    } else {
+      stop("Marginalization only implemented for discrete models")
+    }
+  }
+  return(value)
+}
+
+#                valueType  
+# variableType   observed   fitted   deviance  pearson   (+ marginal)
+# disc              X          X        X         X
+# cont              X          X
+# mix               X          X
+
+
+returnValues <- function(object,type="fitted",marginal=NULL){
+  log0 <- function(x){
+    sapply(x,function(a)ifelse(a==0,0,log(a)))
+  }
+  div <- function(a,b){
+    v <- a/b
+    v[b==0]<-0
+    return(v)
+  }
+  
+  value <-
+    switch(type,
+           "fitted"=,"observed"=,"obs"={
+             value <- .returnValuesPrimitive(object,type,marginal)
+           },
+           "deviance"=,"pearson"={
+             if (variableType(object)=="discrete"){
+               valo <- .returnValuesPrimitive(object,"observed",marginal)
+               vale <- .returnValuesPrimitive(object,"fitted",marginal)
+               ##print(cbind(valo,vale))
+               o <- valo$Freq
+               e <- vale$Freq
+               ##print(o); print(e)
+               switch(type,
+                      "deviance"={
+                        d <- -2 * o * log0( div(e,o) )},
+                      "pearson"={
+                        d <- div((o-e)^2,e) }
+                      )
+               valo$Freq <- d
+               valo
+             }else{
+               stop("Deviance only implemented for discrete models")
+             }
+           }
+           )
+  return(value)
+}
+
+
+
+
+
+
+
+
+
+
+
+fitted.mim <- function(object, ...){
+  fv      <- object$modelInfo$FittedValues
+  is.homo <- object$modelInfo$Homogeneous
+  v <- .generic.FittedValues(fv,is.homo)
+  return(v)
+}
+
+.generic.FittedValues <- function(fv, is.homo=NULL){
+  if (is.null(is.homo))
+    is.homo <- FALSE
+  #fv      <- object$modelInfo$FittedValues
+  #is.homo <- object$modelInfo$Homogeneous
+  
+  dd <- .d.by(fv)
+  ll <- .l.by(fv)
+  qq <- .q.by(fv)
+  
+  counts <- as.data.frame(as.vector(dd))
+  names(counts) <- "Freq"
+  
+  if (length(dd)>1){
+    tab <- create.table(.d.levels(fv), .d.names(fv))
+    value <- cbind(tab, counts)
+  } else {
+    value <- counts
+  }
+  if (!is.null(ll)){
+    means<-as.data.frame(matrix(unlist(ll),
+                                ncol=length(.c.names(fv)), byrow=TRUE))
+    names(means) <- .c.names(fv) 
+    covm <- matrix(unlist(qq), ncol=length(.c.names(fv))^2, byrow=TRUE)
+    
+    if (is.homo==TRUE){
+      v <- NULL
+      for (i in 1:nrow(means))
+        v <- rbind(v, covm)
+      covm <- v
+    }
+    
+    covariances <- as.data.frame(covm)
+    names(covariances)<-
+      unlist(lapply(.c.names(fv),
+                    function(x)paste(x,":", .c.names(fv),sep='')))
     value <- cbind(value, means, covariances)    
   }
   return(value)

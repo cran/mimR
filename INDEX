@@ -1,3 +1,4 @@
+cadcomplete             Coronary artery disease data
 carcass                 lean meat contents of pig carcasses
 create.table            Create dataframe for a contingency table
 dietox                  Growth curves of pigs in a 3x3 factorial
@@ -6,7 +7,7 @@ doodle                  A graphical interface to the models
 editMIM                 Editing a mim model object
 fitted.mim              Extract fitted values (parameter estimates)
 LINPREDICT              mimR version of MIM command 'display'
-mathmark                ~~ 1-line description of the data frame ~~
+mathmark                Mathematics marks for students
 MIMbase                 Submit commands to MIM and get the result back
                         in R
 FIT                     Function to fit model in MIM
@@ -19,6 +20,8 @@ printMIM                Function for printing data, models, parameter
 rats                    Weightloss of rats
 mimR-ReadingData        Creation of gmData objects
 retrieveData            Retrieve data from MIM engine
+returnValues            Return fitted and observed values
 simulate                Draw random sample from a mixed interaction
                         model (mim)
 toMIM                   Wrapper for submitting data and models to MIM
+variableType            Information about variables in MIM model

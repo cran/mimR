@@ -61,14 +61,14 @@ observations(x)
   \item{x}{A gmData object}
   \item{tmp}{A gmData object}
   \item{value}{The value to entered into the object}
-  \item{text}{A text string}
+  %\item{text}{A text string}
   \item{vallabels}{A list containing labels of the levels of the
     discrete variables (not currently used)}
-  \item{variables}{A set of variables}
-  \item{obs}{Data to be used in the object. Can be a data frame, a
-    table or a set of sufficient statistics (as used by MIM)}
-  \item{labels}{A list in which each item consists of a vector with
-    labels of the factors in the gmData object. See examples below.}
+  %\item{variables}{A set of variables}
+  %\item{obs}{Data to be used in the object. Can be a data frame, a
+  %  table or a set of sufficient statistics (as used by MIM)}
+  %\item{labels}{A list in which each item consists of a vector with
+  %  labels of the factors in the gmData object. See examples below.}
 }
 \details{
  as.mimData is just a wrapper for as.gmData (kept in the package for

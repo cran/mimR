@@ -1,7 +1,14 @@
-fit <- function(mim){
+fit <- function(mim,submitData=TRUE){
   if (!is.null(.latent.in.model(mim)))
     stop("Model has latent variable and 'fit' can not be used - try using 'emfit'")
-  toMIM(mim$data)
+
+  if (submitData==FALSE){
+    #cat("WARNING: Data are not entered to MIM engine. This is not a problem\n")
+    #cat(" if the relevant data are already loaded in MIM, but no checking is performed...\n")
+  }
+  else
+    toMIM(mim$data)
+
   .formula.toMIM(mim)
   v <- .fit()
   mim <- .retrieve.fittedMIM(mim)
@@ -9,16 +16,38 @@ fit <- function(mim){
   return(mim)
 }
 
-emfit <- function(mim,arg="R", emconv=0.0001, emmax=1000){
-  toMIM(mim$data)
-  .initLatent(latent(mim$data), mim$data)
+emfit <- function(mim,arg="R", submitData=TRUE, emconv=0.0001, emmax=1000,plot=FALSE){
+  if (submitData==FALSE){
+    #cat("WARNING: Data are not entered to MIM engine. This is not a problem\n")
+    #cat(" if the relevant data are already loaded in MIM, but no checking is performed...\n")
+  }
+  else
+    toMIM(mim$data)
+  if (toupper(arg)=="S")
+    .initLatent(latent(mim$data), mim$data)
   .formula.toMIM(mim)
   cat("Fitting using EM algorithm...\n")
   str <- paste("EMconv", sprintf("%.12f", emconv), "; EMmax", emmax)
-  #print(str)
-  mim.cmd(str)
-  mim.cmd(paste("Emfit", arg))
+  mim.cmd(str, look.nice=FALSE)
+  res <- .mim.cmd.term(paste("Emfit", arg),look.nice=FALSE)
+
+  result<-
+    rbind(
+          c(as.numeric(res[9:10]), NA),
+          matrix(as.numeric(res[11:(which(res=="Successful")-1)]),ncol=3,byrow=TRUE)
+          )
+  result<-as.data.frame(result)
+  names(result)<-c("cycle","m2logL","change")
+  if (plot != FALSE){
+    par(mfrow=c(1,2))
+    plot(result$cycle,result$m2logL,xlab="Iteration",ylab="-2logL"); title("-2 log Likelihood");
+    lines(result$cycle,result$m2logL)
+    plot(result$cycle,result$change,xlab="Iteration",ylab="Change"); title("Change in log Likelihood")
+    lines(result$cycle,result$change)
+  }
+
   mim <- .retrieve.fittedMIM(mim)
+  mim$EMconvergence <- result
   return(mim)
 }
 

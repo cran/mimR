@@ -1,7 +1,7 @@
 \name{mathmark}
 \alias{mathmark}
 \non_function{}
-\title{ ~~ 1-line description of the data frame ~~ }
+\title{Mathematics marks for students}
 \usage{data(mathmark)}
 \description{
 The \code{mathmark} data frame has 88 rows and 5 columns.

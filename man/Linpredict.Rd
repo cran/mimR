@@ -10,14 +10,20 @@
   discrete.
 }
 \usage{
-linpredict(mim,y,x=NULL,letter=FALSE)
+linpredict(mim,y, x=NULL,letter=FALSE, submitData=TRUE, submitModel=TRUE)
 displayMIM(y, x=NULL)
 
 
 }
 %- maybe also `usage' for other objects documented here.
 \arguments{
-  \item{mim}{A mim model object}
+  \item{mim}{A mim model object}'
+  \item{submitData}{If TRUE data  are submitted to MIM, otherwise
+    not. If data is already loaded in MIM, setting submitData=FALSE
+    saves some time}
+  \item{submitModel}{If TRUE the model is submitted to MIM, otherwise
+    not. If the model is already the model in, setting submitModel=FALSE
+    saves some time}
   \item{y}{ Vector of response variables}
   \item{x}{ Vector of explanatory variables}
   \item{letter}{If TRUE then x and y contains the variables as letters

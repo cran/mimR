@@ -1,21 +1,34 @@
 
-linpredict       <- function(mim,y,x=NULL,letter=FALSE)    UseMethod("linpredict")
+linpredict       <- function(mim,y,x=NULL,letter=FALSE,
+                             submitData=TRUE, submitModel=TRUE)
+  UseMethod("linpredict")
 
-linpredict.mim   <- function(mim,y,x=NULL,letter=FALSE)    {
+linpredict.mim   <- function(mim,y,x=NULL,letter=FALSE,
+                             submitData=TRUE, submitModel=TRUE)    {
   #cat("linpredict.mim\n")
 
-  if (!is.null(mim$suffStats)){
-    cat("Entering sufficient statistics... ")
-    toMIM(as.gmData(mim$suffStats)) 
+  if (submitData==FALSE){
+    #cat("WARNING: Data are not entered to MIM engine. This is not a problem\n")
+    #cat(" if the relevant data are already loaded in MIM, no checking is performed...\n")
   } else {
-    cat("Entering raw data... ")
-    toMIM(mim$data)
+    if (!is.null(mim$suffStats)){
+      cat("Entering sufficient statistics... ")
+      toMIM(as.gmData(mim$suffStats)) 
+    } else {
+      cat("Entering raw data... ")
+      toMIM(mim$data)
+    }
+    cat("done\n")
   }
-  cat("done..\n")
-  nt <- mim$data
-  mim.cmd(paste("Model ", mim$mimFormula.letter))
-  mim.cmd("Fit")
 
+  nt <- mim$data
+  if (submitModel==TRUE){
+    mim.cmd(paste("Model ", mim$mimFormula.letter))
+    mim.cmd("Fit")
+  } else {
+    #cat("WARNING: Model is not being fitted by the MIM engine. This is not a problem\n")
+    #cat(" if the relevant model is alread fitted in MIM, but no checking is performed...\n")
+  }
 
   if (letter==TRUE){
     x.letter <- x

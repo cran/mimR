@@ -37,7 +37,6 @@ print.gmData        <- function(x, ...){
     cat ("Latent variables:", paste(latent(x),collapse=' '), "\n")
   cat("To see the values of the factors use the 'vallabels' function\n")
   cat("To see the data use the 'observations' function\n")
-  #print(class(x))
   return(x)
 }
     
@@ -47,7 +46,6 @@ print.gmData        <- function(x, ...){
   class(nt) <- c("gmData","data.frame")
   return(nt)
 }
-
 
 .extract.nt <- function(data,letter=c(letters,LETTERS)) UseMethod(".extract.nt")
 
@@ -164,13 +162,14 @@ retrieveData <- function(gmData=NULL,impute=FALSE){
   if (impute==TRUE)
     mim.cmd("impute")
   value<- printMIM("d")
-  dat <-  value[-(1:(length(gmData$name)+1))]
-  datm<-matrix(.silent.as.numeric(dat), ncol=length(gmData$name)+1,byrow=TRUE)  
-  datm<-as.data.frame(datm[,-1])
-  #if (!is.null(gmData))
-    names(datm) <- gmData$name
-  return(datm)
+  if (!is.null(gmData))
+    names(value) <- gmData$name
+  return(value)
 }
+
+
+
+
 
 
 

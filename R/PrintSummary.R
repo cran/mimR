@@ -33,6 +33,6 @@ summary.mim <- function(object, ...){
   cat(" Degrees of freedom:       ", .DF(object), "\n")
   
   cat(" Cliques:\n")
-  print(lapply(.cliques(object),.look.up.mim.names, object$data, "from.mim"))
-
+  cl <-lapply(.cliques(object),.look.up.mim.names, object$data, "from.mim")
+  print(unlist(lapply(cl, paste, collapse=':')))
 }

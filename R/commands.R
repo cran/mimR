@@ -2,13 +2,36 @@
 .mim.diary.data <- function(arg="d"){
   specfile <- "mimR_diary"
   file     <- paste(getwd(),"\\",specfile,".txt",sep='')
-  print(file)
   cat("Diary file : ",file, sep=' ', fill=TRUE)
-  mim.cmd(paste("clear o; diaryon ", file, "; print d; diaryoff"))
-  #result <- read.table( file=file, header=TRUE, na.strings="*")
+  mim.cmd("diaryoff")
+  mim.cmd(paste("clear o; diaryon ", file))
+  .mim.cmd.term(paste("print", arg, ";diaryoff"), look.nice=FALSE)
   result <- scan( file=file, what=character(), na.strings="*")
   return(result)
-  #return( result[,-1] )
+}
+
+
+.mim.diary.data <- function(arg="d"){
+  specfile <- "mimR_diary"
+  file     <- paste(getwd(),"\\",specfile,".txt",sep='')
+  cat("Diary file : ",file, sep=' ', fill=TRUE)
+  mim.cmd("diaryoff")
+  mim.cmd(paste("clear o; diaryon ", file))
+  .mim.cmd.term(paste("print", arg, ";diaryoff"), look.nice=FALSE)
+  result <- scan( file=file, what=character(), na.strings="*")
+
+  aaa<-scan("mimr_diary.txt",what=character(),sep="\n")
+  bbb<-lapply(aaa,function(x){unlist(strsplit(x, " +"))})
+  ccc<-lapply(bbb, function(x) x[unclass(x)!=""])
+  ddd<-unlist(ccc)
+  lin.len <- unique(unlist(lapply(ccc,length)))
+  nvar <- sum(lin.len)
+
+  dat <- ddd[-(1:nvar)]
+  datm<-matrix(.silent.as.numeric(dat), ncol=nvar,byrow=TRUE)
+  datm<-as.data.frame(datm[,-1])
+  names(datm) <- ddd[2:nvar]
+  return(datm)
 }
 
 printMIM <- function(arg=NULL, verbose=FALSE){

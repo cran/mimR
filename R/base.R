@@ -1,9 +1,7 @@
-
 require(MASS)
 
 .First.lib <- function(lib, pkg)
 {
-  ##print(lib); print(pkg)
   cat("\n")
   cat("-------------------------------------------------------------\n")
   cat(package.description("mimR", lib = lib, field="Title"))
@@ -81,3 +79,53 @@ mcm <- function(){
     x <- readline("MIM->")
   }
 }
+
+
+
+
+.mim.cmd.term <- function(mim.cmds, look.nice = TRUE, return.look.nice=FALSE){
+
+  .split.mim.input <- function(input,token=NULL){
+    s<-strsplit(input,'')[[1]]
+    res <- NULL
+    len <- 80
+    while(length(s)>len){
+      s1 <- s[1:len]
+      res <- c(res, paste(paste(s1,collapse=''),token))
+      s  <- s[-(1:len)]
+    }
+    value <- c(res, paste(s,collapse=''))
+    return(value)
+  }
+
+  .call.mim.MIMterm  <- function(cmd.str){
+    #cat("Communicating with MIM engine. This may take a moment... ")
+    tmp <- proc.time()
+    mimR.dir <- system.file(package="mimR")
+    cmd.str  <- paste(mimR.dir,'/MIMterm/MIMterm.exe "', cmd.str, '"',sep='')
+    value    <- system(cmd.str, show.output.on.console=FALSE, invisible=TRUE,
+                       intern=TRUE)
+    #cat("Time taken:", round((proc.time()-tmp)[3],2),"sec\n")
+    return(value)
+  }
+  if (nchar(mim.cmds)>80)
+    mim.cmds <- .split.mim.input(mim.cmds,token='&')
+  
+  v<- lapply(mim.cmds, function(a){
+    v  <- .call.mim.MIMterm(a);
+    return(v)
+  })
+  v<- v[[length(v)]]
+  if (look.nice==TRUE)    
+    sapply(v,function(x) cat(x, fill=TRUE))
+  if (return.look.nice==TRUE){
+    value <- v
+  }
+  else{
+    str2 <- paste(v, collapse = " ")
+    value <- unlist(strsplit(str2, " +"))
+    value <- value[value!=""]    
+  }
+  return( invisible(value) );
+}
+
