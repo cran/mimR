@@ -1,3 +1,27 @@
+imputeMissing <- function(){
+  mim.cmd("impute")
+}
+
+retrieveData <- function(arg="c"){
+  value<- .RSprint(arg)
+
+  names(value$Data) <- value$Variables$name[match(names(value$Data),value$Variables$letter)]
+  value <- value$Data
+  return(value)
+}
+
+
+
+.dataMIM <- function(mim) mim$data
+
+.namesToLetters <- function(terms, names.table){
+  .look.up.mim.names(terms, names.table,direction="to.mim")
+}
+
+.lettersToNames <- function(terms, names.table){
+  .look.up.mim.names(terms, names.table,direction="from.mim")
+}
+
 .look.up.mim.names <- function(terms, names.table,direction="from.mim"){
   if (length(terms)==0)
     return(NULL)
@@ -38,159 +62,12 @@
     }
   }
 
-".get.mim.parameters" <-
-function(mim.output){
-#
-  mim.output.text  <- mim.output[is.na(.silent.as.numeric(mim.output))]
-  ## Remove numbers from mim.output
-  Means.i    <- c(which(mim.output.text=="Means"), which(mim.output.text=="Linear"))
-  output.type<- ifelse ( length(which("Means"==mim.output.text))>0, "Count", "Discrete")
-
-  start      <- max(c(which(mim.output.text=="parameters."     ), 
-                      which(mim.output.text=="covariances."    ),
-                      which(mim.output.text=="correlations."   ), 
-                      which(mim.output.text=="algorithm)."     )))
-
-  type.text              <- paste( mim.output[1:start], collapse= " ")
-  working.mim.output     <- mim.output[-(1:start)]
-  mim.output.text        <- mim.output.text[-(1:start)]
-
-  disc.names <- NULL; cont.names <- NULL;
-  
-  first.Count.i <- c(which(mim.output.text=="Count")[1],which(mim.output.text=="Discrete")[1])
-  first.Count.i <-  first.Count.i[which(!is.na(first.Count.i))]
-
-  if ( length(Means.i)>0 ){
-    first.Means.i <- c(which(mim.output.text=="Means")[1], which(mim.output.text=="Linear")[1])
-    first.Means.i <-  first.Means.i[which(!is.na(first.Means.i))]
-    cont.names   <- mim.output.text[(first.Means.i+1):(first.Count.i-1)]
-    disc.and.cont.names <- mim.output.text[1:(first.Means.i-1)]
-    disc.names   <-
-      if (!setequal(disc.and.cont.names, cont.names))
-        setdiff(disc.and.cont.names, cont.names)
-      else
-        NULL
-  }
-  else{
-    disc.names   <- mim.output.text[1:(first.Count.i-1)]
-  }
-
-  disc.dim2 <- length(disc.names);   cont.dim2 <- length(cont.names); 
-  
-  if (!is.null(disc.names)){
-    if (!is.null(cont.names)){
-      ##cat("DISC AND CONT",fill=TRUE)
-      res.item.list    <- NULL;
-      wmo         <- working.mim.output[-(1:disc.dim2)]## Remove names of factors;
-      Count.i     <- c(which(wmo=="Count"),which(wmo=="Discrete"))
-      item.length <- Count.i[1]
-
-      for (i in 1:length(Count.i)){
-        curr.wmo <- wmo[1:item.length]
-        wmo      <- wmo[-(1:item.length)]; ## Remove curr.wmo to prepare for next iteration
-        curr.wmo.numbers <- curr.wmo[which(!is.na(.silent.as.numeric(curr.wmo)))]
-        disc.levels <- curr.wmo.numbers[1:disc.dim2]
-        mean.cov    <- .mim.mean.cov2df(curr.wmo.numbers[-(1:disc.dim2)], cont.names)
-        means       <- mean.cov$mean;
-        cov         <- mean.cov$cov
-        count       <- as.numeric(curr.wmo.numbers[length(curr.wmo.numbers)])
-        res         <- list("type.text"  =type.text,   "disc.names"=disc.names,
-                            "disc.levels"=disc.levels, "cont.names"=cont.names,
-                            "means"      =means,       "cov"=cov,
-                            "counts"     =count,       "variable.type"="mixed",
-                            "output.type"=output.type)
-        res.item.list <- c(res.item.list , list(res))   
-      }
-      mmm <- NULL;
-      for (i in 1:length(res.item.list))
-        mmm <- rbind(mmm, .silent.as.numeric(res.item.list[[i]]$disc.levels))
-      mmm<- apply(mmm,2,max)
-      ##print(mmm)
-      res.list <- list("type.text"=type.text, "stats"=res.item.list, "variable.type"="mixed",
-                       "disc.levels"=mmm,"disc.names"=res.item.list[[1]]$disc.names,
-                       "cont.names"=res.item.list[[1]]$cont.names
-                       )
-    }
-    else{
-      ##cat("DISC ONLY",fill=T)
-      wmo      <- working.mim.output;
-      m        <- as.data.frame(matrix(as.numeric(wmo[-(1:(length(disc.names)+1))]),
-                                       ncol=(length(disc.names)+1),byrow=TRUE))
-      names(m) <- c(disc.names, "counts")      
-      res.list <- list("type.text"=type.text, "disc.names"=disc.names,
-                       "table"    =m,         "variable.type"="discrete")
-    }
-  }
-  else{
-    ##cat("CONT ONLY",fill=T)
-    wmo      <- working.mim.output;
-    ##print(wmo)
-    curr.wmo.numbers <- wmo[which(!is.na(.silent.as.numeric(wmo)))]
-    ##print(curr.wmo.numbers)
-    mean.cov    <- .mim.mean.cov2df(curr.wmo.numbers,cont.names)
-    means       <- mean.cov$mean;
-    cov         <- mean.cov$cov
-    count       <- as.numeric(curr.wmo.numbers[length(curr.wmo.numbers)])
-    ##print(mean.cov$mean);        print(mean.cov$cov); print(count)    
-    res.list <- list("type.text" =type.text, "cont.names"=cont.names,
-                     "means"     =means,     "cov"       =cov,
-                     "counts"    =count,     "variable.type"="continuous",
-                     "output.type"=output.type)
-  }
-  class(res.list) <- "mim.parameters"
-  return(res.list)
-}
 
 
 
 
 
 
-
-
-
-".mim.mean.cov2df" <-
-function(mimout,y.names,x.names=NULL){
-  ##if (is.null(x.names)){ ## output from print <letter
-  if (length(x.names)==0){ ## output from print <letter
-    ##print("PRINT outout")
-    y.dim <- length(y.names)
-    m     <- matrix(0,nrow=(y.dim+1),ncol=y.dim)
-    index <- 1
-    for (i in 1:y.dim)
-      for (j in 1:i){
-        m[i,j] <- as.numeric(mimout[index])
-        index  <- index + 1
-      }
-    for (j in 1:y.dim){
-      m[(y.dim+1),j]<- as.numeric(mimout[index])
-      index <- index + 1
-    }
-    #print(m)
-    mean <- t(m[y.dim+1,1:y.dim, drop=FALSE])
-    covm <- m[1:y.dim, 1:y.dim, drop=FALSE]
-    ##names(mean) <- y.names
-    ##print(mean)
-    dimnames(mean) <- list( y.names, c("int"))
-  }
-  else{ ## output from display
-    ##print("DISPLAY outout")
-    m        <- matrix(0,nrow=length(y.names),ncol=1+length(x.names)+length(y.names))
-    index    <- 1
-    for (i in 1:length(y.names))
-      for (j in 1:(1+length(x.names)+i)){
-        m[i,j] <- as.numeric(mimout[index])
-        index <- index + 1
-      }
-    mean  <- m[,  1:(1+length(x.names)) ,drop=FALSE]
-    covm  <- m[,-(1:(1+length(x.names))),drop=FALSE]
-    dimnames(mean) <- list( y.names, c("int", x.names))
-  }
-
-  if (nrow(covm)>1) covm <- as.data.frame( covm + t(covm) - diag(diag(covm)) )
-  dimnames(covm) <- list( y.names, y.names )
-  return(list("mean"=mean,"cov"=covm))
-}
 
 
 ".mim.setblock" <-
@@ -210,7 +87,7 @@ function(br.structure=NULL,data=NULL,mim.names=FALSE){
         s1 <- lapply(.partition.string.by(br.structure, "\\|"),
                      .partition.string.by, last.token)
         s2 <- lapply(s1, function(a){
-          b <- .look.up.mim.names(a,names.table=names.table, direction="to.mim")
+          b <- .namesToLetters(a,names.table=names.table, direction="to.mim")
           paste(as.vector(b),collapse='')}) 
         s3 <- paste(s2, collapse="|")
       }
@@ -366,13 +243,13 @@ variableType <- function(mim){
 .used.names <- function(mim,letter=FALSE){
   value <- unique(unlist(mim$modelInfo$Formula.as.list))
   if (letter==FALSE)
-    value <- .look.up.mim.names(value, mim$data, "from.mim")
+    value <- .lettersToNames(value, mim$data)
   return(value)
 }
 
 .latent.in.model <- function(mim){
   s <- mim$data
-  used.names <- .look.up.mim.names(unique(unlist(mim$modelInfo$Formula.as.list)), s,"from.mim")
+  used.names <- .lettersToNames(unique(unlist(mim$modelInfo$Formula.as.list)), s)
   v <- intersect(used.names, latent(s))
   value<-if (length(v)>0) v
   return(value)

@@ -33,12 +33,12 @@ linpredict.mim   <- function(mim,y,x=NULL,letter=FALSE,
     x.letter <- x
     y.letter <- y
     x.name <- if(!is.null(x))
-      .look.up.mim.names(x, nt,"from.mim")
-    y.name <- .look.up.mim.names(y, nt,"from.mim")
+      .lettersToNames(x, nt)
+    y.name <- .lettersToNames(y, nt)
   } else {
     x.letter <- if(!is.null(x))
-      .look.up.mim.names(paste(x,collapse=':'), nt,"to.mim")
-    y.letter <- .look.up.mim.names(paste(y,collapse=':'), nt,"to.mim")
+      .namesToLetters(paste(x,collapse=':'), nt)
+    y.letter <- .namesToLetters(paste(y,collapse=':'), nt)
     x.name  <- x
     y.name  <- y
   }
@@ -66,15 +66,15 @@ linpredict.mim   <- function(mim,y,x=NULL,letter=FALSE,
   if (dd$variable.type=="mixed")
     for (i in 1:length(dd$stats)){
       dd1 <- dd$stats[[i]]
-      new.col.names <- c("int", unlist(.look.up.mim.names(colnames(dd1$means)[-1],nt,"from.mim")))
+      new.col.names <- c("int", unlist(.lettersToNames(colnames(dd1$means)[-1],nt)))
       dimnames(dd1$means) <- list(y, new.col.names)
       dimnames(dd1$cov) <- list(y,y)
-      dd1$disc.names <- unlist(.look.up.mim.names(dd1$disc.names,nt, "from.mim"))
+      dd1$disc.names <- unlist(.lettersToNames(dd1$disc.names,nt))
       dd$stats[[i]] <- dd1
     }
   else {
     if (dd$variable.type=="continuous"){
-      new.col.names <- c("int", unlist(.look.up.mim.names(colnames(dd$means)[-1],nt,"from.mim")))
+      new.col.names <- c("int", unlist(.lettersToNames(colnames(dd$means)[-1],nt)))
       dimnames(dd$means) <- list(y, new.col.names)
       dimnames(dd$cov) <- list(y,y)
       value <- dd
@@ -85,7 +85,7 @@ linpredict.mim   <- function(mim,y,x=NULL,letter=FALSE,
         nn[1:(C.i-1)] <- y
         nn[(C.i+1):length(nn)] <- x
       } else {
-        nn[1:(length(nn)-1)] <- .look.up.mim.names(nn[-length(nn)],nt,"from.mim")
+        nn[1:(length(nn)-1)] <- .lettersToNames(nn[-length(nn)],nt)
       }
       ##print(nn)
       names(dd$table) <- nn

@@ -33,7 +33,7 @@ data(rats)
 gmd.rats <- as.gmData(rats)
 m2   <- mim("ab/abc+abd/cd", data=gmd.rats, letter=TRUE)
 mf2 <- fit(m2)
-samp <- simulate(mf2, size=10)   # 'sample' is already used in R 
-samp 
+#samp <- simulate(mf2, size=10)   # 'sample' is already used in R 
+#samp 
 }
 \keyword{datagen}% at least one, from doc/KEYWORDS

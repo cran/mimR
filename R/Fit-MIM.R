@@ -1,3 +1,9 @@
+testdelete <- function(edge,mim,options=NULL){
+  d <- .dataMIM(mim)
+  e <- .namesToLetters(edge,d)
+  .RStestdelete(e,options)
+}
+
 fit <- function(mim,submitData=TRUE){
   if (!is.null(.latent.in.model(mim)))
     stop("Model has latent variable and 'fit' can not be used - try using 'emfit'")
@@ -14,6 +20,26 @@ fit <- function(mim,submitData=TRUE){
   mim <- .retrieve.fittedMIM(mim)
   mim$deviance <- v[1]
   return(mim)
+}
+
+.emfitMIM <- function(arg="R",plot=FALSE){
+    res<-mim.cmd(paste("emfit ", arg, sep=' '), look.nice=TRUE)
+    result<-
+    rbind(
+        c(as.numeric(res[9:10]), NA),
+        matrix(as.numeric(res[11:(which(res=="Successful")-1)]),ncol=3,byrow=TRUE)
+    )
+    result<-as.data.frame(result)
+    names(result)<-c("cycle","m2logL","change")
+    if (plot != FALSE){
+        par(mfrow=c(1,2))
+        plot(result$cycle,result$m2logL); title("-2 log Likelihood");
+        lines(result$cycle,result$m2logL)
+        plot(result$cycle,result$change); title("Change in log Likelihood")
+        lines(result$cycle,result$change)
+    }
+    value <- result
+    return(invisible(value))
 }
 
 emfit <- function(mim,arg="R", submitData=TRUE, emconv=0.0001, emmax=1000,plot=FALSE,info=FALSE){
@@ -80,8 +106,8 @@ emfit <- function(mim,arg="R", submitData=TRUE, emconv=0.0001, emmax=1000,plot=F
 
 
 .retrieve.fittedMIM <- function(mim){
-  v1<- .rsmodel()
-  v2<- .rsprint.suffStats()
+  v1<- .RSmodel()
+  v2<- .RSprint.suffStats()
   v2$Variables <- v1$Variables
   mim$modelInfo     <- v1;
   mim$suffStats     <- v2;
@@ -110,7 +136,7 @@ emfit <- function(mim,arg="R", submitData=TRUE, emconv=0.0001, emmax=1000,plot=F
 }
 
 .initLatent <- function(set, data, info=FALSE){
-    s <- .look.up.mim.names(set, data, "to.mim")
+    s <- .namesToLetters(set, data)
     if (info==TRUE)
       cat("Initializing latent variables:", paste(set, collapse=' '), "\n")
     s2<- paste("calc", s, "=", s, "+ln(0);")
@@ -118,3 +144,10 @@ emfit <- function(mim,arg="R", submitData=TRUE, emconv=0.0001, emmax=1000,plot=F
 }
 
 
+
+#.fitMIM <- function (){
+#  mim.output <- mim.cmd("fit", look.nice=FALSE)
+#  res <- .silent.as.numeric( mim.output[c(2,4)] )
+#  value <- c("deviance"=res[1], "df"=round(res[2],0))
+#  return(print(value))
+#}

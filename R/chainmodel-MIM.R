@@ -12,7 +12,7 @@ chainmim <- function(mimFormula.list, data){
   for (j in 2:length(blocks))
     blocks[[j]] <- setdiff(blocks[[j]], blocks[[j-1]])
   
-  s <- lapply(blocks, .look.up.mim.names, data, "to.mim")    
+  s <- lapply(blocks, .namesToLetters, data)    
   s <- unlist(lapply(s, paste, collapse=' '))
   block.str <- paste(s, collapse='|')    
   

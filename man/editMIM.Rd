@@ -1,6 +1,7 @@
 \name{editMIM}
 \alias{editmim}
-\alias{retrieve}
+\alias{testdelete}
+\alias{retrieveMIMvalues}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Editing a mim model object}
 \description{
@@ -8,8 +9,7 @@
 }
 \usage{
 editmim(x, add = NULL, hadd = NULL, del = NULL, letter = FALSE)
-retrieve(data = NULL)
-
+testdelete(edge, mim, options=NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -18,8 +18,10 @@ retrieve(data = NULL)
   \item{hadd}{Edges to be added (homogeneously)}
   \item{del}{Edges to be deleted}
   \item{letter}{If TRUE, the variables are specified using single
-  letters.}
-  \item{data}{A gmData object}
+    letters.}
+  \item{edge}{Edge to be tested}
+  \item{mim}{A mim object}
+  \item{options}{Additional arguments to MIM specifying the tests}
 }
 \details{
   retrieve is used for retrieving a model (as a mim object) manually

@@ -2,6 +2,7 @@
 \alias{toMIM}
 \alias{toMIM.data.frame}
 \alias{toMIM.gmData}
+\alias{toMIM.table}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Wrapper for submitting data and models to MIM}
 \description{

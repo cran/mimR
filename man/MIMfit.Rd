@@ -56,10 +56,11 @@ math     <- mathmark
 math$L   <- factor(NA, levels=1:2)
 gmd.math <- as.gmData(math)
 latent(gmd.math) <- "L"
-m1  <- mim("*", data=gmd.math)
+m1  <- mim(~.., data=gmd.math)
 m2  <- editmim(m1, del=paste(names(math)[1:5],":",collapse='')) 
 m2f <- emfit(m2)
-d.imp <- retrieveData(impute=TRUE)
+imputeMissing()
+d.imp <- retrieveData()
 }
 \keyword{models}% at least one, from doc/KEYWORDS
 %\keyword{utilities}

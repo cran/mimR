@@ -7,19 +7,15 @@
   is useful in connection with latent variable models
 }
 \usage{
-retrieveData(impute = FALSE,arg="d")
+retrieveData(arg="c")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{arg}{"c": the raw data (using value labels), "d": the raw data
 (using levels) , "e": the raw data (showing missing values)}
-  \item{impute}{If TRUE, missing values are imputed (from the fitted
-    model) before the data is returned}
 
 }
 \details{
-  The gmData object is used only for naming the columns of the data
-  frame.
 }
 \value{
   A data frame

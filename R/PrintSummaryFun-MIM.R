@@ -20,18 +20,24 @@ summary.mim <- function(object, ...){
   if (.is.fitted(object)){
     cat("deviance:", as.numeric(deviance(object)),  "DF:", .DF(object), "likelihood:", .likelihood(object),"\n")
   }
-  cat("Model properties:\n")
-  if (!is.null(.latent.in.model(object)))
+  cat(" Degrees of freedom:       ", .DF(object), "\n")
+  if (!is.null(.latent.in.model(object))){
     cat(" Latent variables in model:", paste(.latent.in.model(object),collapse=' '),"\n")
+    cat(" Note: The degrees of freedom reported above may not be correct\n")
+  }
+  
+  cat(" Cliques: ")
+  cl <-lapply(.cliques(object),.lettersToNames, object$data)
+  print(unlist(lapply(cl, paste, collapse=':')))
+#  cat("To see model properties, use the 'properties()' function\n")
+}
+
+properties                    <- function(object) UseMethod("properties")
+properties.mim <- function(object){
   cat(" Variables in model:       ", object$used.names,"\n")
   cat(" Is graphical:             ", object$modelInfo$Graphical,"\n")
   cat(" Is decomposable:          ", object$modelInfo$Decomposable,"\n")
   cat(" Is mean linear:           ", object$modelInfo$Mean.Linear,"\n")
   cat(" Is homogeneous:           ", object$modelInfo$Homogeneous,"\n")
   cat(" Is delta-collapsible:     ", object$modelInfo$Delta.Collapsible,"\n")
-  cat(" Degrees of freedom:       ", .DF(object), "\n")
-  
-  cat(" Cliques:\n")
-  cl <-lapply(.cliques(object),.look.up.mim.names, object$data, "from.mim")
-  print(unlist(lapply(cl, paste, collapse=':')))
 }

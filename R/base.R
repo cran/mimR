@@ -6,12 +6,12 @@ require(MASS)
         packageDescription <- package.description 
   cat("\n")
   cat("-------------------------------------------------------------\n")
-  cat(package.description("mimR", lib = lib, field="Title"))
+  cat(packageDescription("mimR", lib = lib, field="Title"))
   cat("\n")
-  ver  <- package.description("mimR", lib = lib, field="Version")
-  maint<- package.description("mimR", lib = lib, field="Maintainer")
-  built<- package.description("mimR", lib = lib, field="Built")
-  URL  <- package.description("mimR", lib = lib, field="URL")
+  ver  <- packageDescription("mimR", lib = lib, field="Version")
+  maint<- packageDescription("mimR", lib = lib, field="Maintainer")
+  built<- packageDescription("mimR", lib = lib, field="Built")
+  URL  <- packageDescription("mimR", lib = lib, field="URL")
   cat(paste("mimR, version", ver,  "is now loaded\n"))
   cat("Copyright (C) 2002, Søren Højsgaard\n")
   cat("Maintained by",maint,"\n")
@@ -95,15 +95,13 @@ mcm <- function(){
     value <- c(res, paste(s,collapse=''))
     return(value)
   }
-
+  
   .call.mim.MIMterm  <- function(cmd.str){
-    ##cat("Communicating with MIM engine. This may take a moment... ")
     tmp <- proc.time()
     mimR.dir <- system.file(package="mimR")
     cmd.str  <- paste(mimR.dir,'/MIMterm/MIMterm.exe "', cmd.str, '"',sep='')
     value    <- system(cmd.str, show.output.on.console=FALSE, invisible=TRUE,
                        intern=TRUE)
-    ##cat("Time taken:", round((proc.time()-tmp)[3],2),"sec\n")
     return(value)
   }
   if (nchar(mim.cmds)>80)

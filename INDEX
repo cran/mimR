@@ -3,26 +3,28 @@ carcass                 lean meat contents of pig carcasses
 create.table            Create dataframe for a contingency table
 dietox                  Growth curves of pigs in a 3x3 factorial
                         experiment
-doodle                  A graphical interface to the models
-editMIM                 Editing a mim model object
+editmim                 Editing a mim model object
+fit                     Function to fit model in MIM
 fitted.mim              Extract fitted values (parameter estimates)
-LINPREDICT              mimR version of MIM command 'display'
+gmData                  Creation of gmData objects
+imputeMissing           Impute missing values
+linpredict              mimR version of MIM command 'display'
 mathmark                Mathematics marks for students
-MIMbase                 Submit commands to MIM and get the result back
-                        in R
-FIT                     Function to fit model in MIM
-MimModels               Create undirected and block recursive MIM
+mim                     Create undirected and block recursive MIM
                         models
-mimRprint-MIM           Print methods for objects in mimR
-mimRprint               Print methods for objects in mimR
-stepwise                Stepwise model selection in MIM
+mim.cmd                 Submit commands to MIM and get the result back
+                        in R
+nthOrderModel           Create generating class with nth order
+                        interactions for log-linear model
+print.gmData            Print methods for objects in mimR
+print.mim               Print methods for objects in mimR
 printMIM                Function for printing data, models, parameter
                         estimates etc. in MIM
 rats                    Weightloss of rats
-mimR-ReadingData        Creation of gmData objects
 retrieveData            Retrieve data from MIM engine
 returnValues            Return fitted and observed values
 simulate                Draw random sample from a mixed interaction
                         model (mim)
+stepwise                Stepwise model selection in MIM
 toMIM                   Wrapper for submitting data and models to MIM
 variableType            Information about variables in MIM model

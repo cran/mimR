@@ -33,15 +33,16 @@
 
 \usage{
 mim(mimFormula, data, letter=FALSE, marginal=data$name)
-chainmim(mimFormula.list, data)
+%chainmim(mimFormula.list, data)
 %mim.br.model(mim.formula, data, mim.names = TRUE, submit = TRUE, fit=TRUE)
 
 }
 
 \arguments{
-  \item{mimFormula}{A text string following the MIM syntax. Long
-    variable names are allowed however. See 'details'.}
-  \item{mimFormula.list}{A list of mim formulae}
+  \item{mimFormula}{A model formula following the MIM syntax. Long
+    variable names are allowed however. See 'details'. The formula can
+    be given either with a tilde or as a string}
+%  \item{mimFormula.list}{A list of mim formulae}
   \item{data}{A gmData object}
   \item{letter}{If TRUE, the variables used in mim.formula are single
   letters.}
@@ -58,7 +59,7 @@ chainmim(mimFormula.list, data)
   letter is TRUE) the shorter form  "ab/abx,aby/abxy"  or
   "ab/abx+aby/abxy".
   A mimFormula can also be "." (the main effects (the
-  independence) model), "*" (the saturated model) or "*h"
+  independence) model), ".." (the saturated model) or "..h"
   (the homogeneous saturated model).
   See 'examples'.
 }
@@ -80,15 +81,19 @@ gmd.rats.nodata  <-  gmData(c("Sex","Drug","W1","W2"),
     factor=c(2,3,FALSE,FALSE),
     vallabels=list("Sex"=c("M","F"), "Drug"=c("D1","D2","D3")))
 
-m1   <- mim("Sex:Drug/Sex:Drug:W1+Sex:Drug:W2/W1:W2", data=gmd.rats.nodata)
-m2   <- mim("ab/abc+abd/cd", data=gmd.rats.nodata, letter=TRUE)
+
+
+m1   <- mim(~Sex:Drug/Sex:Drug:W1+Sex:Drug:W2/W1:W2, data=gmd.rats.nodata)
+m12   <- mim("Sex:Drug/Sex:Drug:W1+Sex:Drug:W2/W1:W2", data=gmd.rats.nodata)
+m2   <- mim(~ab/abc+abd/cd, data=gmd.rats.nodata, letter=TRUE)
+m22   <- mim("ab/abc+abd/cd", data=gmd.rats.nodata, letter=TRUE)
 
 summary(m1)
 summary(m2)
 
 m.main <- mim(".",  data=gmd.rats.nodata)
-m.sat  <- mim("*",  data=gmd.rats.nodata)
-m.hsat <- mim("*h", data=gmd.rats.nodata)
+m.sat  <- mim("..",  data=gmd.rats.nodata)
+m.hsat <- mim("..h", data=gmd.rats.nodata)
 
 summary(m.main); 
 summary(m.sat); 
@@ -103,9 +108,9 @@ observations(gmd.rats)
 m1   <- mim("Sex:Drug/Sex:Drug:W1+Sex:Drug:W2/W1:W2", data=gmd.rats)
 m2   <- mim("ab/abc+abd/cd", data=gmd.rats, letter=TRUE)
 
-m.main <- mim(".",  data=gmd.rats, marginal=c("Sex", "Drug", "W1"))
-m.sat  <- mim("*",  data=gmd.rats, marginal=c("Sex", "Drug", "W1"))
-m.hsat <- mim("*h", data=gmd.rats, marginal=c("Sex", "Drug", "W1"))
+m.main <- mim(".",   data=gmd.rats, marginal=c("Sex", "Drug", "W1"))
+m.sat  <- mim("..",  data=gmd.rats, marginal=c("Sex", "Drug", "W1"))
+m.hsat <- mim("..h", data=gmd.rats, marginal=c("Sex", "Drug", "W1"))
 
 m1f  <- fit(m1)
 m2f  <- fit(m2)
@@ -114,12 +119,19 @@ summary(m1f)
 summary(m2f)
 
 m.main <- fit(mim(".",  data=gmd.rats))
-m.sat  <- fit(mim("*",  data=gmd.rats))
-m.hsat <- fit(mim("*h", data=gmd.rats))
+m.sat  <- fit(mim("..",  data=gmd.rats))
+m.hsat <- fit(mim("..h", data=gmd.rats))
 
 summary(m.main); 
 summary(m.sat); 
 summary(m.hsat)
+
+# To generate an nth order hierarchical log-linear model for discrete
+# data you can do
+
+data(HairEyeColor)
+mim(nthOrderModel(names(dimnames(HairEyeColor)),order=2),data=as.gmData(HairEyeColor))
+
 
 }
 \keyword{models}% at least one, from doc/KEYWORDS

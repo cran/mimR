@@ -1,6 +1,8 @@
 \name{mimRprint-MIM}
 \alias{print.mim}
 \alias{summary.mim}
+\alias{properties}
+\alias{properties.mim}
 \alias{print.linpredictMIM}
 
 %- Also NEED an '\alias' for EACH other topic documented here.
@@ -12,10 +14,12 @@
 \usage{
 print.mim(x, ...)
 print.linpredictMIM(x, ...)
+properties(object)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{An object of appropriate class}
+  \item{object}{a mim object}
   \item{\dots}{Has no effect}
 }
 %\details{
