@@ -88,15 +88,15 @@ mim <- function(mimFormula, data, letter=FALSE, marginal=data$name){
     str <- paste(model.type, paste(marg,collapse=' '))
     mim.cmd(str)
     rsm               <- .rsmodel();
-    ##print(rsm)
-
+    
     mimFormula.letter <- rsm$Formula.as.string
     value <-.make.mim(mimFormula.letter, data, letter=TRUE, rsm=rsm);
-    
+    mim.cmd(paste("model ", mimFormula.letter))
   } else {
     tmp <-.make.mim(mimFormula, data, letter=letter)
     rsm   <- .rsmodel(tmp$mimFormula.letter)
     value <-.make.mim(mimFormula, data, letter=letter,rsm=rsm)
+    mim.cmd(paste("model ", tmp$mimFormula.letter))
   }
   return(value)
 }

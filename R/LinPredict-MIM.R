@@ -1,4 +1,3 @@
-
 linpredict       <- function(mim,y,x=NULL,letter=FALSE,
                              submitData=TRUE, submitModel=TRUE)
   UseMethod("linpredict")
@@ -44,7 +43,7 @@ linpredict.mim   <- function(mim,y,x=NULL,letter=FALSE,
     y.name  <- y
   }
 
-  mim.cmd("Printformat 9,5", look.nice=FALSE)
+  mim.cmd("Printformat 15,7", look.nice=FALSE)
   value <- displayMIM(y.letter, x.letter)
   value$y <- y.name;
   value$x <- x.name

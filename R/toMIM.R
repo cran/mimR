@@ -10,7 +10,6 @@ toMIM.gmData <- function(data){
 }
 
 toMIM.data.frame <- function(data){
-  cat("NOTE: Using new toMIM.data.frame\n")
   gmd <- as.gmData(data)
   toMIM(gmd)
 }
@@ -45,6 +44,9 @@ toMIM.data.frame <- function(data){
 
 .df.to.mim <- function(data,file=NULL){
   ##cat(".df.to.mim\n")
+  mygetwd <- function()gsub("/","\\\\",getwd())
+
+
   nt <- as.data.frame(data)
   vs <- .nt.to.varspec(nt)
   mdata <- observations(data)
@@ -55,11 +57,11 @@ toMIM.data.frame <- function(data){
 
   if (is.null(file)){
     specfile <- "mimR_df2mim"
-    file     <- paste(getwd(),"\\",specfile,".txt",sep='')
+    file     <- paste(mygetwd(),"\\",specfile,".txt",sep='')
 
   } else {
     if (length(grep(":", file))==0)
-      file <- paste(getwd(),"\\",file,sep='')
+      file <- paste(mygetwd(),"\\",file,sep='')
   }
   tmp <- proc.time()
   ##cat("Writing MIM data file (in working dir)", specfile,"... ")

@@ -10,7 +10,7 @@
 }
 \usage{
 fit(mim, submitData=TRUE)
-emfit(mim, arg = "R", submitData=TRUE, emconv=0.0001, emmax=1000, plot = FALSE) %
+emfit(mim, arg = "R", submitData=TRUE, emconv=0.0001, emmax=1000, plot = FALSE,info=FALSE) %
 }
 \arguments{
   \item{mim}{ A mim model object}
@@ -22,7 +22,9 @@ emfit(mim, arg = "R", submitData=TRUE, emconv=0.0001, emmax=1000, plot = FALSE) 
   %  algorithm is made.}
   \item{emconv}{Convergence criterion for EM algorithm}
   \item{emmax} {Maximum number of iterations for EM algorithm}
-  \item{plot}{If TRUE, the convergence history of the EM algorithm is plotted}
+  \item{plot}{If TRUE, the convergence history of the EM algorithm is
+    plotted}
+  \item{info}{If TRUE, information about EM fit is printed}
 }
 \details{
   The S option enables the user to supply start values for the missing
