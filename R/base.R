@@ -2,6 +2,8 @@ require(MASS)
 
 .First.lib <- function(lib, pkg)
 {
+  if((R.version$major == 1) && (as.numeric(R.version$minor) < 9)) 
+        packageDescription <- package.description 
   cat("\n")
   cat("-------------------------------------------------------------\n")
   cat(package.description("mimR", lib = lib, field="Title"))
