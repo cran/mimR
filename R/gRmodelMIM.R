@@ -7,10 +7,12 @@
 .likelihood           <- function(x) x$modelInfo$likelihood
 .cliques              <- function(x) x$modelInfo$Cliques
 
-DF                   <- function(x) x$modelInfo$DF
-likelihood           <- function(x) x$modelInfo$likelihood
-cliques              <- function(x) x$modelInfo$Cliques
-deviance.mim         <- function(object, ...) x$deviance
+DF.mim                <- function(x) x$modelInfo$DF
+DF                    <- function(x) UseMethod("DF")
+
+likelihood            <- function(x) x$modelInfo$likelihood
+cliques               <- function(x) x$modelInfo$Cliques
+deviance.mim          <- function(object, ...) object$deviance
 
 
 .parse.mimFormula <- function(mimFormula, letter=FALSE){
@@ -72,20 +74,22 @@ deviance.mim         <- function(object, ...) x$deviance
 
 
 mim <- function(mimFormula, data, letter=FALSE, marginal=data$name){
+
   mim.cmd("clear; clear output")
   vs  <- .nt.to.varspec (data)
-  lapply(vs, mim.cmd)
+  lapply(vs, function(s){if(!is.null(s)) mim.cmd(s)})
   
   if( !is.na(match(mimFormula, c("*", "*h", ".")))){
     marg <- if (letter==FALSE)
       .look.up.mim.names(marginal, data, "to.mim")
     else 
       marginal
-
     model.type <-switch(mimFormula, "*"={"SatMod"}, "*h"={"HomSatMod"}, "."={"Main"})
     str <- paste(model.type, paste(marg,collapse=' '))
     mim.cmd(str)
-    rsm               <- .rsmodel();   # print(rsm)
+    rsm               <- .rsmodel();
+    ##print(rsm)
+
     mimFormula.letter <- rsm$Formula.as.string
     value <-.make.mim(mimFormula.letter, data, letter=TRUE, rsm=rsm);
     
@@ -170,29 +174,27 @@ stepwise.mim <- function(x,arg=NULL){
 
 
 editmim <- function(x, add=NULL, hadd=NULL, del=NULL, letter=FALSE){
-    .to <- function(str){
-      #print(str)
-      str2 <-lapply(str, .partition.string.by,":")
-      str3 <-.look.up.mim.names(str2,x$data, "to.mim")
-      str3 <- unlist(unlist(lapply(str3, paste, collapse='')))
-      return(str3)
-    }
-    if (letter==FALSE){
-      add.let  <-    if (!is.null(add))  paste("Add",  paste(.to(add), collapse=","))
-      hadd.let <-    if (!is.null(hadd)) paste("HAdd", paste(.to(hadd),collapse=","))
-      del.let  <-    if (!is.null(del))  paste("Del",  paste(.to(del), collapse=","))
-    } else {
-      add.let  <-    if (!is.null(add))  paste("Add",  paste(add, collapse=","))
-      hadd.let <-    if (!is.null(hadd)) paste("HAdd", paste(hadd,collapse=","))
-      del.let  <-    if (!is.null(del))  paste("Del",  paste(del, collapse=","))
-    }
-    str  <- paste(add.let,";", hadd.let,";", del.let)
-    mim.cmd(paste("Model ", .Formula.as.string(x)))
-    #print(str)
-    mim.cmd(str, look.nice=FALSE)  
-    value <- retrieve(x$data)
-    return(value)
+  .to <- function(str){
+    str2 <-lapply(str, .partition.string.by,":")
+    str3 <-.look.up.mim.names(str2,x$data, "to.mim")
+    str3 <- unlist(unlist(lapply(str3, paste, collapse='')))
+    return(str3)
   }
+  if (letter==FALSE){
+    add.let  <-    if (!is.null(add))  paste("Add",  paste(.to(add), collapse=","))
+    hadd.let <-    if (!is.null(hadd)) paste("HAdd", paste(.to(hadd),collapse=","))
+    del.let  <-    if (!is.null(del))  paste("Del",  paste(.to(del), collapse=","))
+  } else {
+    add.let  <-    if (!is.null(add))  paste("Add",  paste(add, collapse=","))
+    hadd.let <-    if (!is.null(hadd)) paste("HAdd", paste(hadd,collapse=","))
+    del.let  <-    if (!is.null(del))  paste("Del",  paste(del, collapse=","))
+  }
+  str  <- paste(add.let,";", hadd.let,";", del.let)
+  mim.cmd(paste("Model ", .Formula.as.string(x)))
+  mim.cmd(str, look.nice=FALSE)  
+  value <- retrieve(x$data)
+  return(value)
+}
 
 
 simulate     <- function(mim,size,digits=3) UseMethod("simulate")

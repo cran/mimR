@@ -1,50 +1,16 @@
 
-.mim.diary.data <- function(arg="d"){
-  specfile <- "mimR_diary"
-  file     <- paste(getwd(),"\\",specfile,".txt",sep='')
-  cat("Diary file : ",file, sep=' ', fill=TRUE)
-  mim.cmd("diaryoff")
-  mim.cmd(paste("clear o; diaryon ", file))
-  .mim.cmd.term(paste("print", arg, ";diaryoff"), look.nice=FALSE)
-  result <- scan( file=file, what=character(), na.strings="*")
-  return(result)
-}
+retrieveData <- function(arg="d", impute=FALSE){
+  if (impute==TRUE)
+    mim.cmd("impute")
+  value<- .rsprint(arg)
 
-
-.mim.diary.data <- function(arg="d"){
-  specfile <- "mimR_diary"
-  file     <- paste(getwd(),"\\",specfile,".txt",sep='')
-  cat("Diary file : ",file, sep=' ', fill=TRUE)
-  mim.cmd("diaryoff")
-  mim.cmd(paste("clear o; diaryon ", file))
-  .mim.cmd.term(paste("print", arg, ";diaryoff"), look.nice=FALSE)
-  result <- scan( file=file, what=character(), na.strings="*")
-
-  aaa<-scan("mimr_diary.txt",what=character(),sep="\n")
-  bbb<-lapply(aaa,function(x){unlist(strsplit(x, " +"))})
-  ccc<-lapply(bbb, function(x) x[unclass(x)!=""])
-  ddd<-unlist(ccc)
-  lin.len <- unique(unlist(lapply(ccc,length)))
-  nvar <- sum(lin.len)
-
-  dat <- ddd[-(1:nvar)]
-  datm<-matrix(.silent.as.numeric(dat), ncol=nvar,byrow=TRUE)
-  datm<-as.data.frame(datm[,-1])
-  names(datm) <- ddd[2:nvar]
-  return(datm)
+  names(value$Data) <- value$Variables$name
+  value <- value$Data
+  return(value)
 }
 
 printMIM <- function(arg=NULL, verbose=FALSE){
   
-  get.mim.data <- function( mim.output ){
-    names<-unlist(strsplit(mim.output[1]," +"))
-    x<-unlist(strsplit(mim.output[-1]," +"))
-    d <- .silent.as.numeric(x[x!=''])
-    dd<- as.data.frame(matrix(d,ncol=length(names), byrow=TRUE))
-    names(dd) <- names
-    dd <- dd[,-1]
-    return(dd)
-  }
   value <-
     switch(arg,
            s=,t=,u=,v=,f=,g=,h=,i= {
@@ -57,20 +23,47 @@ printMIM <- function(arg=NULL, verbose=FALSE){
              res    <- mim.cmd( paste("print ", arg), look.nice=!verbose)
              val <- paste(res, collapse=" ")},
            c=,d=,e =               {
-             #res    <- mim.cmd( paste("print ", arg), look.nice=FALSE,return.look.nice=FALSE)
-                                        #val <- get.mim.data( res )
-             res    <- .mim.diary.data(arg)
-           },    # [,-1]                  
+             res    <- retrieveData(arg)           },    # [,-1]                  
            {print("DEFAULT")}
            )
   return(invisible(value))
 }
 
 
+.testdeleteMIM <- function(edge,options=NULL){
+  mim.out <- mim.cmd(paste("testdelete ", paste(edge, collapse=''),
+                           options), look.nice=TRUE)
+  test.type.index <- min(unlist(sapply( c("LR:", "F:"), grep,  mim.out)))
+  value <- paste(mim.out[-(1:(test.type.index-1))], collapse=' ') 
+  return(invisible(value))
+}
 
+.fitMIM <- function (){
+  mim.output <- mim.cmd("fit", look.nice=FALSE)
+  res <- .silent.as.numeric( mim.output[c(2,4)] )
+  value <- c("deviance"=res[1], "df"=round(res[2],0))
+  return(print(value))
+}
 
-
-
+.emfitMIM <- function(arg="R",plot=FALSE){
+    res<-mim.cmd(paste("emfit ", arg, sep=' '), look.nice=TRUE)
+    result<-
+    rbind(
+        c(as.numeric(res[9:10]), NA),
+        matrix(as.numeric(res[11:(which(res=="Successful")-1)]),ncol=3,byrow=TRUE)
+    )
+    result<-as.data.frame(result)
+    names(result)<-c("cycle","m2logL","change")
+    if (plot != FALSE){
+        par(mfrow=c(1,2))
+        plot(result$cycle,result$m2logL); title("-2 log Likelihood");
+        lines(result$cycle,result$m2logL)
+        plot(result$cycle,result$change); title("Change in log Likelihood")
+        lines(result$cycle,result$change)
+    }
+    value <- result
+    return(invisible(value))
+}
 
 
 displayMIM    <- function(y,x=NULL){
@@ -186,49 +179,6 @@ displayMIM    <- function(y,x=NULL){
   return(value)
   
 }
-
-
-
-
-.testdeleteMIM <- function(edge,options=NULL){
-  mim.out <- mim.cmd(paste("testdelete ", paste(edge, collapse=''), paste(options)), look.nice=TRUE)
-  test.type.index <- min(unlist(sapply( c("LR:", "F:"), grep,  mim.out)))
-  value <- paste(mim.out[-(1:(test.type.index-1))], collapse=' ') 
-  return(invisible(value))
-}
-
-
-
-
-
-.mim.fit <- function (){
-  mim.output <- mim.cmd("fit", look.nice=FALSE)
-  res <- .silent.as.numeric( mim.output[c(2,4)] )
-  value <- c("deviance"=res[1], "df"=round(res[2],0))
-  return(print(value))
-}
-
-.mim.emfit <- function(arg="R",plot=FALSE){
-    res<-mim.cmd(paste("emfit ", arg, sep=' '), look.nice=TRUE)
-    result<-
-    rbind(
-        c(as.numeric(res[9:10]), NA),
-        matrix(as.numeric(res[11:(which(res=="Successful")-1)]),ncol=3,byrow=TRUE)
-    )
-    result<-as.data.frame(result)
-    names(result)<-c("cycle","m2logL","change")
-    if (plot != FALSE){
-        par(mfrow=c(1,2))
-        plot(result$cycle,result$m2logL); title("-2 log Likelihood");
-        lines(result$cycle,result$m2logL)
-        plot(result$cycle,result$change); title("Change in log Likelihood")
-        lines(result$cycle,result$change)
-    }
-    value <- result
-    return(invisible(value))
-}
-
-
 
 
 

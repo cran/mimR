@@ -1,5 +1,7 @@
-\name{mimRprint}
-\alias{print.gmData}
+\name{mimRprint-MIM}
+\alias{print.mim}
+\alias{summary.mim}
+\alias{print.linpredictMIM}
 
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Print methods for objects in mimR}
@@ -8,7 +10,8 @@
 
 }
 \usage{
-print.gmData(x, ...)
+print.mim(x, ...)
+print.linpredictMIM(x, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

@@ -13,6 +13,7 @@ MIMbase                 Submit commands to MIM and get the result back
 FIT                     Function to fit model in MIM
 MimModels               Create undirected and block recursive MIM
                         models
+mimRprint-MIM           Print methods for objects in mimR
 mimRprint               Print methods for objects in mimR
 stepwise                Stepwise model selection in MIM
 printMIM                Function for printing data, models, parameter

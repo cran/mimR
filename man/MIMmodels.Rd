@@ -3,6 +3,7 @@
 \alias{mim}
 \alias{chainmim}
 \alias{DF}
+\alias{DF.mim}
 \alias{deviance.mim}
 \alias{cliques}
 \alias{likelihood}
@@ -29,7 +30,6 @@
 \description{
   ...........
 }
-
 
 \usage{
 mim(mimFormula, data, letter=FALSE, marginal=data$name)
@@ -72,7 +72,7 @@ chainmim(mimFormula.list, data)
 
 % ~Make other sections like WARNING with \section{WARNING }{....} ~
 
-\seealso{\code{\link{as.gmData}}, \code{\link{as.mimData}}}
+\seealso{\code{\link{as.gmData}}}
 
 \examples{
 # Create som models (no data needed!)
@@ -123,9 +123,3 @@ summary(m.hsat)
 
 }
 \keyword{models}% at least one, from doc/KEYWORDS
-
-
-
-
-
-

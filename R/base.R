@@ -18,7 +18,7 @@ require(MASS)
   cat("NOTICE:\n")
   cat("o mimR is available on Windows platforms only \n")
   cat("o To use mimR the MIM program must be running\n")
-  cat("o The current version of mimR requires MIM version 3.1.2.20 or later\n")
+  cat("o The current version of mimR requires MIM version 3.1.3.3 or later\n")
   cat("o MIM is available from http://www.hypergraph.dk.\n")
   cat("o The current version of mimR requires R version 1.7.1 or later\n")
   #cat("\n  For a demo of mimR, type demo(mimR)\n")
@@ -69,8 +69,6 @@ mim.cmd <- function(cmd, look.nice = TRUE, return.look.nice=FALSE, version='R') 
   }
 }  
 
-
-
 mcm <- function(){
   cat("Enter MIM commands here. Type quit to return to R\n")
   x <- readline("MIM->")
@@ -79,8 +77,6 @@ mcm <- function(){
     x <- readline("MIM->")
   }
 }
-
-
 
 
 .mim.cmd.term <- function(mim.cmds, look.nice = TRUE, return.look.nice=FALSE){
@@ -99,13 +95,13 @@ mcm <- function(){
   }
 
   .call.mim.MIMterm  <- function(cmd.str){
-    #cat("Communicating with MIM engine. This may take a moment... ")
+    ##cat("Communicating with MIM engine. This may take a moment... ")
     tmp <- proc.time()
     mimR.dir <- system.file(package="mimR")
     cmd.str  <- paste(mimR.dir,'/MIMterm/MIMterm.exe "', cmd.str, '"',sep='')
     value    <- system(cmd.str, show.output.on.console=FALSE, invisible=TRUE,
                        intern=TRUE)
-    #cat("Time taken:", round((proc.time()-tmp)[3],2),"sec\n")
+    ##cat("Time taken:", round((proc.time()-tmp)[3],2),"sec\n")
     return(value)
   }
   if (nchar(mim.cmds)>80)

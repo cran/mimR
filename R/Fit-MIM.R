@@ -26,7 +26,7 @@ emfit <- function(mim,arg="R", submitData=TRUE, emconv=0.0001, emmax=1000,plot=F
   if (toupper(arg)=="S")
     .initLatent(latent(mim$data), mim$data)
   .formula.toMIM(mim)
-  cat("Fitting using EM algorithm...\n")
+  cat("Fitting using EM algorithm... ")
   str <- paste("EMconv", sprintf("%.12f", emconv), "; EMmax", emmax)
   mim.cmd(str, look.nice=FALSE)
   res <- .mim.cmd.term(paste("Emfit", arg),look.nice=FALSE)
@@ -45,7 +45,7 @@ emfit <- function(mim,arg="R", submitData=TRUE, emconv=0.0001, emmax=1000,plot=F
     plot(result$cycle,result$change,xlab="Iteration",ylab="Change"); title("Change in log Likelihood")
     lines(result$cycle,result$change)
   }
-
+  cat(nrow(result),"iterations\n")
   mim <- .retrieve.fittedMIM(mim)
   mim$EMconvergence <- result
   return(mim)

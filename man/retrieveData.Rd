@@ -7,11 +7,12 @@
   is useful in connection with latent variable models
 }
 \usage{
-retrieveData(gmData = NULL, impute = FALSE)
+retrieveData(arg="c", impute = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{gmData}{A gmData object}
+  \item{arg}{"c": the raw data (using value labels), "d": the raw data
+(using levels) , "e": the raw data (showing missing values)}
   \item{impute}{If TRUE, missing values are imputed (from the fitted
     model) before the data is returned}
 
@@ -30,6 +31,7 @@ retrieveData(gmData = NULL, impute = FALSE)
 
 \seealso{See Also as \code{\link{emfit}}}
 \examples{
+
 }
 \keyword{utilities}% at least one, from doc/KEYWORDS
 %\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

@@ -18,7 +18,7 @@
                          look.nice=FALSE, return.look.nice=TRUE)
   fvobj <- paste(fvobj,collapse='');
   value <- eval(parse(text=fvobj))
-  #NEW
+
   v <- value$FittedValues
   class(v) <- "FittedValues"
   value$FittedValues <- v

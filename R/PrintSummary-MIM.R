@@ -14,12 +14,11 @@ print.mim <- function(x, ...){
   #print(x$used.names)
 }
 
-
 summary.mim <- function(object, ...){
   cat("Formula:",.mimFormula(object),"\n")
   cat("Formula(letter):", .mimFormula.letter(object),"\n")
   if (.is.fitted(object)){
-    cat("likelihood:", .likelihood(object), "DF:", .DF(object),"\n")
+    cat("deviance:", as.numeric(deviance(object)),  "DF:", .DF(object), "likelihood:", .likelihood(object),"\n")
   }
   cat("Model properties:\n")
   if (!is.null(.latent.in.model(object)))

@@ -38,7 +38,6 @@
     }
   }
 
-
 ".get.mim.parameters" <-
 function(mim.output){
 #
@@ -231,47 +230,6 @@ function(br.structure=NULL,data=NULL,mim.names=FALSE){
 
 
 
-
-.partition.string.by <- function(string, token=NULL){
-  if (is.null(string) || is.na(string))
-    return(string)
-  else{
-    string <- as.vector(string)
-    string <- gsub(' ', '', string)  ## spaces only
-    value <- NULL;
-    if (is.null(token)){
-      string<- paste(string,collapse='')
-      value <- sapply(1:nchar(string), function(i) substr(string,i,i))
-      return(value)
-    }
-    else{
-      i <- regexpr(token, string)
-      #if (i==-1)
-      if (i[1]==-1) 
-        return(string)
-      else{
-        while( i != -1){
-          sub.str <- substring(string,1,i-1) 
-          if (sub.str=="") sub.str <- NA
-          string  <- substring(string,i+1)
-          i <- regexpr(token, string)    
-          value <- c(value, sub.str)
-        }
-        if (nchar(string)>0)
-          value <- c(value, string)
-        return(value)
-      }
-    }
-  }
-}
-
-
-
-
-
-
-
-
 ".print.mim.model" <-
 function(x, header=TRUE, short=FALSE, ...){
 
@@ -378,67 +336,282 @@ function(x,...){
 
 
 
-.create.table.old <- function(levels,names=NULL){
-  f <- function(levels){
-    if (length(levels)==1)
-      value <- return(1:levels)
-    else{
-      x <- levels[1]
-      rest <- levels[-1]
-      rec.res <- f(rest)
-      r2 <- NULL
-      for (i in 1:x)
-        r2 <- rbind(r2, cbind(i,rec.res))
-      value <- r2
-      
-    }
-    return(value)
-  }
-  value <- as.data.frame(f(levels))
-  if (!is.null(names))
-    names(value) <- names
+is.discrete <- function(mim){
+  used <- .used.names(mim)
+  d <- mim$data
+  a <- match(used,d$name)
+  v <-all(d$factor[a])
+  return(v)
+}
+
+is.continuous <- function(mim){
+  used <- .used.names(mim)
+  d <- mim$data
+  a <- match(used,d$name)
+  v <-all(!d$factor[a])
+  return(v)
+}
+
+variableType <- function(mim){
+  if (is.discrete(mim))
+    value <- "discrete"
   else
-    names(value)    <-paste("x", 1:ncol(value),sep='')
+    if (is.continuous(mim))
+      value <- "continuous"
+    else
+      value <- "mixed"
+  return(value)
+}
+
+.used.names <- function(mim,letter=FALSE){
+  value <- unique(unlist(mim$modelInfo$Formula.as.list))
+  if (letter==FALSE)
+    value <- .look.up.mim.names(value, mim$data, "from.mim")
+  return(value)
+}
+
+.latent.in.model <- function(mim){
+  s <- mim$data
+  used.names <- .look.up.mim.names(unique(unlist(mim$modelInfo$Formula.as.list)), s,"from.mim")
+  v <- intersect(used.names, latent(s))
+  value<-if (length(v)>0) v
   return(value)
 }
 
 
-create.table <- function(levels,names=NULL){
-  f <- function(levels){
-    if (length(levels)==1)
-      value <- return(1:levels)
-    else{
-      x <- levels[length(levels)]
-      rest <- levels[1:(length(levels)-1)]
-      rec.res <- f(rest)
-      r2 <- NULL
-      for (i in 1:x)
-        r2 <- rbind(r2, cbind(rec.res,i))
-      value <- r2
-      
-    }
-    return(value)
+.partition.mim.input <- function(input,token=NULL){    
+  curr     <- input
+  n.char   <- 50 
+  res <- NULL
+    while(sum(nchar(curr))>n.char){
+    cs <- cumsum(nchar(curr)+1)
+    res <- c(res, paste(curr[cs<=n.char], collapse=' '))
+    curr <- curr[!(cs<=n.char)]
   }
-  value <- as.data.frame(f(levels))
-  if (!is.null(names))
-    names(value) <- names
-  else
-    names(value)    <-paste("x", 1:ncol(value),sep='')
-  for (j in 1:ncol(value))
-    value[,j] <- as.factor(value[,j])
+  value <- c(res, paste(curr, collapse=' '))
   return(value)
 }
 
 
-## function(num.vec,n.digits=6,width=9, preserve.int=TRUE){
-.float.to.string <-
-  function(num.vec,n.digits=6,width=9, preserve.int=TRUE){
-    if (is.na(num.vec) || is.null(num.vec))
-      return("*")
-    else{
-      if ((num.vec-round(num.vec))==0)
-        return( sprintf("%g",num.vec) )
-      else
-        return( sprintf("%.5f",num.vec) ) 
+###
+### Miscellaneous stuff for mimR ver 1.01 (with gR-inspiration)
+###
+
+.q.by <- function(fvobj){
+  q       <- fvobj$quadratic
+  if (!is.null(q)){
+    qt      <- as.data.frame.table(q)
+    d.names <- names(dimnames(q)[-c(1,2)])
+    c.names <- as.vector(dimnames(q)[[1]])
+    q.by    <- by(qt, as.list(qt[,d.names,drop=FALSE]), function(a) a$Freq)
+    return(q.by)
+  }
+}
+
+.l.by <- function(fvobj){
+  l <- fvobj$linear
+  if (!is.null(l)){
+    lt <- as.data.frame.table(l)
+    d.names <- names(dimnames(l)[-c(1)])
+    c.names <- as.vector(dimnames(l)[[1]])
+    l.by       <- by(lt, as.list(lt[,d.names, drop=FALSE]), function(a) a$Freq)
+    return(l.by)
+  }
+}
+
+.d.by <- function(fvobj){
+  d <- fvobj$discrete
+  dt       <- as.data.frame.table(d)
+  d.names  <- if (!is.vector(d)) names(dt)[1:(ncol(dt)-1)]
+  d.by     <- by(dt, as.list(dt[,d.names,drop=FALSE]), function(a) a$Freq)
+  return(d.by)
+}
+
+.d.names <- function(fvobj){
+  d <- fvobj$discrete
+  dt       <- as.data.frame.table(d)
+  d.names  <- if (!is.vector(d)) names(dt)[1:(ncol(dt)-1)]
+  return(d.names)
+}
+
+.d.levels <- function(fvobj){
+  d <- fvobj$discrete
+  d.levels <- if (!is.vector(d)) sapply(dimnames(d),length)
+  return(d.levels)
+}
+
+.c.names <- function(fvobj){
+  l <- fvobj$linear
+  if (!is.null(l)){
+    lt <- as.data.frame.table(l)
+    c.names <- as.vector(dimnames(l)[[1]])
+    return(c.names)
+  }
+}
+
+
+fitted.mim <- function(object, ...){
+
+  fv      <- object$modelInfo$FittedValues
+  is.homo <- object$modelInfo$Homogeneous
+  
+  dd <- .d.by(fv)
+  ll <- .l.by(fv)
+  qq <- .q.by(fv)
+  
+  counts <- as.data.frame(as.vector(dd))
+  names(counts) <- "Freq"
+  
+  if (length(dd)>1){
+    tab <- create.table(.d.levels(fv), .d.names(fv))
+    value <- cbind(tab, counts)
+  } else {
+    value <- counts
+  }
+  if (!is.null(ll)){
+    means<-as.data.frame(matrix(unlist(ll),
+                                ncol=length(.c.names(fv)), byrow=TRUE))
+    names(means) <- .c.names(fv) 
+    covm <- matrix(unlist(qq), ncol=length(.c.names(fv))^2, byrow=TRUE)
+    
+    if (is.homo==TRUE){
+      v <- NULL
+      for (i in 1:nrow(means))
+        v <- rbind(v, covm)
+      covm <- v
+    }
+    
+    covariances <- as.data.frame(covm)
+    names(covariances)<-
+      unlist(lapply(.c.names(fv),
+                    function(x)paste(x,":", .c.names(fv),sep='')))
+    value <- cbind(value, means, covariances)    
+  }
+  return(value)
+}
+
+
+
+
+
+
+
+############# NEW ###################
+
+.returnValuesPrimitive <- function(object, type, marginal=NULL){
+  value <- switch(type,
+                  "fitted"={
+                    .generic.FittedValues(object$modelInfo$FittedValues,
+                            object$modelInfo$Homogeneous)},
+                  "obs"=,"observed"=,"counts"={
+                    .generic.FittedValues(object$suffStats)},
+                  )
+  
+  if (!is.null(marginal)){
+    if (variableType(object)=="discrete"){
+      marginal <- gsub(' +','', marginal)
+      marginal <- unlist(strsplit( marginal, '[ +: +]'))
+      str   <- formula(paste("Freq ~ ",paste(marginal,collapse='+')))
+      value <- as.data.frame(xtabs(str, data=value))
+    } else {
+      stop("Marginalization only implemented for discrete models")
     }
   }
+  return(value)
+}
+
+#                valueType  
+# variableType   observed   fitted   deviance  pearson   (+ marginal)
+# disc              X          X        X         X
+# cont              X          X
+# mix               X          X
+
+
+returnValues <- function(object,type="fitted",marginal=NULL){
+  log0 <- function(x){
+    sapply(x,function(a)ifelse(a==0,0,log(a)))
+  }
+  div <- function(a,b){
+    v <- a/b
+    v[b==0]<-0
+    return(v)
+  }
+  
+  value <-
+    switch(type,
+           "fitted"=,"observed"=,"obs"={
+             value <- .returnValuesPrimitive(object,type,marginal)
+           },
+           "deviance"=,"pearson"={
+             if (variableType(object)=="discrete"){
+               valo <- .returnValuesPrimitive(object,"observed",marginal)
+               vale <- .returnValuesPrimitive(object,"fitted",marginal)
+               ##print(cbind(valo,vale))
+               o <- valo$Freq
+               e <- vale$Freq
+               ##print(o); print(e)
+               switch(type,
+                      "deviance"={
+                        d <- -2 * o * log0( div(e,o) )},
+                      "pearson"={
+                        d <- div((o-e)^2,e) }
+                      )
+               valo$Freq <- d
+               valo
+             }else{
+               stop("Deviance only implemented for discrete models")
+             }
+           }
+           )
+  return(value)
+}
+
+
+fitted.mim <- function(object, ...){
+  fv      <- object$modelInfo$FittedValues
+  is.homo <- object$modelInfo$Homogeneous
+  v <- .generic.FittedValues(fv,is.homo)
+  return(v)
+}
+
+.generic.FittedValues <- function(fv, is.homo=NULL){
+  if (is.null(is.homo))
+    is.homo <- FALSE
+  #fv      <- object$modelInfo$FittedValues
+  #is.homo <- object$modelInfo$Homogeneous
+  
+  dd <- .d.by(fv)
+  ll <- .l.by(fv)
+  qq <- .q.by(fv)
+  
+  counts <- as.data.frame(as.vector(dd))
+  names(counts) <- "Freq"
+  
+  if (length(dd)>1){
+    tab <- create.table(.d.levels(fv), .d.names(fv))
+    value <- cbind(tab, counts)
+  } else {
+    value <- counts
+  }
+  if (!is.null(ll)){
+    means<-as.data.frame(matrix(unlist(ll),
+                                ncol=length(.c.names(fv)), byrow=TRUE))
+    names(means) <- .c.names(fv) 
+    covm <- matrix(unlist(qq), ncol=length(.c.names(fv))^2, byrow=TRUE)
+    
+    if (is.homo==TRUE){
+      v <- NULL
+      for (i in 1:nrow(means))
+        v <- rbind(v, covm)
+      covm <- v
+    }
+    
+    covariances <- as.data.frame(covm)
+    names(covariances)<-
+      unlist(lapply(.c.names(fv),
+                    function(x)paste(x,":", .c.names(fv),sep='')))
+    value <- cbind(value, means, covariances)    
+  }
+  return(value)
+}
+

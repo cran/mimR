@@ -27,8 +27,6 @@
 \alias{observations<-}
 \alias{observations<-.gmData}
 
-\alias{as.mimData}
-
 %- Also NEED an `\alias' for EACH other topic documented here.
 \title{Creation of gmData objects}
 \description{
@@ -40,7 +38,6 @@
 gmData(name, letter = c(letters, LETTERS), factor = rep(FALSE,
 length(name)), vallabels=NULL, data=NULL)
 as.gmData (data, letter=c(letters,LETTERS))
-as.mimData(data, letter=c(letters,LETTERS))
 description(x)
 "description<-"(tmp, value)
 latent(x)
