@@ -20,19 +20,17 @@ require(RDCOMClient)
   cat("\nBuilt:",built,"\n")
   cat("NOTICE:\n")
   cat("o mimR is available on Windows platforms only \n")
-  cat("o The current version of mimR requires \n")
-  cat("  - R version 2.0.1 or later\n")
-  cat("  - that MIM version 3.2 or later is installed on the computer\n")
+  cat("o The current version of mimR requires that \n")
+  cat("  - R version 2.0.1 or later is used\n")
+  cat("  - MIM version 3.2 or later is installed on the computer\n")
   cat("    MIM can be downloaded from http://www.hypergraph.dk.\n")
-  cat("  - that the R package RDCOMClient package is installed.\n")
+  cat("  - the R package RDCOMClient package is installed.\n")
   cat("    The RDCOMClient package can be downloaded from \n")
   cat("    http://www.omegahat.org/download/R/packages/Windows/R-2.0.0/\n")
   cat("\n  For more information type ?mimR\n")
   cat("-------------------------------------------------------------\n")
   return(invisible(0))
 }
-
-
 
 .Last.lib <- function(lib) {
   cat("Thank you for using mimR\n")
@@ -48,6 +46,7 @@ mcm <- function(){
   }
 }
 
+
 mim.cmd <- function (cmd, look.nice = TRUE, return.look.nice = FALSE, version = "R") 
 {
   if (!is.character(cmd)) 
@@ -57,17 +56,22 @@ mim.cmd <- function (cmd, look.nice = TRUE, return.look.nice = FALSE, version = 
     MIM <- COMCreate("mim32.server")
     outLines <- character(0)
     for (i in 1:length(cmd)) {
+      #cat("MIM cmd:", cmd[i], "\n")      
       NoOutputLines <- MIM$SendCmdLine(cmd[i])
       if (NoOutputLines > 0) {
         for (i in 1:NoOutputLines)
           outLines <- c(outLines, MIM$GetOutputLine())
       } 
     }
-    if (look.nice == TRUE) sapply(outLines, function(x) cat(x, fill = TRUE))
-    if (return.look.nice == TRUE) { value <- outLines }  else {
+    if (look.nice == TRUE)
+      sapply(outLines, function(x) cat(x, fill = TRUE))
+    if (return.look.nice == TRUE) {
+      value <- outLines
+    } else {
       str2 <- paste(outLines, collapse = " ")
       value <- unlist(strsplit(str2, " +"))
-      value <- value[value != ""] }
+      value <- value[value != ""]
+    }
     rm(MIM)
     return(invisible(value))
   }
@@ -93,7 +97,3 @@ mim.cmd <- function (cmd, look.nice = TRUE, return.look.nice = FALSE, version = 
   lapply(mim.cmds, write, file,append=TRUE)
   mim.cmd(paste("Input",file))
 } 
-
-
-
-

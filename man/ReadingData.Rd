@@ -35,9 +35,9 @@
   meta data'
 }
 \usage{
-gmData(name, letter = c(letters, LETTERS), factor = rep(FALSE,
+gmData(name, letter = NULL, factor = rep(FALSE,
 length(name)), vallabels=NULL, data=NULL)
-as.gmData (data, letter=c(letters,LETTERS))
+as.gmData (data, letter=NULL)
 description(x)
 "description<-"(tmp, value)
 latent(x)

@@ -31,11 +31,11 @@ stepwise(x, arg = NULL)
 data(carcass)
 gmd.carc <- as.gmData(carcass)
 
-m.main <- fit(mim(~.,  data=gmd.carc))
-m.sat  <- fit(mim(~..,  data=gmd.carc))
+m.main <- fit(mim(".",  data=gmd.carc))
+m.sat  <- fit(mim("..",  data=gmd.carc))
 
-m.main <- mim(~.,  data=gmd.carc)
-m.sat  <- mim(~..,  data=gmd.carc)
+m.main <- mim(".",  data=gmd.carc)
+m.sat  <- mim("..",  data=gmd.carc)
 
 m.m <- stepwise(m.main, "f")    # forward
 m.s <- stepwise(m.sat, "s")     # backward, exact tests

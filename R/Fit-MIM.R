@@ -1,5 +1,5 @@
 testdelete <- function(edge,mim,options=NULL){
-  d <- .dataMIM(mim)
+  d <- .getgmData(mim)
   e <- .namesToLetters(edge,d)
   .RStestdelete(e,options)
 }
@@ -8,12 +8,9 @@ fit <- function(mim,submitData=TRUE){
   if (!is.null(.latent.in.model(mim)))
     stop("Model has latent variable and 'fit' can not be used - try using 'emfit'")
   
-  if (submitData==FALSE){
-    ##cat("WARNING: Data are not entered to MIM engine. This is not a problem\n")
-    ##cat(" if the relevant data are already loaded in MIM, but no checking is performed...\n")
-  }
-  else
-    toMIM(mim$data)
+  if (submitData==TRUE){
+    .data.toMIM(mim)
+  }  
   .formula.toMIM(mim)
   v <- .fit()
   mim <- .retrieve.fittedMIM(mim)
@@ -43,25 +40,21 @@ fit <- function(mim,submitData=TRUE){
 
 emfit <- function(mim,arg="R", submitData=TRUE, emconv=0.0001, emmax=1000,plot=FALSE,info=FALSE){
   time.start <- proc.time()
-  if (submitData==FALSE){
-    ##cat("WARNING: Data are not entered to MIM engine. This is not a problem\n")
-    ##cat(" if the relevant data are already loaded in MIM, but no checking is performed...\n")
+  if (submitData==TRUE){
+    .data.toMIM(mim)
   }
-  else
-    toMIM(mim$data)
 
   if (info==TRUE)
     cat("Fitting using EM algorithm... ")
   
-  .initLatent(latent(mim$data), mim$data, info)
+  .initLatent(latent(.getgmData(mim)), mim$data, info)
   .formula.toMIM(mim)
 
   str <- paste("EMconv", sprintf("%.12f", emconv), "; EMmax", emmax)
   if (info==TRUE)
     cat(str,"\n")
   
-  mim.cmd(str, look.nice=FALSE)
-  
+  mim.cmd(str, look.nice=FALSE)  
   res <- mim.cmd(paste("Emfit", arg),look.nice=FALSE)
   rrr <- grep(c("initialisation."), res)
   if (toupper(arg)=="S" && length(rrr)>0){
@@ -113,10 +106,6 @@ emfit <- function(mim,arg="R", submitData=TRUE, emconv=0.0001, emmax=1000,plot=F
   return(mim)
 }
 
-.formula.toMIM <- function(mim)
-  mim.cmd(paste("Model", .Formula.as.string(mim)))
-  
-
 .fit <- function(){
   .mim.output.to.list <- function(mo){
     a1 <- .silent.as.numeric(mo)
@@ -144,5 +133,4 @@ emfit <- function(mim,arg="R", submitData=TRUE, emconv=0.0001, emmax=1000,plot=F
     mim.cmd(s2)
 }
 
-
-.dataMIM <- function(mim) mim$data
+.getgmData <- function(mim) mim$data

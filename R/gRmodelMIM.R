@@ -14,10 +14,15 @@ likelihood            <- function(x) x$modelInfo$likelihood
 cliques               <- function(x) x$modelInfo$Cliques
 deviance.mim          <- function(object, ...) object$deviance
 
+
+
 mim <- function(mimFormula, data, letter=FALSE, marginal=data$name){
   mimStringFormula <- mimFormula 
-  if (class(mimStringFormula)=="formula")
-    mimStringFormula <- paste(mimStringFormula)[[2]]
+  if (class(mimStringFormula)=="formula"){
+    stop(paste("Model formulae '~...' not allowed in mimR\n",
+               "Specify the model as a string, following the MIM syntax\n"),
+         call.=FALSE)
+  }
 
   mim.cmd("clear; clear output")
   vs  <- .nt.to.varspec (data)

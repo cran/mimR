@@ -3,7 +3,7 @@
 \alias{summary.mim}
 \alias{properties}
 \alias{properties.mim}
-\alias{print.linpredictMIM}
+%\alias{print.linpredictMIM}
 
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Print methods for objects in mimR}
@@ -13,7 +13,7 @@
 }
 \usage{
 print.mim(x, ...)
-print.linpredictMIM(x, ...)
+%print.linpredictMIM(x, ...)
 properties(object)
 }
 %- maybe also 'usage' for other objects documented here.

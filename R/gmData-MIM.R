@@ -1,5 +1,5 @@
 
-as.gmData.suffStats <- function(data, letter=c(letters,LETTERS)){
+as.gmData.suffStats <- function(data, letter=NULL){
 
   nt <- data$Variables
   q.by <- .q.by(data)

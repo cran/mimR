@@ -27,8 +27,16 @@ obs             <- function(x) UseMethod("observations")
 
 .dataOrigin   <- function(x) attr(x,"dataOrigin")
 
-gmData <- function(name, letter=c(letters,LETTERS), factor=rep(FALSE,length(name)),
+### NEW
+# getData               <- function(x) UseMethod("observations")
+# getLabels             <- function(x) UseMethod("vallabels")
+#
+
+gmData <- function(name, letter=NULL,
+                   factor=rep(FALSE,length(name)),
                    vallabels=NULL, data=NULL){
+  if (is.null(letter))
+    letter <- c(letters,LETTERS)
   value <- as.data.frame(cbind(name, letter[1:length(name)]))
   fac   <- factor!=0    
   lev   <- factor
@@ -37,18 +45,15 @@ gmData <- function(name, letter=c(letters,LETTERS), factor=rep(FALSE,length(name
   value$factor <- fac;
   value$levels <- lev
 
-  #print(factor)
-
   factor.index <- which(!is.na(value$levels))
 
   vl <- NULL
   for (j in factor.index){
-    #print(name[j])
-    #print(length(vallabels[[j]]))
-    #print(factor[j])
     if (!is.null(vallabels)){
       if (factor[j]!=length(vallabels[[j]])){
-        cat("Error: Factor",name[j], "has", factor[j],"levels, but", length(vallabels[[j]]), "labels have been specified\n These are", vallabels[[j]],"\n")
+        cat("Error: Factor",name[j], "has", factor[j],"levels, but",
+            length(vallabels[[j]]), "labels have been specified\n These are",
+            vallabels[[j]],"\n")
         stop("Exiting", call.=FALSE)
       }
       vl <- c(vl, list(vallabels[[j]]))
@@ -57,7 +62,6 @@ gmData <- function(name, letter=c(letters,LETTERS), factor=rep(FALSE,length(name
     }
   }
   names(vl) <- name[factor.index]
-  #print(vl)
   class(value) <- c("gmData","data.frame")
   
   attr(value,"vallabels")      <- vallabels
@@ -69,14 +73,24 @@ gmData <- function(name, letter=c(letters,LETTERS), factor=rep(FALSE,length(name
   return(value)
 }
 
+.extract.nt <- function(data,letter=NULL) UseMethod(".extract.nt")
 
-.extract.nt <- function(data,letter=c(letters,LETTERS)) UseMethod(".extract.nt")
-
-.extract.nt.data.frame <- function(data,letter=c(letters,LETTERS)){    
-  name   <- names(data)  
+.extract.nt.data.frame <- function(data,letter=NULL){
+  name   <- names(data)
+  if (is.null(letter)){
+    if ( all(nchar(name)==1) )
+      letter<-substr(n,1,1)
+    else
+      letter<- c(letters,LETTERS)
+  } else {
+    if (length(unique(letter))!=length(name))
+      stop("Number of letters do no match the number of variables\n or there might be dublicates among the letters",call.=FALSE)
+  }
+  
   fact   <- unlist(lapply(1:ncol(data), function(j) is.factor(data[,j])))
   levels <- unlist(lapply(1:ncol(data),
-                          function(j){if(is.factor(data[,j])) length(levels(data[,j])) else NA}))
+                          function(j){if(is.factor(data[,j]))
+                                        length(levels(data[,j])) else NA}))
 
   value     <- data.frame(name, letter[1:length(name)], fact, levels)
   names(value) <- c("name", "letter", "factor", "levels")
@@ -87,7 +101,6 @@ gmData <- function(name, letter=c(letters,LETTERS), factor=rep(FALSE,length(name
       vallabels <- c(vallabels, list(levels(data[,j])))
     }
     names(vallabels) <- names(data[which(fact)])
-    #print(vallabels)
   } else {
     vallabels <- NULL
   }
@@ -97,9 +110,9 @@ gmData <- function(name, letter=c(letters,LETTERS), factor=rep(FALSE,length(name
 }
 
 ##################################################################################
-as.gmData       <- function(data,letter=c(letters,LETTERS)) UseMethod("as.gmData")
+as.gmData       <- function(data,letter=NULL) UseMethod("as.gmData")
 ##################################################################################
-as.gmData.data.frame <- function(data,letter=c(letters,LETTERS)){
+as.gmData.data.frame <- function(data,letter=NULL){
   nt <- .extract.nt(data,letter)
   attr(nt,"dataOrigin"  )   <- "data.frame"
   attr(nt,"observations")   <- data
@@ -107,7 +120,7 @@ as.gmData.data.frame <- function(data,letter=c(letters,LETTERS)){
   return(nt)
   }
 
-as.gmData.table <- function(data,letter=c(letters,LETTERS)){
+as.gmData.table <- function(data,letter=NULL){
   counts <- as.vector(data)
   dn     <- dimnames(data)
   name   <- names(lapply(dn,function(x)names(x)))

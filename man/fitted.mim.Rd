@@ -1,6 +1,7 @@
 \name{fitted.mim}
 \alias{fitted.mim}
 \alias{modelInfo}
+\alias{print.modelInfo}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Extract fitted values (parameter estimates) }
 \description{

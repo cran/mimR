@@ -3,10 +3,14 @@
   mim.cmd(paste("Model", .Formula.as.string(mim)))
 }
 
+.data.toMIM <- function(mim)
+  toMIM(.getgmData(mim))
+
+
 toMIM <- function(data) UseMethod("toMIM", data)
 
 toMIM.gmData <- function(data){
-  mim.cmd("clear; clear output")
+  mim.cmd("clear output")
   switch(.dataOrigin(data),
          "data.frame" = {.df.to.mim(data)},
          "suffStats"  = {.ss.to.mim(data)},
@@ -24,6 +28,8 @@ toMIM.table <- function(data){
   gmd <- as.gmData(data)
   toMIM(gmd)
 }
+
+
 
 .table.to.mim <- function(data){
   ##cat(".table.to.mim\n")
@@ -89,17 +95,14 @@ toMIM.table <- function(data){
 
 .nt.to.varspec <- function(nt){
   var.spec <-
-    paste(
-          paste("Fact", paste(nt$letter[nt$factor==TRUE],nt$levels[nt$factor==TRUE],
+    paste(paste("Fact", paste(nt$letter[nt$factor==TRUE],nt$levels[nt$factor==TRUE],
                               collapse='')), ";",
           paste("Cont", paste(nt$letter[nt$factor==FALSE],collapse=''))  )
   
   lab.spec <- paste("Labels", nt$letter,
-                    gsub(' ','',paste('\"',nt$name,'\"'))
-                    )
+                    gsub(' ','',paste('\"',nt$name,'\"'))     )
 
   vallab.list <- NULL
-
 
   factor.letter <- nt$letter[nt$factor==TRUE]
   factor.levels <- nt$levels[nt$factor==TRUE]
@@ -114,9 +117,6 @@ toMIM.table <- function(data){
   }
   value<-list("var.spec"=var.spec, "lab.spec"=lab.spec,"vallab.spec"=vallab.list)
 }
-
-
-
 
 .partition.mim.input <- function(input,token=NULL){    
   curr     <- input

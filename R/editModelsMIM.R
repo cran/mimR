@@ -1,3 +1,27 @@
+.fixDefault <- function(edges=NULL,type,mim=NULL){
+  str <- switch(type,
+      "edges"={"FixEdges"},
+      "set" ={"fix"})
+ if (is.null(edges)){
+  mim.cmd(paste("# ", str, edges),look.nice=FALSE)
+  mim.cmd(paste(str, a),look.nice=FALSE)
+ } else {
+  s2<-unlist(strsplit(edges,",|\\+"))
+  a<-lapply(s2, .namesToLetters,.getgmData(mim))
+  a<-lapply(a,paste,collapse="")
+  a<-paste(unlist(a),collapse=",")
+  mim.cmd(paste("# ", str, edges),look.nice=FALSE)
+  mim.cmd(paste(str, a),look.nice=FALSE)
+ }
+}
+
+fixSet <- function(v=NULL,mim=NULL){
+ .fixDefault(v,"set",mim)
+}
+fixEdges <- function(v=NULL,mim=NULL){
+ .fixDefault(v,"edges",mim)
+}
+
 
 editmim <- function(x, deleteEdge=NULL, addEdge=NULL, haddEdge=NULL,
                     deleteTerm=NULL, addTerm=NULL, letter=FALSE){

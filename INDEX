@@ -6,9 +6,9 @@ dietox                  Growth curves of pigs in a 3x3 factorial
 editmim                 Editing a mim model object
 fit                     Function to fit model in MIM
 fitted.mim              Extract fitted values (parameter estimates)
+fixEdges                Fixing edges and sets in a mim model
 gmData                  Creation of gmData objects
 imputeMissing           Impute missing values
-linpredict              mimR version of MIM command 'display'
 mathmark                Mathematics marks for students
 mim                     Create undirected and block recursive MIM
                         models
