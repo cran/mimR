@@ -82,14 +82,11 @@ gmd.rats.nodata  <-  gmData(c("Sex","Drug","W1","W2"),
     vallabels=list("Sex"=c("M","F"), "Drug"=c("D1","D2","D3")))
 
 
-
-m1   <- mim(~Sex:Drug/Sex:Drug:W1+Sex:Drug:W2/W1:W2, data=gmd.rats.nodata)
 m12   <- mim("Sex:Drug/Sex:Drug:W1+Sex:Drug:W2/W1:W2", data=gmd.rats.nodata)
-m2   <- mim(~ab/abc+abd/cd, data=gmd.rats.nodata, letter=TRUE)
 m22   <- mim("ab/abc+abd/cd", data=gmd.rats.nodata, letter=TRUE)
 
-summary(m1)
-summary(m2)
+summary(m12)
+summary(m22)
 
 m.main <- mim(".",  data=gmd.rats.nodata)
 m.sat  <- mim("..",  data=gmd.rats.nodata)

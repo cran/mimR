@@ -35,7 +35,7 @@ testdelete(edge, mim, options=NULL)
 \author{Søren Højsgaard, sorenh@agrsci.dk}
 \note{Before using mimR, make sure that the MIM program is runnning.}
 
- ~Make other sections like Warning with \section{Warning }{....} ~ 
+% ~Make other sections like Warning with \section{Warning }{....} ~ 
 %\seealso{ ~~objects to See Also as \code{\link{~~fun~~}}, ~~~ }
 \examples{
 data(rats)

@@ -10,10 +10,9 @@
 
 \usage{
 stepwise(x, arg = NULL)
+}
+%- maybe also `usage' for
 
-
-} %- maybe also `usage' for
-other objects documented here.
 \arguments{
   \item{x}{A mimModel object}
   \item{arg}{Stepwise options to MIM}

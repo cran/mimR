@@ -10,7 +10,13 @@ retrieveData <- function(arg="c"){
   return(value)
 }
 
-
+.initLatent <- function(set, data, info=FALSE){
+    s <- .namesToLetters(set, data)
+    if (info==TRUE)
+      cat("Initializing latent variables:", paste(set, collapse=' '), "\n")
+    s2<- paste("calc", s, "=", s, "+ln(0);")
+    mim.cmd(s2)
+}
 
 .dataMIM <- function(mim) mim$data
 

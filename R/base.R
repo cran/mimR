@@ -1,4 +1,5 @@
 require(MASS)
+require(RDCOMClient)
 
 .First.lib <- function(lib, pkg)
 {
@@ -19,10 +20,12 @@ require(MASS)
   cat("\nBuilt:",built,"\n")
   cat("NOTICE:\n")
   cat("o mimR is available on Windows platforms only \n")
-  cat("o To use mimR the MIM program must be running\n")
-  cat("o The current version of mimR requires MIM version 3.1.3.3 or later\n")
-  cat("o MIM is available from http://www.hypergraph.dk.\n")
-  cat("o The current version of mimR requires R version 1.8.1 or later\n")
+  cat("o The current version of mimR requires \n")
+  cat("  - R version 1.9.1 or later\n")
+  cat("  - that MIM version 3.2 or later is installed on the computer\n")
+  cat("    MIM can be downloaded from http://www.hypergraph.dk.\n")
+  cat("  - that the R package RDCOMClient package is installed.\n")
+  cat("    The RDCOMClient package can be downloaded from http://www.omegahat.org/RDCOMClient/\n")
   #cat("\n  For a demo of mimR, type demo(mimR)\n")
   cat("-------------------------------------------------------------\n")
   return(invisible(0))
@@ -33,44 +36,6 @@ require(MASS)
   return(invisible(0))
 }
 
-mim.cmd <- function(cmd, look.nice = TRUE, return.look.nice=FALSE, version='R') {
-  if (!is.character(cmd)) stop("invalid input")
-  outLines <- character(0)
-  if (version=='R') {
-    MIM <- socketConnection(port=50) 
-    for (i in 1:length(cmd)) {
-      theseLines <- character(0)
-      writeLines(cmd[i], MIM, sep='')
-      repeat {
-        theseLines <- c(theseLines, readLines(MIM))
-        if (length(theseLines) == 0) next
-        if (theseLines[length(theseLines)] == 'COMPLETE') break }
-      outLines <- c(outLines, theseLines[-length(theseLines)])
-      if (look.nice==TRUE)    
-        sapply(outLines,function(x) cat(x, fill=TRUE))
-      if (return.look.nice==TRUE){
-        value <- outLines
-      }
-      else{
-        str2 <- paste(outLines, collapse = " ")
-        value <- unlist(strsplit(str2, " +"))
-        value <- value[value!=""]    
-      }
-    }
-    close(MIM)
-    return( invisible(value) );
-  } else {
-    MIM <- create.ole.object("mim31.Server")
-    for (i in 1:length(cmd)) {
-      NoOutputLines <- call.ole.method(MIM, "SendCmdLine", cmd[i]) 
-      for (i in 1:NoOutputLines)
-        outLines <- c(outLines,
-                      call.ole.method(MIM, "GetOutputLine")) }
-    release.ole.object(MIM)
-    return(outLines)
-  }
-}  
-
 mcm <- function(){
   cat("Enter MIM commands here. Type quit to return to R\n")
   x <- readline("MIM->")
@@ -80,54 +45,52 @@ mcm <- function(){
   }
 }
 
-
-.mim.cmd.term <- function(mim.cmds, look.nice = TRUE, return.look.nice=FALSE){
-
-  .split.mim.input <- function(input,token=NULL){
-    s<-strsplit(input,'')[[1]]
-    res <- NULL
-    len <- 80
-    while(length(s)>len){
-      s1 <- s[1:len]
-      res <- c(res, paste(paste(s1,collapse=''),token))
-      s  <- s[-(1:len)]
+mim.cmd <- function (cmd, look.nice = TRUE, return.look.nice = FALSE, version = "R") 
+{
+  if (!is.character(cmd)) 
+    stop("invalid input")
+  outLines <- character(0)
+  if (version == "R") {
+    MIM <- COMCreate("mim32.server")
+    outLines <- character(0)
+    for (i in 1:length(cmd)) {
+      NoOutputLines <- MIM$SendCmdLine(cmd[i])
+      if (NoOutputLines > 0) {
+        for (i in 1:NoOutputLines)
+          outLines <- c(outLines, MIM$GetOutputLine())
+      } 
     }
-    value <- c(res, paste(s,collapse=''))
-    return(value)
+    if (look.nice == TRUE) sapply(outLines, function(x) cat(x, fill = TRUE))
+    if (return.look.nice == TRUE) { value <- outLines }  else {
+      str2 <- paste(outLines, collapse = " ")
+      value <- unlist(strsplit(str2, " +"))
+      value <- value[value != ""] }
+    rm(MIM)
+    return(invisible(value))
   }
-  
-  .call.mim.MIMterm  <- function(cmd.str){
-    tmp <- proc.time()
-    mimR.dir <- system.file(package="mimR")
-    cmd.str  <- paste(mimR.dir,'/MIMterm/MIMterm.exe "', cmd.str, '"',sep='')
-    value    <- system(cmd.str, show.output.on.console=FALSE, invisible=TRUE,
-                       intern=TRUE)
-    return(value)
+  else {
+    MIM <- create.ole.object("mim32.Server")
+    for (i in 1:length(cmd)) {
+      NoOutputLines <- call.ole.method(MIM, "SendCmdLine", cmd[i])
+      for (i in 1:NoOutputLines)
+        outLines <- c(outLines, 
+                      call.ole.method(MIM, "GetOutputLine"))
+    }
+    release.ole.object(MIM)
+    return(outLines)
   }
-  if (nchar(mim.cmds)>80)
-    mim.cmds <- .split.mim.input(mim.cmds,token='&')
-  
-  v<- lapply(mim.cmds, function(a){
-    v  <- .call.mim.MIMterm(a);
-    return(v)
-  })
-  v<- v[[length(v)]]
-  if (look.nice==TRUE)    
-    sapply(v,function(x) cat(x, fill=TRUE))
-  if (return.look.nice==TRUE){
-    value <- v
-  }
-  else{
-    str2 <- paste(v, collapse = " ")
-    value <- unlist(strsplit(str2, " +"))
-    value <- value[value!=""]    
-  }
-  return( invisible(value) );
 }
 
+
 .mim.cmd.file <- function(mim.cmds){
+  ## Communicates with MIM by writing a file with specifications and
+  ## sourcing these into MIM
   file     <- paste(getwd(),"\\","mimCMD.txt",sep='')
   write("%\n% COMMAND FILE GENERATED BY mimR", file, append=FALSE)
   lapply(mim.cmds, write, file,append=TRUE)
-  mim.cmd(paste("input",file))
+  mim.cmd(paste("Input",file))
 } 
+
+
+
+

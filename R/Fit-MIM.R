@@ -14,7 +14,6 @@ fit <- function(mim,submitData=TRUE){
   }
   else
     toMIM(mim$data)
-
   .formula.toMIM(mim)
   v <- .fit()
   mim <- .retrieve.fittedMIM(mim)
@@ -63,11 +62,11 @@ emfit <- function(mim,arg="R", submitData=TRUE, emconv=0.0001, emmax=1000,plot=F
   
   mim.cmd(str, look.nice=FALSE)
   
-  res <- .mim.cmd.term(paste("Emfit", arg),look.nice=FALSE)
+  res <- mim.cmd(paste("Emfit", arg),look.nice=FALSE)
   rrr <- grep(c("initialisation."), res)
   if (toupper(arg)=="S" && length(rrr)>0){
     cat ("Initialization with given starting values failed - trying with random starting values\n")
-    res <- .mim.cmd.term(paste("Emfit", "r"),look.nice=FALSE)
+    res <- mim.cmd(paste("Emfit", "r"),look.nice=FALSE)
   }
 
   rrr    <- match(c("Successful","Error","exceeded."), res)
@@ -135,19 +134,4 @@ emfit <- function(mim,arg="R", submitData=TRUE, emconv=0.0001, emmax=1000,plot=F
     .mim.output.to.list(v)
 }
 
-.initLatent <- function(set, data, info=FALSE){
-    s <- .namesToLetters(set, data)
-    if (info==TRUE)
-      cat("Initializing latent variables:", paste(set, collapse=' '), "\n")
-    s2<- paste("calc", s, "=", s, "+ln(0);")
-    mim.cmd(s2)
-}
 
-
-
-#.fitMIM <- function (){
-#  mim.output <- mim.cmd("fit", look.nice=FALSE)
-#  res <- .silent.as.numeric( mim.output[c(2,4)] )
-#  value <- c("deviance"=res[1], "df"=round(res[2],0))
-#  return(print(value))
-#}
