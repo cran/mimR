@@ -1,0 +1,2 @@
+echo "Package 'mimR' can only be installed/used under Windows."
+exit 1

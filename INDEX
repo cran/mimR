@@ -1,0 +1,33 @@
+FIT                     Function to fit model in MIM
+MIMFORMULA              Creating MIM formula objects
+MIMMODELS               Create undirected and block recursive MIM
+                        models 
+MISCUTIL                Miscellaneous utility functions for mimR
+ReadingData             Read a data frame into MIM
+carcass                 lean meat contents of pig carcasses
+create.table            Create dataframe for a contingency table
+dietox                  Growth curves of pigs in a 3x3 factorial
+                        experiment
+get.mim.parameters      Function to get the discrete, linear and
+                        quadratic parameters of MIM models back into R
+get.models              Get the model list from a mimData object
+look.up.mim.names       For internal use
+make.mim.stats          Creates a set of sufficient statistics for MIM
+mcm                     MIM command mode
+mim.cmd                 Submit commands to MIM and get the result back
+                        in R
+mim.diary.data          Function to get a listing of data in MIM into R
+mim.display             mimR version of MIM command 'display'
+mim.mean.cov2df         Organizizes conditional means and variances in
+                        a matrix and a vector
+mim.print               Function for printing data, models, parameter
+                        estimates etc. in MIM
+mim.setblock            Set block recursive structure in MIM
+mim.statread            Enters a set of sufficient statistics for MIM
+mim.stepwise            Function to do stepwise model selection in MIM
+mim.testdelete          Function to test deletion of an edge 
+partition.string.by     Partition a string by a given token (character)
+print.mim.display       Prints a mim.display object
+print.mim.model         Prints a mim.model object
+print.mim.parameters    Prints a mim.parameters object 
+rats                    Weightloss of rats
