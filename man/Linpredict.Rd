@@ -1,5 +1,7 @@
-\name{mim.display}
-\alias{mim.display}
+\name{LINPREDICT}
+\alias{linpredict}
+\alias{linpredict.mim}
+\alias{displayMIM}
 %- Also NEED an `\alias' for EACH other topic documented here.
 \title{mimR version of MIM command 'display'}
 \description{
@@ -8,18 +10,26 @@
   discrete.
 }
 \usage{
-mim.display(y, x)
+linpredict(mim,y,x=NULL,letter=FALSE)
+displayMIM(y, x=NULL)
+
+
 }
 %- maybe also `usage' for other objects documented here.
 \arguments{
+  \item{mim}{A mim model object}
   \item{y}{ Vector of response variables}
   \item{x}{ Vector of explanatory variables}
+  \item{letter}{If TRUE then x and y contains the variables as letters
+    (instead of as proper names)}
 }
-%\details{
-%  ~~ If necessary, more details than the __description__  above ~~
-%}
+\details{
+  The implementation of linpredict is slightly fragile and certainly not
+  elegant. Please use it with caution.
+  The displayMIM function is not intended for the user
+}
 \value{
-  Returns a mim.display object which is a list of lists containing the
+  Returns a linpredictMIM object which is a list of lists containing the
   quantities returned.
 }
 
@@ -34,41 +44,22 @@ display by,ax will return the linear predictor of b given a,x and the
 conditional mean and variance of y given a,x.
 
 In mimR, on the other hand, the response types can not be mixed, so you
-should do it in two steps:
-
-mim.display("b",c("a","x"));
-mim.display("y",c("a","x"))
-
+should do it in two steps.
 } 
 
-\seealso{ \code{\link{mim.read}}, }
+\seealso{\code{\link{fitted}}}
 
 \examples{
 data(rats)
-mim.cmd("clear;clear output")
-mnt <-mim.read(rats, mim.names=c("a","b","x","y"),mim.labels=names(rats))
-mim.cmd("satmod; fit")
-
-mim.display("y")
-mim.display("y","x")
-mim.display("y","a")
-mim.display("y","ax")
-
-mim.display("b")
-mim.display("b","x")
-mim.display("b","a")
-mim.display("b","ax")
-
-mim.cmd("clear;clear output")
-rats$z     <- round(rnorm(length(rats$W1),sd=2, mean=2))
-mnt <-mim.read(rats, mim.names=c("a","b","x","y","z"),mim.labels=names(rats))
-mim.cmd("mod ab/abx,aby,abz/abxyz; fit"); 
-
-mim.display("y","ax") 
-mim.display("b","ax") 
-mim.display("ab","x") 
-mim.display("xy","a") 
-mim.display("xy","az")
+gmd.rats <- as.gmData(rats)
+m1   <- mim("Sex:Drug/Sex:Drug:W1+Sex:Drug:W2/W1:W2", data=gmd.rats)
+mf1  <- fit(m1)
+d1  <- linpredict(mf1, y="W2",    x="W1:Sex") 
+d2  <- linpredict(mf1, y="Sex",   x="W1:W2")
+d3  <- linpredict(mf1, y="W1:W2", x="Sex")
+d4  <- linpredict(mf1, y="W1:W2")
+d5  <- linpredict(mf1, y="Sex")
+d1; d2; d3; d4; d5
 }
 \keyword{models}
 %\keyword{ ~kwd1 }% at least one, from doc/KEYWORDS

@@ -1,0 +1,131 @@
+\name{MimModels}
+
+\alias{mim}
+\alias{chainmim}
+\alias{DF}
+\alias{deviance.mim}
+\alias{cliques}
+\alias{likelihood}
+
+%\alias{mim.br.model}
+%\alias{submit}
+%\alias{submit.mimModel}
+%\alias{submit.mimBRModel}
+%\alias{print.mimModel}
+%\alias{print.mimBRModel}
+%\alias{formula.mimModel}
+
+%\alias{deviance.mimModel}
+%\alias{dof.mimModel}
+
+
+%\alias{display}
+%\alias{display.mimModel}
+%\alias{mimData.mimModel}
+
+
+%- Also NEED an `\alias' for EACH other topic documented here.
+\title{Create undirected and block recursive MIM models }
+\description{
+  ...........
+}
+
+
+\usage{
+mim(mimFormula, data, letter=FALSE, marginal=data$name)
+chainmim(mimFormula.list, data)
+%mim.br.model(mim.formula, data, mim.names = TRUE, submit = TRUE, fit=TRUE)
+
+}
+
+\arguments{
+  \item{mimFormula}{A text string following the MIM syntax. Long
+    variable names are allowed however. See 'details'.}
+  \item{mimFormula.list}{A list of mim formulae}
+  \item{data}{A gmData object}
+  \item{letter}{If TRUE, the variables used in mim.formula are single
+  letters.}
+  \item{marginal}{Can be used for specifying only a subset of the
+    variables in connection with a main effects, a saturated and a
+    homogeneous saturated model}
+%\item{submit}{If TRUE, the model is submitted to MIM}
+%\item{fit}{If TRUE the model is fitted in MIM}
+%\item{x}{A mimModel or mimBRModel object}
+} 
+\details{
+  A mim.formula can be
+  "Sex+Drug/Sex:W1+Drug:W1+Sex:W2+Drug:W2/Sex:W1:W2+Drug:W1:W2" or (if
+  letter is TRUE) the shorter form  "ab/abx,aby/abxy"  or
+  "ab/abx+aby/abxy".
+  A mimFormula can also be "." (the main effects (the
+  independence) model), "*" (the saturated model) or "*h"
+  (the homogeneous saturated model).
+  See 'examples'.
+}
+\value{
+  A mimModel or mimBRModel object
+}
+\references{ David Edwards, An Introduction to Graphical Modelling,
+  Springer Verlag, 2002}
+\author{Søren Højsgaard, sorenh@agrsci.dk}
+\note{Before using mimR, make sure that the MIM program is runnning.}
+
+% ~Make other sections like WARNING with \section{WARNING }{....} ~
+
+\seealso{\code{\link{as.gmData}}, \code{\link{as.mimData}}}
+
+\examples{
+# Create som models (no data needed!)
+gmd.rats.nodata  <-  gmData(c("Sex","Drug","W1","W2"),
+    factor=c(2,3,FALSE,FALSE),
+    vallabels=list("Sex"=c("M","F"), "Drug"=c("D1","D2","D3")))
+
+m1   <- mim("Sex:Drug/Sex:Drug:W1+Sex:Drug:W2/W1:W2", data=gmd.rats.nodata)
+m2   <- mim("ab/abc+abd/cd", data=gmd.rats.nodata, letter=TRUE)
+
+summary(m1)
+summary(m2)
+
+m.main <- mim(".",  data=gmd.rats.nodata)
+m.sat  <- mim("*",  data=gmd.rats.nodata)
+m.hsat <- mim("*h", data=gmd.rats.nodata)
+
+summary(m.main); 
+summary(m.sat); 
+summary(m.hsat)
+
+# Next we need some data to work with
+data(rats)
+gmd.rats <- as.gmData(rats)
+vallabels(gmd.rats)
+observations(gmd.rats)
+
+m1   <- mim("Sex:Drug/Sex:Drug:W1+Sex:Drug:W2/W1:W2", data=gmd.rats)
+m2   <- mim("ab/abc+abd/cd", data=gmd.rats, letter=TRUE)
+
+m.main <- mim(".",  data=gmd.rats, marginal=c("Sex", "Drug", "W1"))
+m.sat  <- mim("*",  data=gmd.rats, marginal=c("Sex", "Drug", "W1"))
+m.hsat <- mim("*h", data=gmd.rats, marginal=c("Sex", "Drug", "W1"))
+
+m1f  <- fit(m1)
+m2f  <- fit(m2)
+
+summary(m1f)
+summary(m2f)
+
+m.main <- fit(mim(".",  data=gmd.rats))
+m.sat  <- fit(mim("*",  data=gmd.rats))
+m.hsat <- fit(mim("*h", data=gmd.rats))
+
+summary(m.main); 
+summary(m.sat); 
+summary(m.hsat)
+
+}
+\keyword{models}% at least one, from doc/KEYWORDS
+
+
+
+
+
+

@@ -1,5 +1,5 @@
 Package: mimR
-Version: 1.0
+Version: 1.1
 Title:   mimR: An R interface to MIM for graphical modelling in R
 Author:  Søren Højsgaard <sorenh@agrsci.dk>
 Maintainer: Søren Højsgaard <sorenh@agrsci.dk>

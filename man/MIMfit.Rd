@@ -1,6 +1,6 @@
 \name{FIT}
-\alias{mim.fit}
-\alias{mim.emfit}
+\alias{fit}
+\alias{emfit}
 
 %- Also NEED an `\alias' for EACH other topic documented here.
 \title{Function to fit model in MIM}
@@ -9,13 +9,16 @@
   case of incomplete data
 }
 \usage{
-mim.fit()
-mim.emfit(arg = "R", plot = FALSE)
+fit(mim)
+emfit(mim, arg = "R", emconv=0.0001, emmax=1000) %, plot = FALSE)
 }
 \arguments{
+  \item{mim}{ A mim model object}
   \item{arg}{ can be one of the letters "R", "S" or "F"}
-  \item{plot}{ if TRUE, a plot of the convergence history of the EM
-    algorithm is made.}
+  %\item{plot}{ if TRUE, a plot of the convergence history of the EM
+  %  algorithm is made.}
+  \item{emconv}{Convergence criterion for EM algorithm}
+  \item{emmax} {Maximum number of iterations for EM algorithm}
 }
 \details{
   The S option enables the user to supply start values for the missing
@@ -30,8 +33,7 @@ mim.emfit(arg = "R", plot = FALSE)
   using Print E in MIM that the values have been correctly entered.
 }
 \value{
-  mim.fit: Returns a vector with deviance and degrees of freedom
-  mim.emfit: A dataframe with the convergence history of the EM algorithm.
+  Returns a fitted mim object
 }
 \references{ David Edwards, An Introduction to Graphical Modelling,
   Springer Verlag, 2002}
@@ -43,28 +45,15 @@ mim.emfit(arg = "R", plot = FALSE)
 %\seealso{\code{\link{mim.emfit}} }
 
 \examples{
-data(carcass)
-mim.read(carcass, mim.names=c("a","b","c","d","e","f","y"),mim.labels=names(carcass))
-
-mim.cmd("model //ay,by,cy,dy,ey,fy")
-mim.fit()
-
-mim.cmd("model //abcdefy")
-mim.fit()
-
-data(carcass)
-mim.read(carcass, mim.names=c("a","b","c","d","e","f","y"))
-
-mim.cmd("cont L; calculate L=ln(0)");
-mim.cmd("model //aL,bL,cL,dL,eL,fL,yL")
-mim.emfit()
-
-# Insert initial values for EM algorithm
-#carcass$L <- rnorm(nrow(carcass),sd=0.1)
-#mim.read(carcass, mim.names=c("a","b","c","d","e","f","y","L"))
-#mim.cmd("calculate L=ln(0)");
-#mim.cmd("model //aL,bL,cL,dL,eL,fL,yL")
-#mim.emfit("S")
+data(mathmark)
+math     <- mathmark
+math$L   <- factor(NA, levels=1:2)
+gmd.math <- as.gmData(math)
+latent(gmd.math) <- "L"
+m1  <- mim("*", data=gmd.math)
+m2  <- editmim(m1, del=paste(names(math)[1:5],":",collapse='')) 
+m2f <- emfit(m2)
+d.imp <- retrieveData(gmd.math,impute=TRUE)
 }
 \keyword{models}% at least one, from doc/KEYWORDS
 %\keyword{utilities}

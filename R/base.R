@@ -1,5 +1,9 @@
+
+require(MASS)
+
 .First.lib <- function(lib, pkg)
 {
+  ##print(lib); print(pkg)
   cat("\n")
   cat("-------------------------------------------------------------\n")
   cat(package.description("mimR", lib = lib, field="Title"))
@@ -14,16 +18,12 @@
   cat("Webpage:",URL,"\n")
   cat("\nBuilt:",built,"\n")
   cat("NOTICE:\n")
-  cat("o To use mimR the MIM program must be installed on your\n")
-  cat("  computer (Windows only)\n")
-  cat("o The current version of mimR requires MIM version 3.1.2.9 or later\n")
-  cat("o MIM (including a free student version and free upgrades)\n")
-  cat("  is available from http://www.hypergraph.dk.\n")
-  cat("o The executable mimBatch.exe (which comes with the mimR package)\n")
-  cat("  must be placed somewhere on your path.\n")
-  cat("o Before starting using mimR, make sure that MIM is \n")
-  cat("  running.\n")
-  cat("\n  For a demo of mimR, type demo(mimR)\n")
+  cat("o mimR is available on Windows platforms only \n")
+  cat("o To use mimR the MIM program must be running\n")
+  cat("o The current version of mimR requires MIM version 3.1.2.20 or later\n")
+  cat("o MIM is available from http://www.hypergraph.dk.\n")
+  cat("o The current version of mimR requires R version 1.7.1 or later\n")
+  #cat("\n  For a demo of mimR, type demo(mimR)\n")
   cat("-------------------------------------------------------------\n")
   return(invisible(0))
 }
@@ -33,55 +33,51 @@
   return(invisible(0))
 }
 
-
-mim.cmd <- function(mim.cmds, look.nice=TRUE){
-  ##  Writes a specfile with MIM commands, submits this to MIM and 
-  ##  returns the output
-
-  ep          <- TRUE;
-  sh.eprint   <- function(x)
-    {if (ep==TRUE)
-       {str <- deparse(substitute(x)); cat(paste("E>>", str," =", x),fill=TRUE)}}
-
-  specfile     <- tempfile(pattern="mimR_")
-  specfile.str <- paste(specfile,".txt", sep='')
-  getfile.str  <- paste(specfile, "_out.txt", sep="")
-
-  ##ptm0 <- proc.time()
-  ##ptm1 <- proc.time()
-  write(mim.cmds, specfile.str)
-  ##cat("Time to write", proc.time()-ptm1, fill=T)
-
-  ##ptm1 <- proc.time()
-  system.str <- paste("mimBatch.exe ", specfile.str)
-  system( system.str );
-  ##cat("Time to exectute", proc.time()-ptm1, fill=T)
-
-  ##ptm1 <- proc.time()
-  look.nice.value <- scan(getfile.str , what="", sep="\n", quiet=TRUE)
-  ##cat("Time to read", proc.time()-ptm1, fill=T)
-
-  if (look.nice & length(look.nice.value)>0){
-    ##ptm1 <- proc.time()
-    for(i in 1:length(look.nice.value)) cat(look.nice.value[i],fill=TRUE)
-    ##cat("Time to print", proc.time()-ptm1, fill=T)
+mim.cmd <- function(cmd, look.nice = TRUE, return.look.nice=FALSE, version='R') {
+  if (!is.character(cmd)) stop("invalid input")
+  outLines <- character(0)
+  if (version=='R') {
+    MIM <- socketConnection(port=50) 
+    for (i in 1:length(cmd)) {
+      theseLines <- character(0)
+      writeLines(cmd[i], MIM, sep='')
+      repeat {
+        theseLines <- c(theseLines, readLines(MIM))
+        if (length(theseLines) == 0) next
+        if (theseLines[length(theseLines)] == 'COMPLETE') break }
+      outLines <- c(outLines, theseLines[-length(theseLines)])
+      if (look.nice==TRUE)    
+        sapply(outLines,function(x) cat(x, fill=TRUE))
+      if (return.look.nice==TRUE){
+        value <- outLines
+      }
+      else{
+        str2 <- paste(outLines, collapse = " ")
+        value <- unlist(strsplit(str2, " +"))
+        value <- value[value!=""]    
+      }
+    }
+    close(MIM)
+    return( invisible(value) );
+  } else {
+    MIM <- create.ole.object("mim31.Server")
+    for (i in 1:length(cmd)) {
+      NoOutputLines <- call.ole.method(MIM, "SendCmdLine", cmd[i]) 
+      for (i in 1:NoOutputLines)
+        outLines <- c(outLines,
+                      call.ole.method(MIM, "GetOutputLine")) }
+    release.ole.object(MIM)
+    return(outLines)
   }
-  unlink(specfile.str); unlink(getfile.str)
+}  
 
-  str2 <- paste(look.nice.value, collapse=" ")
-  str3 <- unlist(strsplit(str2, " "))
-  value <- str3[str3!=""]
-  return(invisible(value))
-}
 
 
 mcm <- function(){
   cat("Enter MIM commands here. Type quit to return to R\n")
   x <- readline("MIM->")
-  ##cat("x", x, fill=T)
   while(length(which(c("stop","end","quit","exit","e","q")==x))==0){
     mim.out <- mim.cmd(x,look.nice=TRUE)
     x <- readline("MIM->")
-    ##cat("x", x, fill=T)
   }
 }
