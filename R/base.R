@@ -97,3 +97,7 @@ mim.cmd <- function (cmd, look.nice = TRUE, return.look.nice = FALSE, version = 
   lapply(mim.cmds, write, file,append=TRUE)
   mim.cmd(paste("Input",file))
 } 
+
+helpmim <- function(){
+mim.cmd("help")
+}

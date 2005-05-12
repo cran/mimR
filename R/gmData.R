@@ -46,24 +46,25 @@ gmData <- function(name, letter=NULL,
   value$levels <- lev
 
   factor.index <- which(!is.na(value$levels))
-
-  vl <- NULL
-  for (j in factor.index){
-    if (!is.null(vallabels)){
-      if (factor[j]!=length(vallabels[[j]])){
-        cat("Error: Factor",name[j], "has", factor[j],"levels, but",
-            length(vallabels[[j]]), "labels have been specified\n These are",
-            vallabels[[j]],"\n")
-        stop("Exiting", call.=FALSE)
+  if (length(factor.index)>0){
+    vl <- NULL
+    for (j in factor.index){
+      if (!is.null(vallabels)){
+        if (factor[j]!=length(vallabels[[j]])){
+          cat("Error: Factor",name[j], "has", factor[j],"levels, but",
+              length(vallabels[[j]]), "labels have been specified\n These are",
+              vallabels[[j]],"\n")
+          stop("Exiting", call.=FALSE)
+        }
+        vl <- c(vl, list(vallabels[[j]]))
+      } else {
+        vl <- c(vl, list(1:factor[j]))
       }
-      vl <- c(vl, list(vallabels[[j]]))
-    } else {
-      vl <- c(vl, list(1:factor[j]))
     }
-  }
   names(vl) <- name[factor.index]
+  }
   class(value) <- c("gmData","data.frame")
-  
+
   attr(value,"vallabels")      <- vallabels
   attr(value,"observations")   <- data
   switch(class(data),
@@ -72,6 +73,7 @@ gmData <- function(name, letter=NULL,
          NULL=        { attr(value,"dataOrigin")     <- "table"      })
   return(value)
 }
+
 
 .extract.nt <- function(data,letter=NULL) UseMethod(".extract.nt")
 
@@ -112,6 +114,7 @@ gmData <- function(name, letter=NULL,
 ##################################################################################
 as.gmData       <- function(data,letter=NULL) UseMethod("as.gmData")
 ##################################################################################
+
 as.gmData.data.frame <- function(data,letter=NULL){
   nt <- .extract.nt(data,letter)
   attr(nt,"dataOrigin"  )   <- "data.frame"
@@ -131,6 +134,35 @@ as.gmData.table <- function(data,letter=NULL){
   class(nt) <- c("gmData","data.frame")
   return(nt)
   }
+
+
+as.gmData.list <- function(data,letter=NULL){
+  is.cont <- !any(is.na(match(names(data),c("names","means","n","corr","stddev"))))
+  is.disc <- !any(is.na(match(names(data),c("names","levels","counts","vallabels"))))
+  if (is.cont){
+    if (!is.null(data$names)){
+      name <- data$names
+    } else {
+      if (!is.null(names(data$means))){
+        name <- names(data$means)
+        data$names <- name
+      } else {
+        stop("Names can not be found")
+      }
+    }
+    value <- gmData(names(data$means))
+    attr(value, "dataOrigin")   <- "contSuffStats"
+    
+  }
+  if (is.disc){
+    value <- gmData(data$names, factor=data$levels,vallabels=data$vallabels)
+    attr(value, "dataOrigin")   <- "discSuffStats"
+  }
+  attr(value, "observations") <- data
+  return(value)
+}
+
+
 
 
 print.gmData        <- function(x, ...){

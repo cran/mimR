@@ -5,11 +5,13 @@
 \alias{as.gmData.data.frame}
 \alias{as.gmData.table}
 \alias{as.gmData.suffStats}
+\alias{as.gmData.list}
 
 \alias{description}
 \alias{description.gmData}
 \alias{description<-}
 \alias{description<-.gmData}
+
 
 \alias{latent}
 \alias{latent.gmData}
@@ -68,8 +70,8 @@ observations(x)
   %  labels of the factors in the gmData object. See examples below.}
 }
 \details{
- as.mimData is just a wrapper for as.gmData (kept in the package for
- historical reasons). as.mimData only works for data frames.
+  A variety of data formats can be turned into gmData objects. See
+  examples. 
 }
 \value{
   A dataframe containing the link between the names in the dataframe and
@@ -113,6 +115,32 @@ vallabels(nt1)
 #This will not work
 nt1  <-  gmData(c("Sex","Drug","W1","W2"),factor=c(2,3,FALSE,FALSE), vallabels=list("Sex"=c(1,2,3)))
 vallabels(nt1)
+
+# It is possible to specify data as sufficient statistics, when these
+# are specified as lists as follows:
+
+# Specify data as sufficient statistics - discrete data
+dat <- list(names=c("foo","bar","off"),levels=c(2,3,2),counts=1:12)
+v <- as.gmData(dat)
+
+# Specify data as sufficient statistics - continuous data
+setosa <- subset(iris, Species=="setosa")[,1:4]
+dat <- list(names=names(setosa), means=apply(setosa,2,mean),
+  stddev = sqrt(diag(var(setosa))), corr=cor(setosa),n=nrow(setosa))
+v <- as.gmData(dat)
+
+# Reading sufficient statistics - continuous data
+
+suffc<-list(means=apply(mathmark,2,mean),
+stddev=apply(mathmark,2,sd), corr=cor(mathmark),n=nrow(mathmark))
+
+toMIM(as.gmData(suffc))
+# Reading sufficient statistics - discrete data
+# Note that data are read in the order (1 1) (1 2) (2 1) (2 2)
+suffd<-list(names=c("foo","bar"),levels=c(2,2),
+counts=c(1,2,3,4),vallabels=list(foo=c("f1","f2"),bar=c("b1","b2")))
+toMIM(as.gmData(suffd))
+
 }
 
 

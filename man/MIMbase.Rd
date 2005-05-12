@@ -1,6 +1,7 @@
 \name{MIMbase}
 \alias{mim.cmd}
 \alias{mcm}
+\alias{helpmim}
 
 %- Also NEED an `\alias' for EACH other topic documented here.
 \title{Submit commands to MIM and get the result back in R}
@@ -18,6 +19,7 @@
 \usage{
 mim.cmd(cmd, look.nice = TRUE, return.look.nice=FALSE, version='R')
 mcm()
+helpmim()
 }
 %- maybe also `usage' for other objects documented here.
 \arguments{
@@ -33,7 +35,8 @@ mcm()
 }
 \details{
   To exit the mcm() function, type quit, end, exit, q or e at the
-  prompt. Note that this will not terminate the MIM program.
+  prompt. Note that this will not terminate the MIM program. The
+  helpmim() function invokes the help pages of the MIM program.
 }
 
 \value{

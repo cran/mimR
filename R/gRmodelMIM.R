@@ -24,9 +24,7 @@ mim <- function(mimFormula, data, letter=FALSE, marginal=data$name){
          call.=FALSE)
   }
 
-  mim.cmd("clear; clear output")
-  vs  <- .nt.to.varspec (data)
-  lapply(vs, function(s){if(!is.null(s)) mim.cmd(s)})
+  .varspec.toMIM(data)
   
   if( !is.na(match(mimStringFormula, c("..", "..h", ".")))){
     marg <- if (letter==FALSE)
@@ -55,7 +53,6 @@ mim <- function(mimFormula, data, letter=FALSE, marginal=data$name){
 
 .make.mim <- function(mimStringFormula, data, letter=FALSE, rsm=NULL,rsp=NULL){
   ### DOES NOT CALL MIM
-
   parsedFormula     <- .parseMimStringFormula(mimStringFormula,letter=letter)
   parsedFormula2    <- .swapNamesLetters(parsedFormula,data)
   mimStringFormula2 <- .parsedMimFormula2mimStringFormula(parsedFormula2)

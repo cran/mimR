@@ -3,55 +3,118 @@
   mim.cmd(paste("Model", .Formula.as.string(mim)))
 }
 
-.data.toMIM <- function(mim)
-  toMIM(.getgmData(mim))
+.varspec.toMIM <- function(data,text=""){
+  mim.cmd("clear; clear output")
+  mim.cmd(text)
+  vs  <- .namesTable.to.varspec (data)
+  lapply(vs, function(s){if(!is.null(s)) mim.cmd(s)})
+}
 
+### Transfer data to MIM
 
 toMIM <- function(data) UseMethod("toMIM", data)
 
+toMIM.data.frame <- function(data){    ## calls toMIM.gmData
+  gmd <- as.gmData(data)
+  toMIM(gmd)
+}
+
+toMIM.table <- function(data){         ## calls toMIM.gmData
+  gmd <- as.gmData(data)
+  toMIM(gmd)
+}
+
 toMIM.gmData <- function(data){
-  mim.cmd("clear output")
+  mim.cmd("clear; clear output")
   switch(.dataOrigin(data),
-         "data.frame" = {.df.to.mim(data)},
-         "suffStats"  = {.ss.to.mim(data)},
-         "table"      = {.table.to.mim(data)}
+         "data.frame"    = {.dataframe.to.mim(data)},
+         "suffStats"     = {.suffStats.to.mim(data)},
+         "discSuffStats" = {.discSuffStats.to.mim(data)},
+         "contSuffStats" = {.contSuffStats.to.mim(data)},
+         "table"         = {.table.to.mim(data)}
          )
 }
 
-toMIM.data.frame <- function(data){
-  gmd <- as.gmData(data)
-  toMIM(gmd)
+.discSuffStats.to.mim <- function(data){
+  .varspec.toMIM(data,text="# Sufficient statistics from 'discSuffStats'")
+  dat <- observations(data)
+
+  mim.cmd(paste("Fact", paste(dat$names, dat$levels,collapse=" ")))
+  labs <- paste("Labels", data$letter, gsub(' ','',paste('\"',data$name,'\"')))
+  lapply(labs, mim.cmd)
+  mim.cmd(paste("Statread", paste(data$letter,collapse=" ")))
+  mim.cmd(paste(dat$counts))
+  mim.cmd("!")
 }
 
+.contSuffStats.to.mim <- function(data){
+  .varspec.toMIM(data,text="# Sufficient statistics from 'contSuffStats'")
+  dat <- observations(data)
 
-toMIM.table <- function(data){
-  gmd <- as.gmData(data)
-  toMIM(gmd)
+  vcv <- diag(dat$stddev) %*% dat$corr %*% diag(dat$stddev)
+  vcv.tri <- vcv[upper.tri(vcv,diag=TRUE)]
+  value <- c(dat$n, dat$means,vcv.tri)
+    
+  mim.cmd(paste("Cont",paste(data$letter,collapse=" ")))
+  labs <- paste("Labels", data$letter, gsub(' ','',paste('\"',data$name,'\"')))
+  lapply(labs, mim.cmd)
+  mim.cmd(paste("Statread", paste(data$letter,collapse=" ")))
+  mim.cmd(paste(value))
+  mim.cmd("!")
 }
 
+.list.to.mim <- function(data){
+  print(".list.to.mim")
+  .varspec.toMIM(data,text="# Sufficient statistics from 'list'")
+  dat <- observations(v)
+  is.cont <- !any(is.na(match(names(dat),c("means","n","corr","stddev"))))
+  is.disc <- !any(is.na(match(names(dat),c("names","levels","counts"))))
 
+  if (is.cont){
+    vcv <- diag(dat$stddev) %*% dat$corr %*% diag(dat$stddev)
+    vcv.tri <- vcv[upper.tri(vcv,diag=TRUE)]
+    value <- c(dat$n, dat$means,vcv.tri)
+    
+    mim.cmd(paste("Cont",paste(data$letter,collapse=" ")))
+
+    labs <- paste("Labels", data$letter, gsub(' ','',paste('\"',data$name,'\"')))
+    lapply(labs, mim.cmd)
+    mim.cmd(paste("Statread", paste(data$letter,collapse=" ")))
+    mim.cmd(paste(value))
+    mim.cmd("!")
+  }
+  if (is.disc){
+    mim.cmd(paste("Fact", paste(dat$names, dat$levels,collapse=" ")))
+
+    labs <- paste("Labels", data$letter, gsub(' ','',paste('\"',data$name,'\"')))
+    lapply(labs, mim.cmd)
+    mim.cmd(paste("Statread", paste(data$letter,collapse=" ")))
+    mim.cmd(paste(dat$counts))
+    mim.cmd("!")
+  }
+
+}
 
 .table.to.mim <- function(data){
-  ##cat(".table.to.mim\n")
-  vs <-.nt.to.varspec(data)
+  .varspec.toMIM(data,text="# Sufficient statistics from 'table'")
+
   ss <- data$letter
   ss <- ss[length(ss):1]
   s  <- paste("Statread", paste(ss, collapse=''))
-  res <- as.vector(observations(data))
-  mim.cmd("# Suff stats")
-  lapply(vs, mim.cmd)
   mim.cmd(s)
+  res <- as.vector(observations(data))
   lapply(.partition.mim.input(res),mim.cmd)
   mim.cmd("!", look.nice=FALSE)    
 
 }
 
 
-.ss.to.mim <- function(data){
-  vs <-.nt.to.varspec(data)
+.suffStats.to.mim <- function(data){
+  vs <-.namesTable.to.varspec(data)
   s  <- paste("Statread", paste(data$letter, collapse=''))
   res <- observations(data)
-  str4     <- unlist( lapply( as.vector(t(res)), .float.to.string, n.digits=5, width=15))    
+  str4     <- unlist( lapply( as.vector(t(res)),
+                             .float.to.string, n.digits=5, width=15))    
   mim.cmd("# Suff stats")
   lapply(vs, mim.cmd)
   mim.cmd(s)
@@ -60,16 +123,19 @@ toMIM.table <- function(data){
 }
 
 
-.df.to.mim <- function(data,file="mimR_df2mim"){
-  ##cat(".df.to.mim\n")
-  mygetwd <- function()gsub("/","\\\\",getwd())
+.dataframe.to.mim <- function(data,file="mimR_df2mim"){
 
+  mygetwd <- function()gsub("/","\\\\",getwd())
+  
   nt <- as.data.frame(data)
-  vs <- .nt.to.varspec(nt)
+  vs <- .namesTable.to.varspec(nt)
+
   mdata <- observations(data)
   for (j in 1:ncol(mdata))
     mdata[,j] <- as.numeric(mdata[,j])
-  str4     <- unlist( lapply( as.vector(t(mdata)), .float.to.string, n.digits=3, width=2))    
+  str4     <- unlist( lapply( as.vector(t(mdata)), .float.to.string, n.digits=3,
+                             width=2))
+
   var.letter <- .namesToLetters(names(mdata),nt)
 
   file <- paste(mygetwd(),"\\",file,sep='')
@@ -93,11 +159,11 @@ toMIM.table <- function(data){
   return(file)
 }
 
-.nt.to.varspec <- function(nt){
+.namesTable.to.varspec <- function(nt){
   var.spec <-
     paste(paste("Fact", paste(nt$letter[nt$factor==TRUE],nt$levels[nt$factor==TRUE],
-                              collapse='')), ";",
-          paste("Cont", paste(nt$letter[nt$factor==FALSE],collapse=''))  )
+                              collapse=' ')), ";",
+          paste("Cont", paste(nt$letter[nt$factor==FALSE],collapse=' '))  )
   
   lab.spec <- paste("Labels", nt$letter,
                     gsub(' ','',paste('\"',nt$name,'\"'))     )

@@ -9,7 +9,7 @@ fit <- function(mim,submitData=TRUE){
     stop("Model has latent variable and 'fit' can not be used - try using 'emfit'")
   
   if (submitData==TRUE){
-    .data.toMIM(mim)
+    toMIM(.getgmData(mim))
   }  
   .formula.toMIM(mim)
   v <- .fit()
@@ -38,10 +38,11 @@ fit <- function(mim,submitData=TRUE){
     return(invisible(value))
 }
 
-emfit <- function(mim,arg="R", submitData=TRUE, emconv=0.0001, emmax=1000,plot=FALSE,info=FALSE){
+emfit <- function(mim,arg="R", submitData=TRUE, emconv=0.0001, emmax=1000,
+                  plot=FALSE,info=FALSE){
   time.start <- proc.time()
   if (submitData==TRUE){
-    .data.toMIM(mim)
+    toMIM(.getgmData(mim))
   }
 
   if (info==TRUE)
