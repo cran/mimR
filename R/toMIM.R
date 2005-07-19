@@ -160,6 +160,7 @@ toMIM.gmData <- function(data){
 }
 
 .namesTable.to.varspec <- function(nt){
+  #print(".namesTable.to.varspec")
   var.spec <-
     paste(paste("Fact", paste(nt$letter[nt$factor==TRUE],nt$levels[nt$factor==TRUE],
                               collapse=' ')), ";",
@@ -183,6 +184,10 @@ toMIM.gmData <- function(data){
   }
   value<-list("var.spec"=var.spec, "lab.spec"=lab.spec,"vallab.spec"=vallab.list)
 }
+
+
+
+
 
 .partition.mim.input <- function(input,token=NULL){    
   curr     <- input

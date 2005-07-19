@@ -1,4 +1,5 @@
 .namesToLetters <- function(terms, names.table){
+  #print(".namesToLetters")
   .look.up.mim.names(terms, names.table,direction="to.mim")
 }
 
@@ -11,17 +12,22 @@
     return(NULL)
   else
     if (is.list(terms))
-      return(lapply(terms, .look.up.mim.names, names.table=names.table, direction=direction))
+      return(lapply(terms,
+                    .look.up.mim.names,
+                    names.table=names.table, direction=direction))
     else {
       if (length(terms)>1){
-          return(unlist(lapply(terms, .look.up.mim.names, names.table=names.table,
-                               direction=direction)))
-        }
+        return(unlist(lapply(terms,
+                             .look.up.mim.names,
+                             names.table=names.table, direction=direction)))
+      }
       else
         if (is.na(terms)) 
           return(NA)
         else{
           terms.list <- .partition.string.by(terms, ",")                              
+          #print("terms"); print(terms)
+          #print("terms.list"); print(terms.list)
           switch(direction,
                  from.mim = {
                    a <- lapply(terms.list, function(x1){

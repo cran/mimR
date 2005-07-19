@@ -30,38 +30,49 @@ create.table <- function(levels,names=NULL){
      if(is.factor(x2)||is.logical(x2)||is.complex(x2)) NA else x2}))
 }
 
+
 .partition.string.by <- function(string, token=NULL){
   if (is.null(string) || is.na(string))
     return(string)
   else{
-    string <- as.vector(string)
-    string <- gsub(' ', '', string)  ## spaces only
-    value <- NULL;
-    if (is.null(token)){
-      string<- paste(string,collapse='')
-      value <- sapply(1:nchar(string), function(i) substr(string,i,i))
-      return(value)
-    }
-    else{
-      i <- regexpr(token, string)
-      #if (i==-1)
-      if (i[1]==-1) 
-        return(string)
-      else{
-        while( i != -1){
-          sub.str <- substring(string,1,i-1) 
-          if (sub.str=="") sub.str <- NA
-          string  <- substring(string,i+1)
-          i <- regexpr(token, string)    
-          value <- c(value, sub.str)
-        }
-        if (nchar(string)>0)
-          value <- c(value, string)
-        return(value)
-      }
-    }
+    v<-unlist(strsplit(string,token))
+    v<- v[unlist(lapply(v,nchar))!=0]
+    return(v)
   }
 }
+    
+# .partition.string.by <- function(string, token=NULL){
+#   if (is.null(string) || is.na(string))
+#     return(string)
+#   else{
+#     string <- as.vector(string)
+#     string <- gsub(' ', '', string)  ## spaces only
+#     value <- NULL;
+#     if (is.null(token)){
+#       string<- paste(string,collapse='')
+#       value <- sapply(1:nchar(string), function(i) substr(string,i,i))
+#       return(value)
+#     }
+#     else{
+#       i <- regexpr(token, string)
+#       #if (i==-1)
+#       if (i[1]==-1) 
+#         return(string)
+#       else{
+#         while( i != -1){
+#           sub.str <- substring(string,1,i-1) 
+#           if (sub.str=="") sub.str <- NA
+#           string  <- substring(string,i+1)
+#           i <- regexpr(token, string)    
+#           value <- c(value, sub.str)
+#         }
+#         if (nchar(string)>0)
+#           value <- c(value, string)
+#         return(value)
+#       }
+#     }
+#   }
+# }
 
 
 .float.to.string <-

@@ -25,8 +25,10 @@ mim <- function(mimFormula, data, letter=FALSE, marginal=data$name){
   }
 
   .varspec.toMIM(data)
+  mim.cmd("% DONE");
   
   if( !is.na(match(mimStringFormula, c("..", "..h", ".")))){
+    #print(marginal)
     marg <- if (letter==FALSE)
       .namesToLetters(marginal, data)
     else 
@@ -36,7 +38,8 @@ mim <- function(mimFormula, data, letter=FALSE, marginal=data$name){
                         ".."  = {"SatMod"   },
                         "..h" = {"HomSatMod"},
                         "."   = {"Main"     })
-    
+
+    #print(marg)
     mim.cmd(paste(model.type, paste(marg,collapse=' ')))
     rsm <- .RSmodel();    
     mimFormula.letter <- rsm$Formula.as.string

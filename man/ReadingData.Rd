@@ -141,6 +141,13 @@ suffd<-list(names=c("foo","bar"),levels=c(2,2),
 counts=c(1,2,3,4),vallabels=list(foo=c("f1","f2"),bar=c("b1","b2")))
 toMIM(as.gmData(suffd))
 
+
+# Work with sufficient statistics, e.g. the hiv data taken from the SIN
+# package
+data(hiv)
+v<-as.gmData(hiv)
+fit(mim(".",data=v))
+
 }
 
 

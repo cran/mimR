@@ -8,6 +8,7 @@ fit                     Function to fit model in MIM
 fitted.mim              Extract fitted values (parameter estimates)
 fixEdges                Fixing edges and sets in a mim model
 gmData                  Creation of gmData objects
+hiv                     HIV
 imputeMissing           Impute missing values
 mathmark                Mathematics marks for students
 mim                     Create undirected and block recursive MIM

@@ -129,6 +129,5 @@ summary(m.hsat)
 data(HairEyeColor)
 mim(nthOrderModel(names(dimnames(HairEyeColor)),order=2),data=as.gmData(HairEyeColor))
 
-
 }
 \keyword{models}% at least one, from doc/KEYWORDS
