@@ -12,14 +12,17 @@ mixed graphical models.
   \item mimR is available on Windows platforms only.
   \item mimR requires that the MIM program is installed on the computer.
   \item MIM can be downloaded from http://www.hypergraph.dk.
-  \item mimR requires that the R package RDCOMClient package is installed.
-  \item The RDCOMClient package can be downloaded from http://www.omegahat.org/download/R/packages/Windows/R-2.0.0/
-  \item For information about required versions of R, MIM and the
-  RDCOMClient, please see the information presented when mimR is loaded.
+  \item mimR requires that the R package 'RDCOMClient' is installed.
+  \item For information about required versions of R and MIM,
+  please see the information presented when mimR is loaded.
 
-  To start using mimR you must do
+  \item mimR will automatically start the MIM program if not already running. 
+  However, mimR sometimes runs more smoothly if the user starts MIM manually.
+
+  \item The mimR package comes with a small users manual.
+  
+  \item To start using mimR you must do
   library(mimR)
-  library(RDCOMClient)
   }
 The package is intended as a contribution to the gR-project 
 derscribed by Lauritzen (2002).
