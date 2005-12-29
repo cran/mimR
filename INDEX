@@ -3,6 +3,7 @@ carcass                 lean meat contents of pig carcasses
 create.table            Create dataframe for a contingency table
 dietox                  Growth curves of pigs in a 3x3 factorial
                         experiment
+display                 Display a 'mim' model graphically
 editmim                 Editing a mim model object
 fit                     Function to fit model in MIM
 fitted.mim              Extract fitted values (parameter estimates)
@@ -25,8 +26,6 @@ printMIM                Function for printing data, models, parameter
 rats                    Weightloss of rats
 retrieveData            Retrieve data from MIM engine
 returnValues            Return fitted and observed values
-simulate                Draw random sample from a mixed interaction
-                        model (mim)
 stepwise                Stepwise model selection in MIM
 toMIM                   Wrapper for submitting data and models to MIM
 variableType            Information about variables in MIM model
