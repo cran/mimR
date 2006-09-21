@@ -63,14 +63,19 @@ gmData <- function(name, letter=NULL,
     }
   names(vl) <- name[factor.index]
   }
-  class(value) <- c("gmData","data.frame")
 
+  value$name   <- as.character(value$name)
+  value$letter <- as.character(value$letter)
+  class(value) <- c("gmData","data.frame")
+  
   attr(value,"vallabels")      <- vallabels
   attr(value,"observations")   <- data
   switch(class(data),
          "table"=     { attr(value,"dataOrigin")     <- "table"      },
          "data.frame"={ attr(value,"dataOrigin")     <- "data.frame" },
          NULL=        { attr(value,"dataOrigin")     <- "table"      })
+
+
   return(value)
 }
 
@@ -95,7 +100,9 @@ gmData <- function(name, letter=NULL,
                                         length(levels(data[,j])) else NA}))
 
   value     <- data.frame(name, letter[1:length(name)], fact, levels)
+
   names(value) <- c("name", "letter", "factor", "levels")
+
 
   if (length(which(fact))>0){
     vallabels <- NULL
@@ -107,6 +114,10 @@ gmData <- function(name, letter=NULL,
     vallabels <- NULL
   }
   attr(value,"vallabels") <- vallabels
+
+  value$name   <- as.character(value$name)
+  value$letter <- as.character(value$letter)
+  
   class(value) <- c("gmData","data.frame")
   return(value)
 }
@@ -114,6 +125,7 @@ gmData <- function(name, letter=NULL,
 ##################################################################################
 as.gmData       <- function(data,letter=NULL) UseMethod("as.gmData")
 ##################################################################################
+
 
 as.gmData.data.frame <- function(data,letter=NULL){
   nt <- .extract.nt(data,letter)

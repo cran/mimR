@@ -32,9 +32,13 @@ create.table <- function(levels,names=NULL){
 
 
 .partition.string.by <- function(string, token=NULL){
+  ##print(".partition.string.by")
   if (is.null(string) || is.na(string))
     return(string)
   else{
+    ##print(string)
+    ##print(class(string))
+    ##print(token)
     v<-unlist(strsplit(string,token))
     v<- v[unlist(lapply(v,nchar))!=0]
     return(v)

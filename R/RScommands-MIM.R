@@ -1,6 +1,15 @@
 .parseMIMstructure <- function(s){
+  #print(".parseMIMstructure")
+  #print(s)
+                                        #s<<-s
+  #print("AAAA")
   mims <- paste(s,collapse='');
+  #print(mims)
+  #print("BBBB")
+  mims <- gsub(" ","",mims)
+  mims <- gsub(",)",")",mims)
   mims <- eval(parse(text=mims))
+  #print("CCCC")
   return(mims)
 }
 

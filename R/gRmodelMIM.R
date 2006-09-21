@@ -17,7 +17,9 @@ deviance.mim          <- function(object, ...) object$deviance
 
 
 mim <- function(mimFormula, data, letter=FALSE, marginal=data$name){
+
   mimStringFormula <- mimFormula 
+
   if (class(mimStringFormula)=="formula"){
     stop(paste("Model formulae '~...' not allowed in mimR\n",
                "Specify the model as a string, following the MIM syntax\n"),
@@ -26,9 +28,9 @@ mim <- function(mimFormula, data, letter=FALSE, marginal=data$name){
 
   .varspec.toMIM(data)
   mim.cmd("% DONE");
-  
+
+
   if( !is.na(match(mimStringFormula, c("..", "..h", ".")))){
-    #print(marginal)
     marg <- if (letter==FALSE)
       .namesToLetters(marginal, data)
     else 
@@ -49,9 +51,13 @@ mim <- function(mimFormula, data, letter=FALSE, marginal=data$name){
     rsm   <- .RSmodel(tmp$mimFormula.letter)
     value <- .make.mim(mimStringFormula, data, letter=letter,rsm=rsm)
   }
-  mim.cmd(paste("# model ", value$mimFormula))
-  mim.cmd(paste("model ", value$mimFormula.letter))
-  return(value)
+
+#   mim.cmd(paste("# model ", value$mimFormula))
+#   mim.cmd(paste("model ", value$mimFormula.letter))
+#   return(value)
+
+
+
 }
 
 .make.mim <- function(mimStringFormula, data, letter=FALSE, rsm=NULL,rsp=NULL){
@@ -169,3 +175,5 @@ retrieveMIMvalues <- function(data=NULL){
     return(value)
   }
 }
+
+

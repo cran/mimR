@@ -14,7 +14,6 @@
   built<- packageDescription("mimR", lib = lib, field="Built")
   URL  <- packageDescription("mimR", lib = lib, field="URL")
   cat(paste("mimR, version", ver,  "is now loaded\n"))
-  cat("Copyright (C) 2002, Søren Højsgaard\n")
   cat("Maintained by",maint,"\n")
   cat("Webpage:",URL,"\n")
   cat("\nBuilt:",built,"\n")
