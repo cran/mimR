@@ -9,13 +9,15 @@
   object.  }
 
 \usage{
-stepwise(x, arg = NULL)
+stepwise(x, arg = NULL,critlevel=NULL)
 }
 %- maybe also `usage' for
 
 \arguments{
   \item{x}{A mimModel object}
   \item{arg}{Stepwise options to MIM}
+  \item{critlevel}{Set the critical level for the model
+    selection. Default is 0.05}
 }
 \value{
   a mimModel object

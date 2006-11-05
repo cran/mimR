@@ -9,22 +9,23 @@
   case of incomplete data
 }
 \usage{
-fit(mim, submitData=TRUE)
-emfit(mim, arg = "R", submitData=TRUE, emconv=0.0001, emmax=1000, plot = FALSE,info=FALSE) %
+fit(mim, arg=NULL)
+%emfit(mim, arg = "R", emconv=0.0001, emmax=1000, plot = FALSE,info=FALSE) %
 }
 \arguments{
   \item{mim}{ A mim model object}
-  \item{submitData}{If TRUE  data are submitted to MIM, otherwise
-    not. If data is already loaded in MIM, setting submitData=FALSE
-    saves some time}
-  \item{arg}{ can be one of the letters "R", "S" or "F"}
+  \item{arg}{Additional MIM arguments controlling the fitting algorithm}
+  %\item{submitData}{If TRUE  data are submitted to MIM, otherwise
+  %  not. If data is already loaded in MIM, setting submitData=FALSE
+  %  saves some time}
+  % \item{arg}{ can be one of the letters "R", "S" or "F"}
   %\item{plot}{ if TRUE, a plot of the convergence history of the EM
   %  algorithm is made.}
-  \item{emconv}{Convergence criterion for EM algorithm}
-  \item{emmax} {Maximum number of iterations for EM algorithm}
-  \item{plot}{If TRUE, the convergence history of the EM algorithm is
-    plotted}
-  \item{info}{If TRUE, information about EM fit is printed}
+  %\item{emconv}{Convergence criterion for EM algorithm}
+  %\item{emmax} {Maximum number of iterations for EM algorithm}
+  %\item{plot}{If TRUE, the convergence history of the EM algorithm is
+  %  plotted}
+  %\item{info}{If TRUE, information about EM fit is printed}
 }
 \details{
   The S option enables the user to supply start values for the missing
@@ -51,14 +52,13 @@ emfit(mim, arg = "R", submitData=TRUE, emconv=0.0001, emmax=1000, plot = FALSE,i
 %\seealso{\code{\link{mim.emfit}} }
 
 \examples{
-data(mathmark)
-math     <- mathmark
+data(math)
 math$L   <- factor(NA, levels=1:2)
 gmd.math <- as.gmData(math)
 latent(gmd.math) <- "L"
-m1  <- mim("..", data=gmd.math)
+m1  <- mim("..", data=gmd.math, fit=FALSE)
 m2  <- editmim(m1, deleteEdge=paste(names(math)[1:5],collapse=':')) 
-m2f <- emfit(m2)
+m2f <- fit(m2)
 imputeMissing()
 d.imp <- retrieveData()
 }

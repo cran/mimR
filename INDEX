@@ -1,6 +1,5 @@
 cadcomplete             Coronary artery disease data
 carcass                 lean meat contents of pig carcasses
-create.table            Create dataframe for a contingency table
 dietox                  Growth curves of pigs in a 3x3 factorial
                         experiment
 display                 Display a 'mim' model graphically
@@ -9,23 +8,20 @@ fit                     Function to fit model in MIM
 fitted.mim              Extract fitted values (parameter estimates)
 fixEdges                Fixing edges and sets in a mim model
 gmData                  Creation of gmData objects
-hiv                     HIV
 imputeMissing           Impute missing values
-mathmark                Mathematics marks for students
+math                    Mathematics marks for students
 mim                     Create undirected and block recursive MIM
                         models
 mim.cmd                 Submit commands to MIM and get the result back
                         in R
 mimR                    The package 'mimR': summary information
+momentstats             ~~function to do ... ~~
 nthOrderModel           Create generating class with nth order
                         interactions for log-linear model
 print.gmData            Print methods for objects in mimR
 print.mim               Print methods for objects in mimR
-printMIM                Function for printing data, models, parameter
-                        estimates etc. in MIM
 rats                    Weightloss of rats
 retrieveData            Retrieve data from MIM engine
-returnValues            Return fitted and observed values
 stepwise                Stepwise model selection in MIM
 toMIM                   Wrapper for submitting data and models to MIM
 variableType            Information about variables in MIM model

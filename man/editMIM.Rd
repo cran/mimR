@@ -9,7 +9,7 @@
 }
 \usage{
 editmim(x, deleteEdge=NULL, addEdge=NULL, haddEdge=NULL,
-                    deleteTerm=NULL, addTerm=NULL, letter=FALSE)
+                    deleteTerm=NULL, addTerm=NULL)
 testdelete(edge, mim, options=NULL)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -20,8 +20,6 @@ testdelete(edge, mim, options=NULL)
   \item{haddEdge}{Edges to be added (homogeneously)}
   \item{deleteTerm}{Terms to be deleted}
   \item{addTerm}{Terms to be added}
-  \item{letter}{If TRUE, the variables are specified using single
-    letters.}
   \item{edge}{Edge to be tested}
   \item{mim}{A mim object}
   \item{options}{Additional arguments to MIM specifying the tests}

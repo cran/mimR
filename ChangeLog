@@ -1,3 +1,13 @@
+2006-10-30 Søren Højsgaard <sorenh@agrsci.dk>	
+
+	* Version 2.0.0 created and uploaded. 
+
+	* A major revision of the package made.
+
+	* A revised document describing the package has been added as a
+	vignette. 
+
+
 2006-01-30 Søren Højsgaard <sorenh@agrsci.dk>	
 
 	* Version 1.3.1 created with following changes:

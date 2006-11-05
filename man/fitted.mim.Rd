@@ -9,12 +9,14 @@
 }
 \usage{
 fitted.mim(object, ...)
-modelInfo(object)
+modelInfo(object,slot=NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{object}{ A mim model object}
   \item{\dots}{ Other argumens}
+  \item{slot}{A specific slot of the modelInfo list. If NULL, the entire
+  list is returned.}
 }
 %\details{
 %  ~~ If necessary, more details than the __description__  above ~~
@@ -32,20 +34,9 @@ modelInfo(object)
 \examples{
 data(rats)
 gmd.rats <- as.gmData(rats)
-m2    <- mim("ab/abc+abd/cd", data=gmd.rats, letter=TRUE)
+m2    <- mim("..", data=gmd.rats)
 mf2   <- fit(m2)
 parms <- fitted(mf2)
-parms
-
-
-m3    <- mim("a,b", data=gmd.rats, letter=TRUE)
-mf3   <- fit(m3)
-parms <- fitted(mf3)
-parms
-
-m4    <- mim("//cd", data=gmd.rats, letter=TRUE)
-mf4   <- fit(m4)
-parms <- fitted(mf4)
 parms
 }
 \keyword{models}% at least one, from doc/KEYWORDS

@@ -32,7 +32,7 @@
 }
 
 \usage{
-mim(mimFormula, data, letter=FALSE, marginal=data$name)
+mim(mimFormula, data, fit=TRUE, marginal=data$name)
 %chainmim(mimFormula.list, data)
 %mim.br.model(mim.formula, data, mim.names = TRUE, submit = TRUE, fit=TRUE)
 
@@ -42,10 +42,10 @@ mim(mimFormula, data, letter=FALSE, marginal=data$name)
   \item{mimFormula}{A model formula following the MIM syntax. Long
     variable names are allowed however. See 'details'. The formula can
     be given either with a tilde or as a string}
-%  \item{mimFormula.list}{A list of mim formulae}
+  \item{fit}{Should the model be fitted if possible}
   \item{data}{A gmData object}
-  \item{letter}{If TRUE, the variables used in mim.formula are single
-  letters.}
+  %\item{letter}{If TRUE, the variables used in mim.formula are single
+  %letters.}
   \item{marginal}{Can be used for specifying only a subset of the
     variables in connection with a main effects, a saturated and a
     homogeneous saturated model}
@@ -55,16 +55,14 @@ mim(mimFormula, data, letter=FALSE, marginal=data$name)
 } 
 \details{
   A mim.formula can be
-  "Sex+Drug/Sex:W1+Drug:W1+Sex:W2+Drug:W2/Sex:W1:W2+Drug:W1:W2" or (if
-  letter is TRUE) the shorter form  "ab/abx,aby/abxy"  or
-  "ab/abx+aby/abxy".
+  "Sex+Drug/Sex:W1+Drug:W1+Sex:W2+Drug:W2/Sex:W1:W2+Drug:W1:W2".
   A mimFormula can also be "." (the main effects (the
   independence) model), ".." (the saturated model) or "..h"
   (the homogeneous saturated model).
   See 'examples'.
 }
 \value{
-  A mimModel or mimBRModel object
+  A mim model object
 }
 \references{ David Edwards, An Introduction to Graphical Modelling,
   Springer Verlag, 2002}
@@ -83,10 +81,8 @@ gmd.rats.nodata  <-  gmData(c("Sex","Drug","W1","W2"),
 
 
 m12   <- mim("Sex:Drug/Sex:Drug:W1+Sex:Drug:W2/W1:W2", data=gmd.rats.nodata)
-m22   <- mim("ab/abc+abd/cd", data=gmd.rats.nodata, letter=TRUE)
 
 summary(m12)
-summary(m22)
 
 m.main <- mim(".",  data=gmd.rats.nodata)
 m.sat  <- mim("..",  data=gmd.rats.nodata)
@@ -103,17 +99,15 @@ vallabels(gmd.rats)
 observations(gmd.rats)
 
 m1   <- mim("Sex:Drug/Sex:Drug:W1+Sex:Drug:W2/W1:W2", data=gmd.rats)
-m2   <- mim("ab/abc+abd/cd", data=gmd.rats, letter=TRUE)
 
 m.main <- mim(".",   data=gmd.rats, marginal=c("Sex", "Drug", "W1"))
 m.sat  <- mim("..",  data=gmd.rats, marginal=c("Sex", "Drug", "W1"))
 m.hsat <- mim("..h", data=gmd.rats, marginal=c("Sex", "Drug", "W1"))
 
 m1f  <- fit(m1)
-m2f  <- fit(m2)
+
 
 summary(m1f)
-summary(m2f)
 
 m.main <- fit(mim(".",  data=gmd.rats))
 m.sat  <- fit(mim("..",  data=gmd.rats))

@@ -1,8 +1,8 @@
-\name{mathmark}
-\alias{mathmark}
+\name{math}
+\alias{math}
 \non_function{}
 \title{Mathematics marks for students}
-\usage{data(mathmark)}
+\usage{data(math)}
 \description{
 The \code{mathmark} data frame has 88 rows and 5 columns.
 ~~ Give a concise description here ~~
@@ -10,19 +10,19 @@ The \code{mathmark} data frame has 88 rows and 5 columns.
 \format{
   This data frame contains the following columns:
   \describe{
-    \item{mechanics}{a numeric vector}
-    \item{vectors}{a numeric vector}
-    \item{algebra}{a numeric vector}
-    \item{analysis}{a numeric vector}
-    \item{statistics}{a numeric vector}
+    \item{me}{a numeric vector}
+    \item{ve}{a numeric vector}
+    \item{al}{a numeric vector}
+    \item{an}{a numeric vector}
+    \item{st}{a numeric vector}
   }
 }
 \references{ David Edwards, An Introduction to Graphical Modelling,
   Second Edition, Springer Verlag, 2000}
 \author{Søren Højsgaard, sorenh@agrsci.dk}
-\note{Before using mimR, make sure that the MIM program is runnning.}
+%\note{Before using mimR, make sure that the MIM program is runnning.}
 \examples{
-data(mathmark)
-## maybe str(mathmark) ; plot(mathmark) ...
+data(math)
+## maybe str(math) ; plot(math) ...
 }
 \keyword{datasets}
