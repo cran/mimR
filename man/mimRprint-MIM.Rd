@@ -9,10 +9,9 @@
 \title{Print methods for objects in mimR}
 \description{
   Print methods for objects in mimR
-
 }
 \usage{
-print.mim(x, ...)
+\method{print}{mim}(x, ...)
 %print.linpredictMIM(x, ...)
 properties(object)
 }

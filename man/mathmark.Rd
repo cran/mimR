@@ -4,8 +4,7 @@
 \title{Mathematics marks for students}
 \usage{data(math)}
 \description{
-The \code{mathmark} data frame has 88 rows and 5 columns.
-~~ Give a concise description here ~~
+The \code{math} data frame has 88 rows and 5 columns.
 }
 \format{
   This data frame contains the following columns:

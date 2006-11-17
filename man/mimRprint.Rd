@@ -5,10 +5,9 @@
 \title{Print methods for objects in mimR}
 \description{
   Print methods for objects in mimR
-
 }
 \usage{
-print.gmData(x, ...)
+\method{print}{gmData}(x, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
