@@ -8,21 +8,20 @@
   Editing a mim model object by adding/deleting edges.
 }
 \usage{
-editmim(x, deleteEdge=NULL, addEdge=NULL, haddEdge=NULL,
+editmim(obj, deleteEdge=NULL, addEdge=NULL, haddEdge=NULL,
                     deleteTerm=NULL, addTerm=NULL)
-testdelete(edge, mim, options=NULL)
+testdelete(edge, obj, arg=NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{x}{A mim model object }
+  \item{obj}{A mim model object }
   \item{deleteEdge}{Edges to be deleted}
   \item{addEdge}{Edges to be added}
   \item{haddEdge}{Edges to be added (homogeneously)}
   \item{deleteTerm}{Terms to be deleted}
   \item{addTerm}{Terms to be added}
   \item{edge}{Edge to be tested}
-  \item{mim}{A mim object}
-  \item{options}{Additional arguments to MIM specifying the tests}
+  \item{arg}{Additional arguments to MIM specifying the tests}
 }
 \details{
   retrieve is used for retrieving a model (as a mim object) manually
@@ -37,7 +36,7 @@ testdelete(edge, mim, options=NULL)
 \note{Before using mimR, make sure that the MIM program is runnning.}
 
 % ~Make other sections like Warning with \section{Warning }{....} ~ 
-%\seealso{ ~~objects to See Also as \code{\link{~~fun~~}}, ~~~ }
+\seealso{See Also as \code{\link{modelTest}}}
 \examples{
 data(rats)
 gmd.rats <- as.gmData(rats)
@@ -47,5 +46,22 @@ m3 <- editmim(m.main, addEdge=c("Sex:Drug", "Sex:W2"),haddEdge="Drug:W1:W2")
 
 summary(m2)
 summary(m3)
+
+data(housing)
+
+housingTab <- xtabs(Freq ~ Sat + Infl + Type + Cont, data = housing)
+ht <- as.gmData(housingTab)
+
+marg1 <- mim("Sat:Infl:Cont//", data=ht)
+testdelete("Sat:Cont",marg1)
+
+## Try deleting an edge not in the model:
+
+testdelete("Sat:Type",marg1)
+
+testdelete("Sat:Cont",marg1,arg="MJ")
+testdelete("Sat:Cont",marg1,arg="M")
+
+
 }
 \keyword{models}% at least one, from doc/KEYWORDS

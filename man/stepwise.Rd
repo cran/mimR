@@ -9,7 +9,8 @@
   object.  }
 
 \usage{
-stepwise(x, arg = NULL,critlevel=NULL)
+stepwise(x, arg = NULL, critlevel=NULL, infconstant=NULL)
+
 }
 %- maybe also `usage' for
 
@@ -18,7 +19,18 @@ stepwise(x, arg = NULL,critlevel=NULL)
   \item{arg}{Stepwise options to MIM}
   \item{critlevel}{Set the critical level for the model
     selection. Default is 0.05}
+  \item{infconstant}{Penalizing parameter used when model selection in
+    based on information criteria, see 'details' below.}
 }
+\details{
+  Setting arg to contain "A" leads to model selection by AIC, i.e. the
+  model with the smallest value of -2log Q - 2 * p is choosen. With BIC,
+  the model with the smallest value of  -2log Q - log(n) * p is chosen.
+  Setting infconstant to some value k AND setting arg to contains "A"
+  will lead to selecting the model  with the smallest value of  -2log Q
+  - k * p. 
+}
+
 \value{
   a mimModel object
 }

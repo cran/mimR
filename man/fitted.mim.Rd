@@ -8,7 +8,7 @@
   Extracts fitted values (parameter estimates) from a mim model.
 }
 \usage{
-fitted.mim(object, ...)
+\method{fitted}{mim}(object, ...)
 modelInfo(object,slot=NULL)
 }
 %- maybe also 'usage' for other objects documented here.

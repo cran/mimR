@@ -1,12 +1,17 @@
 
 print.gmData        <- function(x, ...){
   print.data.frame(x);
+
+  if (!is.null(attr(x,'ordinal'))){
+    cat("Ordinal     :     ", attr(x,'ordinal'),"\n")
+  }
+  
   if (!is.null(.dataOrigin(x)))
-    cat("Data origin:     ", .dataOrigin(x),"\n")
+    cat("Data origin :     ", .dataOrigin(x),"\n")
   else
-    cat("Data origin:     ", "no data", "\n")
+    cat("Data origin :     ", "no data", "\n")
   if (!is.null(latent(x)))
-    cat ("Latent variables:", paste(latent(x),collapse=' '), "\n")
+    cat("Latent variables:", paste(latent(x),collapse=' '), "\n")
   return(x)
 }
 

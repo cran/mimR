@@ -23,7 +23,7 @@ toMIM.momentstats <- function(data){
 }
 
 toMIM.gmData <- function(data){
-  mim.cmd("clear; clear output")
+  ##mim.cmd("clear; clear output")
   do <- .dataOrigin(data)
   if (is.null(do))
     .NULL.to.mim(data)
@@ -32,7 +32,20 @@ toMIM.gmData <- function(data){
            "data.frame"    = {.dataframe.to.mim(data)    },
            "table"         = {.table.to.mim(data)        },
            "momentstats"   = {.momentstats.to.mim(data)  })
+  
+#   v <- attr(data,"ordinal")
+#   if (!is.null(v)){
+#     s<-paste("# Ordinal", paste(v, collapse=" "));
+#     mim.cmd(s, look.nice=FALSE)
+#     v2 <- names2letters(v, data)
+#     s<-paste("Ordinal", paste(v2, collapse=" "));
+#     mim.cmd(s, look.nice=FALSE)
+#   }
+
 }
+
+
+
 
 .dataframe.to.mim <- function(data,file="mimR_df2mim.txt"){
 
@@ -67,6 +80,7 @@ toMIM.gmData <- function(data){
   mim.cmd(paste("clear; clear output;"))
   str  <- paste("input", file, ";", sep=' ');
   mim.cmd(str, look.nice=FALSE);  
+  Sys.sleep(2)
   ##mim.cmd("pr d");
   ##cat("Time taken:", (proc.time()-tmp)[3],"\n")
   return(file)

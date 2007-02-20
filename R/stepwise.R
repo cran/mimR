@@ -1,18 +1,28 @@
+.infConstant <- function(k=NULL){
+  v <- mim.cmd(paste("InfConstant", k),look.nice=FALSE)
+  v <- as.numeric(v[length(v)])
+  return(v)
+}
 
-stepwise <- function(x,arg=NULL,critlevel=NULL) UseMethod("stepwise")
-stepwise.mim <- function(x,arg=NULL,critlevel=NULL){
+
+stepwise <- function(x,arg=NULL,critlevel=NULL,infconstant=NULL) UseMethod("stepwise")
+stepwise.mim <- function(x,arg=NULL,critlevel=NULL,infconstant=NULL){
   
   .stepwiseMIM <- function(options=NULL,short=FALSE){
-    mim.out <- mim.cmd(paste("stepwise ", options, collapse=''), look.nice=!short)
-    index   <- min(grep("Selected", mim.out))
-    if (short){
-      value.str <- paste( mim.out[-(1:(index-1))], collapse=' ')
-      cat(value.str,fill=TRUE)
-    }
-    value     <- mim.out[-(1:(index+1))]
-    return(invisible(value))
+    ##mim.out <- mim.cmd(paste("stepwise ", options, collapse=''), look.nice=!short)
+    mim.cmd(paste("# stepwise ", options, collapse=''), return.look.nice=TRUE)
+    mim.out <- mim.cmd(paste("stepwise ", options, collapse=''), return.look.nice=TRUE)
+    ##mo<<-print (mim.out)
+#     index   <- min(grep("Selected", mim.out))
+#     print(index)
+#     if (short){
+#       value.str <- paste( mim.out[-(1:(index-1))], collapse=' ')
+#       cat(value.str,fill=TRUE)
+#     }
+#     value     <- mim.out[-(1:(index+1))]
+#    return(invisible(value))
   }
-  
+
   fit(x)
 
   if (!is.null(critlevel)){
@@ -20,7 +30,11 @@ stepwise.mim <- function(x,arg=NULL,critlevel=NULL){
     mim.cmd (print(str))
   }
 
+  oldic <- .infConstant()
+    if (!is.null(infconstant))    .infConstant(infconstant)
   .stepwiseMIM(arg)
+  if (!is.null(infconstant))    .infConstant(oldic)
+
 
   rsm <- .RSmodel()
   mimFormula.letter <- rsm$Formula.as.string

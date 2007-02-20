@@ -18,6 +18,9 @@
   return(value)  
 }
 
+
+
+
 .RSprint <- function(arg="f"){
   mimobj <- mim.cmd(paste("RSprint ",arg), look.nice=FALSE, return.look.nice=TRUE)
   value <- .parseMIMstructure(mimobj)
@@ -80,7 +83,15 @@
 .RStestdelete <- function(edge,options=NULL){
   mimobj <- mim.cmd(paste("RStestdelete ", paste(edge, collapse=''),options),
                look.nice=FALSE, return.look.nice=TRUE)
+  ## print(".RStestdelete -- mimobj:::"); print(mimobj)
   value <- .parseMIMstructure(mimobj);
   return(value)
 }
 
+
+
+.RStest  <- function(){
+  mimobj <- mim.cmd(paste("RStest "), look.nice=FALSE, return.look.nice=TRUE)
+  value <- .parseMIMstructure(mimobj)
+  return(value)  
+}

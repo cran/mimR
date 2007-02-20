@@ -12,6 +12,16 @@
 \alias{description<-}
 \alias{description<-.gmData}
 
+\alias{ordinal<-}
+\alias{ordinal<-.gmData}
+\alias{ordinal}
+\alias{ordinal.gmData}
+
+\alias{nominal<-}
+\alias{nominal<-.gmData}
+\alias{nominal}
+\alias{nominal.gmData}
+
 
 \alias{latent}
 \alias{latent.gmData}
@@ -49,6 +59,12 @@ vallabels(x)
 "vallabels<-"(tmp, value)
 observations(x)
 "observations<-"(tmp, value)
+
+"ordinal<-"(tmp, value)
+ordinal(x)
+
+"nominal<-"(tmp, value)
+nominal(x)
 
 }
 %- maybe also `usage' for other objects documented here.

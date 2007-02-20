@@ -4,17 +4,19 @@ mim.cmd <- function (cmd, look.nice = TRUE, return.look.nice = FALSE, version = 
 {
   if (!is.character(cmd)) 
     stop("Invalid input to mim.cmd - input must be a string")
+
   outLines <- character(0)
   if (version == "R") {
     ##MIM <- COMCreate("mim32.server")
-    MIM <- comCreateObject("mim32.Server")
+    MIM      <- comCreateObject("mim32.Server")
     outLines <- character(0)
     for (i in 1:length(cmd)) {
-      #cat("MIM cmd:", cmd[i], "\n")      
+      ##cat("MIM cmd:", cmd[i], "\n")      
       ##NoOutputLines <- MIM$SendCmdLine(cmd[i])
 
+      
       NoOutputLines <- comInvoke(MIM,"SendCmdLine",cmd[i])
-
+      
       ##cat("NoOutputLines:\n"); print( NoOutputLines )
       ##if (NoOutputLines > 0) {
 
@@ -24,10 +26,12 @@ mim.cmd <- function (cmd, look.nice = TRUE, return.look.nice = FALSE, version = 
             ##outLines <- c(outLines, MIM$GetOutputLine())
             ##outLines <- c(outLines, show(comInvoke(MIM, "GetOutputLine")))
             outLines <- c(outLines, comInvoke(MIM, "GetOutputLine"))
+            ###Sys.sleep(.2);
+
           }
         }
       }
-      ##cat("outLines:\n"); print(outLines)
+      ##cat("outLines:\n"); ##print(outLines)
     }
     
     if (look.nice == TRUE)

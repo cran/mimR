@@ -15,6 +15,7 @@ mim                     Create undirected and block recursive MIM
 mim.cmd                 Submit commands to MIM and get the result back
                         in R
 mimR                    The package 'mimR': summary information
+modelTest               Compare two (nested) mim models
 momentstats             ~~function to do ... ~~
 nthOrderModel           Create generating class with nth order
                         interactions for log-linear model

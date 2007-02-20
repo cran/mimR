@@ -13,13 +13,26 @@ display.mim <- function(x){
   }
   
   m12 <- x
-  names   <- m12$data$name
-  fact    <- m12$data$factor
+  ##names   <- m12$data$name
+  ##fact    <- m12$data$factor
+  Delta   <- m12$modelInfo$mimDelta
   Gamma   <- m12$modelInfo$mimGamma
-  V       <- as.character(names)
-  
+  ##V       <- as.character(names)
+  V       <- c(Delta,Gamma)
+  ##print(names)
+  ##print(fact)
+  ##print(Gamma)
+
+    
   vertexColors <- rep('green', length(V))
   vertexColors[match(Gamma, V)] <- 'yellow'
+
+  ord <- attr(.getgmData(x),"ordinal")
+  if (!is.null(ord)){
+    vertexColors[match(ord, V)] <- 'cyan'
+  }
+
+  
   names(vertexColors) <- V
   
   nAttrs <- list()
@@ -28,7 +41,10 @@ display.mim <- function(x){
   G <- new("graphNEL", nodes=V)
   
   cliques <- m12$modelInfo$Cliques
+  ##print(cliques)
+  
   cliques <- src2tgt (cliques, src=m12$data$letter, tgt=m12$data$name)   
+
   for (cl in 1:length(cliques)){
     cliq <- cliques[[cl]]
     if(length(cliq)>1){
@@ -45,3 +61,46 @@ display.mim <- function(x){
 }
 
 ### END(EXPORT)
+
+# display.mim <- function(x){
+
+#   if (!("package:Rgraphviz" %in% search())){
+#     if("Rgraphviz" %in% installed.packages()){
+#       library(Rgraphviz)
+#     } else {
+#       cat("The Rgraphviz package must be loaded to display the models\n")
+#       return()
+#     }
+#   }
+  
+#   m12 <- x
+#   names   <- m12$data$name
+#   fact    <- m12$data$factor
+#   Gamma   <- m12$modelInfo$mimGamma
+#   V       <- as.character(names)
+  
+#   vertexColors <- rep('green', length(V))
+#   vertexColors[match(Gamma, V)] <- 'yellow'
+#   names(vertexColors) <- V
+  
+#   nAttrs <- list()
+#   nAttrs$fillcolor <- vertexColors
+
+#   G <- new("graphNEL", nodes=V)
+  
+#   cliques <- m12$modelInfo$Cliques
+#   cliques <- src2tgt (cliques, src=m12$data$letter, tgt=m12$data$name)   
+#   for (cl in 1:length(cliques)){
+#     cliq <- cliques[[cl]]
+#     if(length(cliq)>1){
+#       edgeNum <- .select.order(cliq)
+      
+#       for (i in 1:length(edgeNum)){
+#         x1<-(edgeNum[[i]]); ##print(x1)
+#         G <- addEdge(x1[1], x1[2], G, weight=1)
+#       }
+#     }
+#   }
+  
+#   plot(G, "neato", nodeAttrs = nAttrs)
+# }

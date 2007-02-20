@@ -1,6 +1,7 @@
 ### BEGIN(EXPORT)
-editmim <- function(x, deleteEdge=NULL, addEdge=NULL, haddEdge=NULL,
+editmim <- function(obj, deleteEdge=NULL, addEdge=NULL, haddEdge=NULL,
                     deleteTerm=NULL, addTerm=NULL){
+  x <- obj
   .to <- function(str){
     str2 <-lapply(str, .partition.string.by,":")
     str3 <-names2letters(str2,x$data)

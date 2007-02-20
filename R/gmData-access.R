@@ -28,4 +28,29 @@ obs             <- function(x) UseMethod("observations")
 "description<-" <- function(tmp,value) UseMethod("description<-")
 
 .dataOrigin   <- function(x) attr(x,"dataOrigin")
+
+"ordinal<-.gmData" <- function(tmp,value){attr(tmp,"ordinal")<-value; return(tmp)}
+"ordinal<-" <- function(tmp,value) UseMethod("ordinal<-")
+
+"ordinal.gmData" <- function(x)attr(x,"ordinal")
+"ordinal" <- function(x) UseMethod("ordinal")
+
+"nominal<-.gmData" <- function(tmp,value){
+  d <- setdiff(ordinal(tmp),value)
+  d <- if(length(d)>0) {d} else {NULL}
+  attr(tmp,"ordinal") <- d ; return(tmp)
+  }
+  
+"nominal<-" <- function(tmp,value) UseMethod("nominal<-")
+
+
+"nominal.gmData" <- function(x){
+  d <- setdiff(x$name[x$factor], ordinal(x))
+  d <- if(length(d)>0) {d} else {NULL}
+  return(d)  
+  }
+"nominal" <- function(x) UseMethod("nominal")
+
+
+
 ### END(EXPORT)

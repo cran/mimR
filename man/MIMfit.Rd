@@ -52,6 +52,7 @@ fit(mim, arg=NULL)
 %\seealso{\code{\link{mim.emfit}} }
 
 \examples{
+\dontrun{
 data(math)
 math$L   <- factor(NA, levels=1:2)
 gmd.math <- as.gmData(math)
@@ -61,6 +62,7 @@ m2  <- editmim(m1, deleteEdge=paste(names(math)[1:5],collapse=':'))
 m2f <- fit(m2)
 imputeMissing()
 d.imp <- retrieveData()
+}
 }
 \keyword{models}% at least one, from doc/KEYWORDS
 %\keyword{utilities}

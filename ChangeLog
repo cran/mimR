@@ -1,3 +1,26 @@
+2006-02-19 Søren Højsgaard <sorenh@agrsci.dk>	
+
+	* nominal function implemented
+	
+	* ordinal <flist> re-implemented
+	
+	* testdelete now only reports differences in df for the tested
+	models.
+
+	* stepwise takes argument infconstant for use with AIC
+
+	* display shows ordinal variables with cyan colour.
+
+
+2006-02-15 Søren Højsgaard <sorenh@agrsci.dk>	
+
+	* Bug in testdelete fixed
+
+	* Bug in display fixed
+
+	* modelTest function for comparing two models added
+
+
 2006-11-05 Søren Højsgaard <sorenh@agrsci.dk>	
 
 	* Version 2.0.2 uploaded
