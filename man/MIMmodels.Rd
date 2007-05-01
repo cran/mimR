@@ -1,34 +1,17 @@
-\name{MimModels}
+\name{MIMmodels}
 
 \alias{mim}
 \alias{chainmim}
 \alias{DF}
 \alias{DF.mim}
 \alias{deviance.mim}
-\alias{cliques}
 \alias{likelihood}
-
-%\alias{mim.br.model}
-%\alias{submit}
-%\alias{submit.mimModel}
-%\alias{submit.mimBRModel}
-%\alias{print.mimModel}
-%\alias{print.mimBRModel}
-%\alias{formula.mimModel}
-
-%\alias{deviance.mimModel}
-%\alias{dof.mimModel}
-
-
-%\alias{display}
-%\alias{display.mimModel}
-%\alias{mimData.mimModel}
 
 
 %- Also NEED an `\alias' for EACH other topic documented here.
-\title{Create undirected and block recursive MIM models }
+\title{Create undirected MIM models }
 \description{
-  ...........
+  Create undirected MIM models 
 }
 
 \usage{
@@ -44,14 +27,9 @@ mim(mimFormula, data, fit=TRUE, marginal=data$name)
     be given either with a tilde or as a string}
   \item{fit}{Should the model be fitted if possible}
   \item{data}{A gmData object}
-  %\item{letter}{If TRUE, the variables used in mim.formula are single
-  %letters.}
   \item{marginal}{Can be used for specifying only a subset of the
     variables in connection with a main effects, a saturated and a
     homogeneous saturated model}
-%\item{submit}{If TRUE, the model is submitted to MIM}
-%\item{fit}{If TRUE the model is fitted in MIM}
-%\item{x}{A mimModel or mimBRModel object}
 } 
 \details{
   A mim.formula can be
@@ -75,18 +53,18 @@ mim(mimFormula, data, fit=TRUE, marginal=data$name)
 
 \examples{
 # Create som models (no data needed!)
-gmd.rats.nodata  <-  gmData(c("Sex","Drug","W1","W2"),
+gmd  <-  gmData(c("Sex","Drug","W1","W2"),
     factor=c(2,3,FALSE,FALSE),
     vallabels=list("Sex"=c("M","F"), "Drug"=c("D1","D2","D3")))
 
 
-m12   <- mim("Sex:Drug/Sex:Drug:W1+Sex:Drug:W2/W1:W2", data=gmd.rats.nodata)
+m12   <- mim("Sex:Drug/Sex:Drug:W1+Sex:Drug:W2/W1:W2", data=gmd)
 
 summary(m12)
 
-m.main <- mim(".",  data=gmd.rats.nodata)
-m.sat  <- mim("..",  data=gmd.rats.nodata)
-m.hsat <- mim("..h", data=gmd.rats.nodata)
+m.main <- mim(".",  data=gmd)
+m.sat  <- mim("..",  data=gmd)
+m.hsat <- mim("..h", data=gmd)
 
 summary(m.main); 
 summary(m.sat); 

@@ -1,4 +1,4 @@
-\name{FIT}
+\name{MIMfit}
 \alias{fit}
 \alias{emfit}
 
@@ -9,11 +9,11 @@
   case of incomplete data
 }
 \usage{
-fit(mim, arg=NULL)
+fit(object, arg=NULL)
 %emfit(mim, arg = "R", emconv=0.0001, emmax=1000, plot = FALSE,info=FALSE) %
 }
 \arguments{
-  \item{mim}{ A mim model object}
+  \item{object}{ A mim model object}
   \item{arg}{Additional MIM arguments controlling the fitting algorithm}
   %\item{submitData}{If TRUE  data are submitted to MIM, otherwise
   %  not. If data is already loaded in MIM, setting submitData=FALSE

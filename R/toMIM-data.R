@@ -80,7 +80,7 @@ toMIM.gmData <- function(data){
   mim.cmd(paste("clear; clear output;"))
   str  <- paste("input", file, ";", sep=' ');
   mim.cmd(str, look.nice=FALSE);  
-  Sys.sleep(2)
+  ##Sys.sleep(2)
   ##mim.cmd("pr d");
   ##cat("Time taken:", (proc.time()-tmp)[3],"\n")
   return(file)

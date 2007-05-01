@@ -8,13 +8,13 @@
 Retrieve information about variables in MIM model
 }
 \usage{
-variableType(mim)
+variableType(object)
 %is.discrete(mim)
 %is.continuous(mim)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{mim}{A mim model object}
+  \item{object}{A mim model object}
 }
 %\details{
 %  ~~ If necessary, more details than the __description__  above ~~

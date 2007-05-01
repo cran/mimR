@@ -1,6 +1,8 @@
-\name{show.mim}
-\alias{display}
+\name{display}
+\alias{display,mim-method}
 \alias{display.mim}
+\alias{display}
+
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Display a 'mim' model graphically}
 \description{
@@ -9,6 +11,7 @@
 }
 \usage{
 display(x)
+\S4method{display}{mim}(x)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

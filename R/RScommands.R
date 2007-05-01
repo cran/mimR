@@ -19,9 +19,8 @@
 }
 
 
-
-
 .RSprint <- function(arg="f"){
+  mim.cmd("pf 12,7", look.nice=FALSE)
   mimobj <- mim.cmd(paste("RSprint ",arg), look.nice=FALSE, return.look.nice=TRUE)
   value <- .parseMIMstructure(mimobj)
   class(value)<-"stats"

@@ -1,6 +1,6 @@
 ### BEGIN(EXPORT)
-fit <- function(mim, arg=NULL){
-
+fit <- function(object, arg=NULL){
+  mim <- object
   tryfit <- function(arg){
     emAttempts <- 0
     repeat{
@@ -60,7 +60,8 @@ fit <- function(mim, arg=NULL){
 
 ### .functions below here ####
 
-.retrieve.fittedMIM <- function(mim){
+.retrieve.fittedMIM <- function(object){
+  mim <- object
   v1<- .RSmodel()
   v2<- .RSprint.suffStats()
   v2$Variables      <- v1$Variables

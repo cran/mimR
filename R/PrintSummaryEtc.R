@@ -1,6 +1,28 @@
 
-print.gmData        <- function(x, ...){
+# print.gmData        <- function(x, ...){
+#   print.data.frame(x);
+
+#   if (!is.null(attr(x,'ordinal'))){
+#     cat("Ordinal     :     ", attr(x,'ordinal'),"\n")
+#   }
+  
+#   if (!is.null(.dataOrigin(x)))
+#     cat("Data origin :     ", .dataOrigin(x),"\n")
+#   else
+#     cat("Data origin :     ", "no data", "\n")
+#   if (!is.null(latent(x)))
+#     cat("Latent variables:", paste(latent(x),collapse=' '), "\n")
+#   return(x)
+# }
+
+
+
+print.gmData <-
+function(x, ...){
   print.data.frame(x);
+  #mapply(function(xx,ll){
+  #  cat("factor:", ll, ":", paste(xx,sep=' '),"\n")
+  #}, vallabels(x),names(vallabels(x)))
 
   if (!is.null(attr(x,'ordinal'))){
     cat("Ordinal     :     ", attr(x,'ordinal'),"\n")
@@ -14,6 +36,17 @@ print.gmData        <- function(x, ...){
     cat("Latent variables:", paste(latent(x),collapse=' '), "\n")
   return(x)
 }
+
+summary.gmData <- function(object, ...){
+  print(object)
+  mapply(function(xx,ll){
+    cat("Factor:", ll, "\n Levels:", paste(xx,sep=' '),"\n")
+  }, vallabels(object),names(vallabels(object)))
+  return(invisible(object))
+
+}
+
+
 
 print.mim <- function(x, ...){
   cat("Formula:", .mimFormula(x),"\n")

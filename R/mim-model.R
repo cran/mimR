@@ -1,3 +1,5 @@
+
+
 mim <- function(mimFormula, data, fit=TRUE, marginal=data$name){
 
   mimFormula2Formula.as.string <- function(mimFormula, data){

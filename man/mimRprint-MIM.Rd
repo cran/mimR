@@ -1,6 +1,9 @@
 \name{mimRprint-MIM}
 \alias{print.mim}
 \alias{summary.mim}
+
+
+
 \alias{properties}
 \alias{properties.mim}
 %\alias{print.linpredictMIM}

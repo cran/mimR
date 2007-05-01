@@ -1,6 +1,5 @@
-
-### Some generic functions
-### BEGIN(EXPORT)
+## Generic functions for gmData
+##
 "latent.gmData" <- function(x){attr(x,"latent")}
 "latent.mim"    <- function(x){.latentInModel(x)}
 "latent" <- function(x) UseMethod("latent")
@@ -42,8 +41,6 @@ obs             <- function(x) UseMethod("observations")
   }
   
 "nominal<-" <- function(tmp,value) UseMethod("nominal<-")
-
-
 "nominal.gmData" <- function(x){
   d <- setdiff(x$name[x$factor], ordinal(x))
   d <- if(length(d)>0) {d} else {NULL}
@@ -52,5 +49,3 @@ obs             <- function(x) UseMethod("observations")
 "nominal" <- function(x) UseMethod("nominal")
 
 
-
-### END(EXPORT)

@@ -24,7 +24,7 @@
 
 \alias{print.mimproperties}
 \alias{print.mimsummary}
-
+\alias{summary.gmData}
 
 \title{Internal functions for the mimR package}
 \description{These functions should not be called directly by the user}

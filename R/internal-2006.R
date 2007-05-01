@@ -7,8 +7,8 @@ letters2names <- function(x, data){
 }
 
 
-mimFormulaLetters <- function(mim)  mim$modelInfo$Formula.as.string
-mimFormulaNames   <- function(mim)  mim$mimFormula
+mimFormulaLetters <- function(object)  object$modelInfo$Formula.as.string
+mimFormulaNames   <- function(object)  object$mimFormula
 
 src2tgt           <- function(x, src, tgt){  UseMethod("src2tgt")}
 src2tgt.character <- function(x, src, tgt){  tgt[match(x, src)]}
@@ -67,3 +67,15 @@ list2stringLetters <- function(a){
   return(l4)
 }
 
+
+
+.names2pairs <- function(x){
+  idx <- 1:length(x)
+  val <- NULL
+  for (i in 1:length(idx)){
+    val <- c(val, lapply(idx[-(1:i)],c,i))
+  }
+  val <- lapply(val,sort)
+  value <- lapply(val,function(y){x[y]})
+  return(value)
+}

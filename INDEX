@@ -1,8 +1,11 @@
 cadcomplete             Coronary artery disease data
 carcass                 lean meat contents of pig carcasses
+cliques                 Get cliques, edges etc of MIM model objects
 dietox                  Growth curves of pigs in a 3x3 factorial
                         experiment
 display                 Display a 'mim' model graphically
+edges-methods           ~~ Methods for Function edges in Package
+                        'graph' ~~
 editmim                 Editing a mim model object
 fit                     Function to fit model in MIM
 fitted.mim              Extract fitted values (parameter estimates)
@@ -10,8 +13,8 @@ fixEdges                Fixing edges and sets in a mim model
 gmData                  Creation of gmData objects
 imputeMissing           Impute missing values
 math                    Mathematics marks for students
-mim                     Create undirected and block recursive MIM
-                        models
+mim                     Create undirected MIM models
+mim-class               Class "mim" ~~~
 mim.cmd                 Submit commands to MIM and get the result back
                         in R
 mimR                    The package 'mimR': summary information

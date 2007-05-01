@@ -1,6 +1,20 @@
 ### BEGIN(EXPORT)
 
-display <- function(x) UseMethod("display")
+if (!isGeneric("display")) {
+  if (is.function("display")) 
+    fun <- display
+  else 
+    fun <- function(x) standardGeneric("display")
+  setGeneric("display", fun)
+}
+
+setMethod("display", signature(x = "mim"),
+          function(x) {
+            display.mim(x)
+          })
+
+
+## display <- function(x) UseMethod("display")
 display.mim <- function(x){
 
   if (!("package:Rgraphviz" %in% search())){

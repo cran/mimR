@@ -1,4 +1,25 @@
-2006-02-19 Søren Højsgaard <sorenh@agrsci.dk>	
+SystemRequirements: mim (>= 3.2.0.6)
+
+2007-05-01 Søren Højsgaard <sorenh@agrsci.dk>	
+
+	* RSprint changes number of digits to 7
+
+	* Version 2.0.5 uploaded
+	
+2007-03-30 Søren Højsgaard <sorenh@agrsci.dk>	
+
+	* mim objects are declared as a formal class
+	
+	* edges, cliques, nodes implemented
+
+2007-03-19 Søren Højsgaard <sorenh@agrsci.dk>	
+
+	* gmData re-implemented so that default is that a variable is a
+	factor, and such that gmData can be used in other packages.
+
+
+
+2007-02-19 Søren Højsgaard <sorenh@agrsci.dk>	
 
 	* nominal function implemented
 	
@@ -12,7 +33,7 @@
 	* display shows ordinal variables with cyan colour.
 
 
-2006-02-15 Søren Højsgaard <sorenh@agrsci.dk>	
+2007-02-15 Søren Højsgaard <sorenh@agrsci.dk>	
 
 	* Bug in testdelete fixed
 

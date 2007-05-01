@@ -1,11 +1,10 @@
-\name{MIMgmData}
+\name{gmData}
 
 \alias{gmData}
 \alias{as.gmData}
 \alias{as.gmData.data.frame}
 \alias{as.gmData.table}
 \alias{as.gmData.momentstats}
-%%\alias{as.gmData.list}
 
 \alias{description}
 \alias{description.gmData}
