@@ -2,10 +2,12 @@
 fitted.mim <- function(object, ...){
   fv      <- object$modelInfo$FittedValues
   is.homo <- object$modelInfo$Homogeneous
-  if (variableType(object)=="continuous")
+  if (variableType(object)=="continuous"){
     v <- fv
-  else
+    v$homogeneous <- NULL
+  } else {
     v <- .generic.FittedValues(fv,is.homo)
+  }
   return(v)
 }
 
@@ -14,8 +16,6 @@ fitted.mim <- function(object, ...){
 
 
 .generic.FittedValues <- function(fv, is.homo=NULL){
-
-
 
   if (is.null(is.homo))
     is.homo <- FALSE

@@ -1,5 +1,9 @@
 .parseMIMstructure <- function(s){
   mims <- paste(s,collapse='');
+  
+  if (length(grep("Insufficient", s)))
+    return(NA)
+
   mims <- gsub(" ","",mims)
   mims <- gsub(",)",")",mims)
   mims <- eval(parse(text=mims))
@@ -13,7 +17,9 @@
 }
 
 .RSfit  <- function(arg=NULL){
-  mimobj <- mim.cmd(paste("RSfit ", arg), look.nice=FALSE, return.look.nice=TRUE)
+  str <- paste("RSfit ", arg)
+  ##s <<- str
+  mimobj <- mim.cmd(str, look.nice=FALSE, return.look.nice=TRUE)
   value <- .parseMIMstructure(mimobj)
   return(value)  
 }

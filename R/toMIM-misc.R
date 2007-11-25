@@ -6,17 +6,17 @@
 .varspec.toMIM <- function(data,text=""){
   mim.cmd("clear; clear output")
   mim.cmd(text)
-  vs  <- .namesTable.to.varspec (data)
-  lapply(vs, function(s){if(!is.null(s)) mim.cmd(s)})
+  vs  <- .findVarspec(data) ## .namesTable.to.varspec (data)
+  lapply(vs, function(s){if(!is.null(s)) mim.cmd(s, look.nice=FALSE)})
 
-  v <- attr(data,"ordinal")
-  if (!is.null(v)){
-    s<-paste("# Ordinal", paste(v, collapse=" "));
-    mim.cmd(s, look.nice=FALSE)
-    v2 <- names2letters(v, data)
-    s<-paste("Ordinal", paste(v2, collapse=" "));
-    mim.cmd(s, look.nice=FALSE)
-  }
+#   v <- attr(data,"ordinal")
+#   if (!is.null(v)){
+#     s<-paste("# Ordinal", paste(v, collapse=" "));
+#     mim.cmd(s, look.nice=FALSE)
+#     v2 <- names2letters(v, data)
+#     s<-paste("Ordinal", paste(v2, collapse=" "));
+#     mim.cmd(s, look.nice=FALSE)
+#   }
 
   mim.cmd("% .varspec.toMIM DONE");
 }

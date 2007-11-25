@@ -1,30 +1,24 @@
-cadcomplete             Coronary artery disease data
-carcass                 lean meat contents of pig carcasses
+cellCounts              Convenience functions for specifying sufficient
+                        statistics for purely discrete and purely
+                        continuous graphical models
 cliques                 Get cliques, edges etc of MIM model objects
-dietox                  Growth curves of pigs in a 3x3 factorial
-                        experiment
 display                 Display a 'mim' model graphically
-edges-methods           ~~ Methods for Function edges in Package
-                        'graph' ~~
+edges-methods           Retrieve edges and nodes of a mim model
 editmim                 Editing a mim model object
 fit                     Function to fit model in MIM
 fitted.mim              Extract fitted values (parameter estimates)
 fixEdges                Fixing edges and sets in a mim model
-gmData                  Creation of gmData objects
 imputeMissing           Impute missing values
-math                    Mathematics marks for students
 mim                     Create undirected MIM models
-mim-class               Class "mim" ~~~
+mim-class               Class "mim" -- mim model objects
 mim.cmd                 Submit commands to MIM and get the result back
                         in R
 mimR                    The package 'mimR': summary information
 modelTest               Compare two (nested) mim models
-momentstats             ~~function to do ... ~~
 nthOrderModel           Create generating class with nth order
                         interactions for log-linear model
-print.gmData            Print methods for objects in mimR
+plot.mim                Plot MIM model
 print.mim               Print methods for objects in mimR
-rats                    Weightloss of rats
 retrieveData            Retrieve data from MIM engine
 stepwise                Stepwise model selection in MIM
 toMIM                   Wrapper for submitting data and models to MIM

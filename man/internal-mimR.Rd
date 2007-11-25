@@ -20,12 +20,16 @@
 \alias{mimFormulaLetters}
 \alias{mimFormulaNames}
 
+\alias{as.gmData.cellCounts}
+\alias{as.gmData.empCov}
+
+
 \alias{create.table}
 
 \alias{print.mimproperties}
 \alias{print.mimsummary}
-\alias{summary.gmData}
 
+\alias{formula.mim}
 \title{Internal functions for the mimR package}
 \description{These functions should not be called directly by the user}
 \keyword{internal}% at least one, from doc/KEYWORDS

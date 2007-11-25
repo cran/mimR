@@ -1,5 +1,6 @@
 \name{editMIM}
 \alias{editmim}
+\alias{update.mim}
 \alias{testdelete}
 \alias{retrieveMIMvalues}
 %- Also NEED an '\alias' for EACH other topic documented here.
@@ -8,18 +9,22 @@
   Editing a mim model object by adding/deleting edges.
 }
 \usage{
-editmim(obj, deleteEdge=NULL, addEdge=NULL, haddEdge=NULL,
-                    deleteTerm=NULL, addTerm=NULL)
-testdelete(edge, obj, arg=NULL)
+editmim(object, deleteEdge=NULL, addEdge=NULL, haddEdge=NULL,
+                    deleteTerm=NULL, addTerm=NULL,fit=object$fit)
+\method{update}{mim}(object, deleteEdge=NULL, addEdge=NULL, haddEdge=NULL,
+                    deleteTerm=NULL, addTerm=NULL,fit=object$fit,...)
+testdelete(edge, object, arg=NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{obj}{A mim model object }
+  \item{object}{A mim model object }
   \item{deleteEdge}{Edges to be deleted}
   \item{addEdge}{Edges to be added}
   \item{haddEdge}{Edges to be added (homogeneously)}
   \item{deleteTerm}{Terms to be deleted}
   \item{addTerm}{Terms to be added}
+  \item{...}{Additional arguments to update. Currently not used.}
+  \item{fit}{Should the updated model be fitted}
   \item{edge}{Edge to be tested}
   \item{arg}{Additional arguments to MIM specifying the tests}
 }
@@ -40,7 +45,7 @@ testdelete(edge, obj, arg=NULL)
 \examples{
 data(rats)
 gmd.rats <- as.gmData(rats)
-m.main <- mim(".",  data=gmd.rats)
+m.main   <- mim(".",  data=gmd.rats)
 m2 <- editmim(m.main, addEdge=c("Sex:Drug", "Sex:W2"))
 m3 <- editmim(m.main, addEdge=c("Sex:Drug", "Sex:W2"),haddEdge="Drug:W1:W2")
 
@@ -58,7 +63,6 @@ testdelete("Sat:Cont",marg1)
 ## Try deleting an edge not in the model:
 
 testdelete("Sat:Type",marg1)
-
 testdelete("Sat:Cont",marg1,arg="MJ")
 testdelete("Sat:Cont",marg1,arg="M")
 

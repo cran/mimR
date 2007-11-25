@@ -22,7 +22,7 @@ display(x)
   None
 }
 \value{
-  None
+  The graph object. 
 }
 %\references{ ~put references to the literature/web site here ~ }
 \author{Søren Højsgaard, sorenh@agrsci.dk}
@@ -32,16 +32,10 @@ display(x)
 \seealso{\code{\link{mim}}}
 \examples{
 
-\dontrun{
-## Requires the Rgraphwiz and the graph packages.
-library(Rgraphviz)
-library(graph)
 data(rats)
 gd <- as.gmData(rats)
 m12   <- mim("Sex:Drug/Sex:Drug:W1+Sex:Drug:W2/W1+W2", data=gd)
-display(m12)
-}
-
+plot(m12)
 
 }
 \keyword{hplot}% at least one, from doc/KEYWORDS

@@ -3,16 +3,21 @@ variableType <- function(object){
   is.discrete <- function(object){
     used <- .namesInModel(object)
     d <- object$data
-    a <- match(used,d$name)
-    v <-all(d$factor[a])
+    ##a <- match(used,d$name)
+    ##v <-all(d$factor[a])
+    a <- match(used,d$varNames)
+    v <- all(d$varTypes[a] %in% c("Discrete", "Ordinal"))
     return(v)
   }
   
   is.continuous <- function(object){
     used <- .namesInModel(object)
     d <- object$data
-    a <- match(used,d$name)
-    v <-all(!d$factor[a])
+    ##a <- match(used,d$name)
+    ##v <-all(!d$factor[a])
+    a <- match(used,d$varNames)
+    v <- all(d$varTypes[a] %in% c("Continuous"))
+
     return(v)
   }
 

@@ -1,22 +1,11 @@
-.testprint <- function(v1){
-#   mapply(function(xx,nn){
-#     cat(sprintf("%10s :", nn), xx,"\n")
-#   }, v1, names(v1))
-#   NULL
-  v1 <- v1[c("test","method", "stat","df","P")]
 
-  cat(paste(names(v1[1:2]),v1[1:2], sep=": "),"\n")
-  cat(paste(names(v1[-(1:2)]),v1[-(1:2)], sep=": "),"\n")
-  
-}
-
-testdelete <- function(edge,obj,arg=NULL){
+testdelete <- function(edge,object,arg=NULL){
 
   options <- arg
-  d     <- .getgmData(obj)
+  d     <- .getgmData(object)
   edge2 <- unlist(strsplit(edge,":"))
   e     <- names2letters(edge2,d)
-  fit(obj)
+  fit(object)
   val   <- .RStestdelete(e,options)
 
   ## print("testdelete -- val:::"); print(val)
@@ -29,7 +18,9 @@ testdelete <- function(edge,obj,arg=NULL){
 
     ## THIS IS A HACK
     options <- tolower(options)
-    if (length(grep("k", options))>0 || length(grep("w", options))>0 || length(grep("j", options))>0){
+    if (length(grep("k", options))>0 ||
+        length(grep("w", options))>0 ||
+        length(grep("j", options))>0){
       s <- paste("testdelete ", paste(e,collapse=""), options)
       v <- mim.cmd(s, look.nice=FALSE)
       ##print(v)
@@ -43,8 +34,6 @@ testdelete <- function(edge,obj,arg=NULL){
   return(invisible(val))
 }
 
-
-
 modelTest <- function(m1,m2=NULL) UseMethod("modelTest")
 modelTest.mim <- function(m1,m2=NULL){
 
@@ -57,14 +46,14 @@ modelTest.mim <- function(m1,m2=NULL){
     val <- .RStest()
 
     if (identical(val,NA)){
-      cat("Can not compare models ",.mimFormula(m1), " and ", .mimFormula(m2),"...\n")
+      cat("Can not compare models ",formula(m1), " and ", formula(m2),"...\n")
     } else {
       if (DF(m2) > DF(m1)){
-        cat("Test of H0 : ", .mimFormula(m1),"\n")
-        cat("Against    : ", .mimFormula(m2),"\n\n")
+        cat("Test of H0 : ", formula(m1),"\n")
+        cat("Against    : ", formula(m2),"\n\n")
       } else {
-        cat("Test of H0 : ", .mimFormula(m2),"\n")
-        cat("Against    : ", .mimFormula(m1),"\n\n")
+        cat("Test of H0 : ", formula(m2),"\n")
+        cat("Against    : ", formula(m1),"\n\n")
       }
       val$df  <- abs (val$df1 - val$df2)
       val$df1 <- val$df2 <- NULL
@@ -72,9 +61,9 @@ modelTest.mim <- function(m1,m2=NULL){
     }
   } else {
     if (identical(val,NA)){
-      cat("Can not compare model ",.mimFormula(m1), " to the saturated model...\n")
+      cat("Can not compare model ",formula(m1), " to the saturated model...\n")
     } else {
-      cat("Test of H0 : ", .mimFormula(m1),"\n")
+      cat("Test of H0 : ", formula(m1),"\n")
       cat("Against saturated model \n")
       val$df  <- abs (val$df1 - val$df2)
       val$df1 <- val$df2 <- NULL
@@ -82,4 +71,12 @@ modelTest.mim <- function(m1,m2=NULL){
     }
   }
   return(invisible(val))
+}
+
+
+.testprint <- function(v1){
+  v1 <- v1[c("test","method", "stat","df","P")]
+  cat(paste(names(v1[1:2]),v1[1:2], sep=": "),"\n")
+  cat(paste(names(v1[-(1:2)]),v1[-(1:2)], sep=": "),"\n")
+  
 }

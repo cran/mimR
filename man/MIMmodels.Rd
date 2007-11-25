@@ -49,43 +49,34 @@ mim(mimFormula, data, fit=TRUE, marginal=data$name)
 
 % ~Make other sections like WARNING with \section{WARNING }{....} ~
 
-\seealso{\code{\link{as.gmData}}}
+\seealso{\code{\link[gRbase]{as.gmData}}}
 
 \examples{
-# Create som models (no data needed!)
-gmd  <-  gmData(c("Sex","Drug","W1","W2"),
-    factor=c(2,3,FALSE,FALSE),
-    vallabels=list("Sex"=c("M","F"), "Drug"=c("D1","D2","D3")))
 
+data(rats)
+gmd.rats <- as.gmData(rats)
+valueLabels(gmd.rats)
+observations(gmd.rats)
 
-m12   <- mim("Sex:Drug/Sex:Drug:W1+Sex:Drug:W2/W1:W2", data=gmd)
+m1   <- mim("Sex:Drug/Sex:Drug:W1+Sex:Drug:W2/W1:W2", data=gmd.rats)
+summary(m1)
+m1f  <- fit(m1)
+summary(m1f)
 
-summary(m12)
-
-m.main <- mim(".",  data=gmd)
-m.sat  <- mim("..",  data=gmd)
-m.hsat <- mim("..h", data=gmd)
+m.main <- mim(".",  data=gmd.rats)
+m.sat  <- mim("..",  data=gmd.rats)
+m.hsat <- mim("..h", data=gmd.rats)
 
 summary(m.main); 
 summary(m.sat); 
 summary(m.hsat)
 
-# Next we need some data to work with
-data(rats)
-gmd.rats <- as.gmData(rats)
-vallabels(gmd.rats)
-observations(gmd.rats)
-
-m1   <- mim("Sex:Drug/Sex:Drug:W1+Sex:Drug:W2/W1:W2", data=gmd.rats)
 
 m.main <- mim(".",   data=gmd.rats, marginal=c("Sex", "Drug", "W1"))
 m.sat  <- mim("..",  data=gmd.rats, marginal=c("Sex", "Drug", "W1"))
 m.hsat <- mim("..h", data=gmd.rats, marginal=c("Sex", "Drug", "W1"))
 
-m1f  <- fit(m1)
-
-
-summary(m1f)
+plot(m.hsat)
 
 m.main <- fit(mim(".",  data=gmd.rats))
 m.sat  <- fit(mim("..",  data=gmd.rats))

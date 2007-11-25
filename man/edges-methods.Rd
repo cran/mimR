@@ -4,26 +4,26 @@
 \alias{nodes-methods}
 \alias{edges}
 \alias{nodes}
-\alias{edges,mim-method}
+\alias{edges,mim,ANY-method}
 \alias{nodes,mim-method}
-\title{ ~~ Methods for Function edges in Package `graph' ~~}
+\title{Retrieve edges and nodes of a mim model}
 \description{
- ~~ Methods for function \code{edges} in Package `graph' ~~
+  Retrieve edges and nodes of a mim model
 }
-\usage{
-\S4method{edges}{mim}(object,which)
-\S4method{nodes}{mim}(object,which)
-}
+%\usage{
+%\S4method{edges}{mim}(object,which)
+%\S4method{nodes}{mim}(object,which)
+%}
 %- maybe also 'usage' for other objects documented here.
-\arguments{
-  \item{object}{A MIM model object}
-  \item{which}{Not used}
-}
+%\arguments{
+%  \item{object}{A MIM model object}
+%  \item{which}{Not used}
+%}
 
 \section{Methods}{
 \describe{
-
-\item{edges}{ ~~describe this method here }
+  \item{edges}{Return the edges of a mim model object}
+  \item{nodes}{Return the nodes (vertices) of a mim model object}
 }}
 
 

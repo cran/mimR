@@ -4,7 +4,7 @@ mim <- function(mimFormula, data, fit=TRUE, marginal=data$name){
 
   mimFormula2Formula.as.string <- function(mimFormula, data){
     l <- string2listNames(mimFormula)
-    a <- src2tgt(l, src=data$name, tgt=data$letter)
+    a <- src2tgt(l, src=varNames(data), tgt=shortNames(data))
     Formula.as.string <- list2stringLetters(a)
     return(Formula.as.string)
   }
@@ -23,7 +23,7 @@ mim <- function(mimFormula, data, fit=TRUE, marginal=data$name){
   rsm  <- .RSmodel();     
 
   value <-list("mimFormula"        =mimFormula,
-               "mimFormula.letter" =Formula.as.string,
+               ##"mimFormula.letter" =Formula.as.string,
                "modelInfo"         =rsm,
                "data"              =data,
                "fit"               =fit)

@@ -13,7 +13,8 @@ fit <- function(object, arg=NULL){
       } else {
         arg2 <- arg
       }
-      v <- .RSfit(arg2);  ## print("in tryfit:"); print(v)
+      v <- .RSfit(arg2);  
+
       emAttempts <- emAttempts + 1
       if (!is.null(v[1]) || emAttempts>20)
         break()

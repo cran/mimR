@@ -2,8 +2,11 @@
 \docType{class}
 \alias{mim-class}
 
-\title{Class "mim" ~~~ }
-\description{	 ~~ A concise (1-5 lines) description of what the class is.  ~~}
+\title{Class "mim" -- mim model objects }
+\description{A mim model object holds a mim model which includes
+  log-linear models for contingency tables, covariance selection models
+  for the multivariate normal distribution and mixed interaction models
+  (a combination of the two former).}
 \section{Objects from the Class}{A virtual Class: No objects may be created from it.}
 \section{Extends}{
 Class \code{"\linkS4class{oldClass}"}, directly.

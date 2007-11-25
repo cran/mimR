@@ -1,10 +1,20 @@
-### BEGIN(EXPORT)
-editmim <- function(obj, deleteEdge=NULL, addEdge=NULL, haddEdge=NULL,
-                    deleteTerm=NULL, addTerm=NULL){
-  x <- obj
+update.mim <- function(object, deleteEdge=NULL, addEdge=NULL, haddEdge=NULL,
+                    deleteTerm=NULL, addTerm=NULL, fit=object$fit,...){
+  cl<-match.call()
+  cl[[1]] <- as.name("editmim")
+  eval(cl)
+  
+}
+
+editmim <- function(object, deleteEdge=NULL, addEdge=NULL, haddEdge=NULL,
+                    deleteTerm=NULL, addTerm=NULL, fit=object$fit){
+
+  ##cl<<-match.call()
+
+  ##x <- object
   .to <- function(str){
     str2 <-lapply(str, .partition.string.by,":")
-    str3 <-names2letters(str2,x$data)
+    str3 <-names2letters(str2,object$data)
     str3 <- unlist(unlist(lapply(str3, paste, collapse='')))
     return(str3)
   }
@@ -20,16 +30,16 @@ editmim <- function(obj, deleteEdge=NULL, addEdge=NULL, haddEdge=NULL,
     paste("AddTerm",     paste(.to(addTerm),    collapse=","))
 
   str  <- paste(DE.let,";", AE.let,";", HAE.let,";", DT.let, ";",AT.let)
-  mim.cmd(paste("Model ", .Formula.as.string(x)))
+  mim.cmd(paste("Model ", .Formula.as.string(object)))
   mim.cmd(str, look.nice=FALSE)  
 
-  rsm <- .RSmodel()
+  rsm        <- .RSmodel()
   mimFormula <- rsm$mimFormula.as.string
-  newmodel <- mim(mimFormula, data=x$data, fit=x$fit) 
+  newmodel   <- mim(mimFormula, data=object$data, fit=fit) 
   return(newmodel)
 }
 
-### END(EXPORT)
+### Internal
 
 .partition.string.by <- function(string, token=NULL){
   ##print(".partition.string.by")

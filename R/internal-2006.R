@@ -1,9 +1,9 @@
 
 names2letters <- function(x, data){
-  src2tgt(x, src=data$name, tgt=data$letter)
+  src2tgt(x, src=varNames(data), tgt=shortNames(data))
 }
 letters2names <- function(x, data){
-  src2tgt(x, src=data$letter, tgt=data$name)
+  src2tgt(x, src=shortNames(data), tgt=varNames(data))
 }
 
 

@@ -2,23 +2,7 @@
 ## Edges, nodes, cliques of mim objects
 ##
 
-# if (!isGeneric("edges")) {
-#   if (is.function("edges")) 
-#     fun <- edges
-#   else 
-#     fun <- function(object,which) standardGeneric("edges")
-#   setGeneric("edges", fun)
-# }
-
-# if (!isGeneric("nodes")) {
-#   if (is.function("nodes")) 
-#     fun <- nodes
-#   else 
-#     fun <- function(object,...) standardGeneric("nodes")
-#   setGeneric("nodes", fun)
-# }
-
-setGeneric("edges", function(object,which) standardGeneric("edges"))
+#setGeneric("edges", function(object,which) standardGeneric("edges"))
 setMethod("edges", signature(object = "mim"),
           function(object, which) {
             x     <- object
@@ -28,7 +12,7 @@ setMethod("edges", signature(object = "mim"),
             return(value)
           })
 
-setGeneric("nodes", function(object,...) standardGeneric("nodes"))
+#setGeneric("nodes", function(object,...) standardGeneric("nodes"))
 setMethod("nodes", signature(object = "mim"),
           function(object, ...) {
             unique(unlist(cliques(object)))
@@ -48,5 +32,15 @@ setMethod("cliques", signature(object = "mim"),
             x <- object
             lapply(letters2names(x$modelInfo$Cliques, .getgmData(x)),sort)
           })
+
+
+
+
+
+
+
+
+
+
 
 
