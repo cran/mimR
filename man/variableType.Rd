@@ -31,7 +31,7 @@ variableType(object)
 
 
 %\seealso{ ~~objects to See Also as \code{\link{~~fun~~}}, ~~~ }
-\examples{
-}
+%\examples{
+%}
 \keyword{models}% at least one, from doc/KEYWORDS
 

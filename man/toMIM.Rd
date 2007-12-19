@@ -34,6 +34,6 @@ toMIM(data)
 
 % ~Make other sections like Warning with \section{Warning }{....} ~ 
 %\seealso{ ~~objects to See Also as \code{\link{~~fun~~}}, ~~~ }
-\examples{
-}
+%\examples{
+%}
 \keyword{models}

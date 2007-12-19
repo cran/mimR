@@ -32,10 +32,10 @@ Compare two nested mim models or test a mim model against saturated model.
 \author{Søren Højsgaard, sorenh@agrsci.dk}
 \note{Before using mimR, make sure that the MIM program is runnning.}
 
-\seealso{ ~~objects to See Also as \code{\link{testdelete}}, ~~~ }
-\examples{
+\seealso{\code{\link{testdelete}}}
+%\examples{
 
-}
+%}
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{models}% at least one, from doc/KEYWORDS

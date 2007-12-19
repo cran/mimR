@@ -1,5 +1,15 @@
 ### BEGIN(EXPORT)
-fitted.mim <- function(object, ...){
+fitted.mim <- function(object, data.frame=FALSE, ...){
+  if (variableType(object)=="discrete"){
+    v <- as.table(.RSprint()$discrete)
+    if (data.frame){
+      dfx <- expand.grid(dimnames(v))
+      dfx$Freq <- as.numeric(v)
+      v <- dfx
+    }
+    return(v)
+  }
+
   fv      <- object$modelInfo$FittedValues
   is.homo <- object$modelInfo$Homogeneous
   if (variableType(object)=="continuous"){
@@ -11,8 +21,12 @@ fitted.mim <- function(object, ...){
   return(v)
 }
 
+
+
 ### END(EXPORT)
 ######## .functions below here ########################################
+
+
 
 
 .generic.FittedValues <- function(fv, is.homo=NULL){
@@ -54,6 +68,8 @@ fitted.mim <- function(object, ...){
   }
   return(value)
 }
+
+
 
 
 .q.by <- function(fvobj){

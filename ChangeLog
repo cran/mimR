@@ -1,4 +1,13 @@
-SystemRequirements: mim (>= 3.2.0.6)
+2007-12-20 Søren Højsgaard <sorenh@agrsci.dk>	
+
+	* Bug fixed in edges()
+
+	* fitted() now uses labels rather than 1,2,3 etc when returning
+	fitted values (as a dataframe)
+
+	* Version 2.1.1 uploaded
+
+	
 
 2007-05-01 Søren Højsgaard <sorenh@agrsci.dk>	
 

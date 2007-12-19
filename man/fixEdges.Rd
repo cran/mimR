@@ -32,7 +32,7 @@ None
 
 
 \seealso{See Also as \code{\link{stepwise}}}
-\examples{
-}
+%\examples{
+%}
 \keyword{models}% at least one, from doc/KEYWORDS
 

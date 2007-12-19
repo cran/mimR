@@ -49,7 +49,7 @@ helpmim()
 
 % ~Make other sections like WARNING with \section{WARNING }{....} ~
 
-\seealso{ }
+\seealso{\code{\link{mim}}}
 
 \examples{
 mim.cmd("fact a2 b2 c2; statread abc")

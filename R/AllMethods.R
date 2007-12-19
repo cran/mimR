@@ -12,6 +12,14 @@ setMethod("edges", signature(object = "mim"),
             return(value)
           })
 
+
+# setMethod("edges", signature(object = "compgmInstance"),
+#           function(object, which) {
+#             edges(object$tug)
+#           })
+
+
+
 #setGeneric("nodes", function(object,...) standardGeneric("nodes"))
 setMethod("nodes", signature(object = "mim"),
           function(object, ...) {

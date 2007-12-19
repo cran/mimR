@@ -8,12 +8,17 @@
   Extracts fitted values (parameter estimates) from a mim model.
 }
 \usage{
-\method{fitted}{mim}(object, ...)
+\method{fitted}{mim}(object, data.frame=FALSE, ...)
 modelInfo(object,slot=NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{object}{ A mim model object}
+  \item{data.frame}{If the model is discrete (a log linear model) then fitted
+  values are returned as a table by default. Setting data.frame=TRUE
+  imples that fitted values are returned as a dataframe with the column
+  'Freq' containg the fitted values.}
+  
   \item{\dots}{ Other argumens}
   \item{slot}{A specific slot of the modelInfo list. If NULL, the entire
   list is returned.}

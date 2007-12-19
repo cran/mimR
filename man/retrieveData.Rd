@@ -15,8 +15,8 @@ retrieveData(arg="c")
 (using levels) , "e": the raw data (showing missing values)}
 
 }
-\details{
-}
+%\details{
+%}
 \value{
   A data frame
 }
@@ -26,8 +26,7 @@ retrieveData(arg="c")
 \note{Before using mimR, make sure that the MIM program is runnning.}
 
 \seealso{See Also as \code{\link{emfit}}}
-\examples{
-
-}
+%\examples{
+%}
 \keyword{utilities}% at least one, from doc/KEYWORDS
 %\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

@@ -1,13 +1,10 @@
 ##
 ## mimR
 ##
-
-importFrom(graph,nodes,edges)
-##importFrom(gRbase,display)
-
 import(methods)
+importFrom(graph,nodes,edges)
+
 exportClasses(mim)
-##exportMethods(display,cliques,edges,nodes)
 exportMethods(cliques,edges,nodes)
 
 export(
