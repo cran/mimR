@@ -10,15 +10,6 @@
 \description{
   Retrieve edges and nodes of a mim model
 }
-%\usage{
-%\S4method{edges}{mim}(object,which)
-%\S4method{nodes}{mim}(object,which)
-%}
-%- maybe also 'usage' for other objects documented here.
-%\arguments{
-%  \item{object}{A MIM model object}
-%  \item{which}{Not used}
-%}
 
 \section{Methods}{
 \describe{

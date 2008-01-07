@@ -16,9 +16,6 @@
 
 \usage{
 mim(mimFormula, data, fit=TRUE, marginal=data$name)
-%chainmim(mimFormula.list, data)
-%mim.br.model(mim.formula, data, mim.names = TRUE, submit = TRUE, fit=TRUE)
-
 }
 
 \arguments{
@@ -36,13 +33,12 @@ mim(mimFormula, data, fit=TRUE, marginal=data$name)
   "Sex+Drug/Sex:W1+Drug:W1+Sex:W2+Drug:W2/Sex:W1:W2+Drug:W1:W2".
   A mimFormula can also be "." (the main effects (the
   independence) model), ".." (the saturated model) or "..h"
-  (the homogeneous saturated model).
-  See 'examples'.
+  (the homogeneous saturated model). See 'examples'.
 }
 \value{
   A mim model object
 }
-\references{ David Edwards, An Introduction to Graphical Modelling,
+\references{David Edwards, An Introduction to Graphical Modelling,
   Springer Verlag, 2002}
 \author{Søren Højsgaard, sorenh@agrsci.dk}
 \note{Before using mimR, make sure that the MIM program is runnning.}
@@ -71,6 +67,8 @@ summary(m.main);
 summary(m.sat); 
 summary(m.hsat)
 
+edges(m.hsat)
+nodes(m.hsat)
 
 m.main <- mim(".",   data=gmd.rats, marginal=c("Sex", "Drug", "W1"))
 m.sat  <- mim("..",  data=gmd.rats, marginal=c("Sex", "Drug", "W1"))
