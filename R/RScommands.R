@@ -4,9 +4,11 @@
   if (length(grep("Insufficient", s)))
     return(NA)
 
+                                        # print(s)
   mims <- gsub(" ","",mims)
   mims <- gsub(",)",")",mims)
   mims <- eval(parse(text=mims))
+                                        # print(mims)
   return(mims)
 }
 
@@ -39,12 +41,22 @@
   return(value)
 }
 
+
+
 .RSmodel <- function(arg=NULL){
+
+  ##print(".RSmodel")
+  mim.cmd(paste("# .RSmodel", arg))
+  mim.cmd("pf 15,9", look.nice=FALSE)
   mimobj <- mim.cmd(paste("RSmodel ",arg), look.nice=FALSE, return.look.nice=TRUE)
+
+                                        #print(mimobj)
   if (length(grep("Error",mimobj))>0)
     stop("The model formula is invalid ", call.=FALSE)
   value <- .parseMIMstructure(mimobj)
 
+                                        # print(value)
+  
   if (is.null(value) || is.na(value)){
     cat("MIM returned NULL or NA, can not continue")
     return()
@@ -59,12 +71,18 @@
 
   Formula.as.string    <- value$Formula.as.string
   Formula.as.list      <- value$Formula.as.list
-  mimFormula.as.list   <- src2tgt(Formula.as.list, src=value$Variables$letter, tgt=value$Variable$name)
+  mimFormula.as.list   <- src2tgt(Formula.as.list,
+                                  src=value$Variables$letter,
+                                  tgt=value$Variable$name)
   mimFormula.as.string <- list2stringNames(mimFormula.as.list)
   Delta    <- value$Delta
   Gamma    <- value$Gamma
-  mimDelta <- src2tgt(Delta, src=value$Variables$letter, tgt=value$Variable$name)
-  mimGamma <- src2tgt(Gamma, src=value$Variables$letter, tgt=value$Variable$name)
+  mimDelta <- src2tgt(Delta,
+                      src=value$Variables$letter,
+                      tgt=value$Variable$name)
+  mimGamma <- src2tgt(Gamma,
+                      src=value$Variables$letter,
+                      tgt=value$Variable$name)
 
   value$Formula.as.string   <- value$Formula.as.list<- value$Delta<- value$Gamma <-NULL
 

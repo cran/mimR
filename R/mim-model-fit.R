@@ -52,7 +52,8 @@ fit <- function(object, arg=NULL){
       return()
     }
   }
-  
+
+                                        #print(".retrieve.fittedMIM")
   mim <- .retrieve.fittedMIM(mim)
   return(mim)
 }

@@ -1,6 +1,12 @@
+2008-02-02 Søren Højsgaard <sorenh@agrsci.dk>	
+
+	* Greater precision in numbers retrieved from MIM implemented.
+
+	* Version 2.1.3 uploaded
+
 2008-01-07 Søren Højsgaard <sorenh@agrsci.dk>	
 
-	* Another bug fixed in edges()
+	* Another bug in edges() fixed
 
 	* Version 2.1.2 uploaded
 
@@ -14,7 +20,6 @@
 	* Version 2.1.1 uploaded
 
 	
-
 2007-05-01 Søren Højsgaard <sorenh@agrsci.dk>	
 
 	* RSprint changes number of digits to 7
