@@ -6,7 +6,8 @@ stepwise.mim <- function(x,arg=NULL,critlevel=NULL,infconstant=NULL){
   .stepwiseMIM <- function(options=NULL,short=FALSE){
     ##mim.out <- mim.cmd(paste("stepwise ", options, collapse=''), look.nice=!short)
     mim.cmd(paste("# stepwise ", options, collapse=''), return.look.nice=TRUE)
-    mim.out <- mim.cmd(paste("stepwise ", options, collapse=''), return.look.nice=TRUE)
+    mim.out <- mim.cmd(paste("stepwise ", options, collapse=''),
+                       look.nice=FALSE, return.look.nice=TRUE)
   }
 
   fit(x)
@@ -19,7 +20,9 @@ stepwise.mim <- function(x,arg=NULL,critlevel=NULL,infconstant=NULL){
   oldic <- .infConstant()
   if (!is.null(infconstant))
     .infConstant(infconstant)
+
   .stepwiseMIM(arg)
+
   if (!is.null(infconstant))
     .infConstant(oldic)
 
@@ -29,6 +32,7 @@ stepwise.mim <- function(x,arg=NULL,critlevel=NULL,infconstant=NULL){
   l    <- string2listLetters(mimFormula.letter)
   a    <- src2tgt(l, src=shortNames(d), tgt=varNames(d))
   mimFormulaNames <- list2stringNames(a)
+
 
   return(mim(mimFormulaNames, data=x$data))
 }

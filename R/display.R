@@ -24,8 +24,8 @@ plot.mim <- function(x,...){
   Gamma   <- x$modelInfo$mimGamma
   V       <- c(Delta,Gamma)
     
-  vertexColors <- rep('yellow', length(V))
-  vertexColors[match(Gamma, V)] <- 'white'
+  vertexColors <- rep('green', length(V))
+  vertexColors[match(Gamma, V)] <- 'yellow'
   
   ord <- attr(.getgmData(x),"ordinal")
   if (!is.null(ord)){

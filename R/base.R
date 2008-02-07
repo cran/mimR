@@ -13,7 +13,6 @@ mim.cmd <- function (cmd, look.nice = TRUE, return.look.nice = FALSE, version = 
     for (i in 1:length(cmd)) {
       ##cat("MIM cmd:", cmd[i], "\n")      
       ##NoOutputLines <- MIM$SendCmdLine(cmd[i])
-
       
       NoOutputLines <- comInvoke(MIM,"SendCmdLine",cmd[i])
       
@@ -45,8 +44,7 @@ mim.cmd <- function (cmd, look.nice = TRUE, return.look.nice = FALSE, version = 
     }
     rm(MIM)
     return(invisible(value))
-  }
-  else {
+  } else { ## Using S
     MIM <- create.ole.object("mim32.Server")
     for (i in 1:length(cmd)) {
       NoOutputLines <- call.ole.method(MIM, "SendCmdLine", cmd[i])
