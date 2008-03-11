@@ -5,7 +5,7 @@ cliques                 Get cliques, edges etc of MIM model objects
 display                 Display a 'mim' model graphically
 edges-methods           Retrieve edges and nodes of a mim model
 editmim                 Editing a mim model object
-fit                     Function to fit model in MIM
+fit.mim                 Function to fit model in MIM
 fitted.mim              Extract fitted values (parameter estimates)
 fixEdges                Fixing edges and sets in a mim model
 imputeMissing           Impute missing values

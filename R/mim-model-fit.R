@@ -1,6 +1,6 @@
 ### BEGIN(EXPORT)
-fit <- function(object, arg=NULL){
-  mim <- object
+fit.mim <- function(m, arg=NULL, ...){
+  mim <- m
   tryfit <- function(arg){
     emAttempts <- 0
     repeat{

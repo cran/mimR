@@ -25,7 +25,7 @@ retrieveData(arg="c")
 \author{Søren Højsgaard, sorenh@agrsci.dk}
 \note{Before using mimR, make sure that the MIM program is runnning.}
 
-\seealso{See Also as \code{\link{emfit}}}
+\seealso{See Also as \code{\link{fit.mim}}}
 %\examples{
 %}
 \keyword{utilities}% at least one, from doc/KEYWORDS

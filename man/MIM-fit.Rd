@@ -1,6 +1,6 @@
 \name{MIMfit}
-\alias{fit}
-\alias{emfit}
+\alias{fit.mim}
+%%\alias{emfit}
 
 %- Also NEED an `\alias' for EACH other topic documented here.
 \title{Function to fit model in MIM}
@@ -9,12 +9,13 @@
   case of incomplete data
 }
 \usage{
-fit(object, arg=NULL)
+\method{fit}{mim}(m, arg=NULL, ...)
 %emfit(mim, arg = "R", emconv=0.0001, emmax=1000, plot = FALSE,info=FALSE) %
 }
 \arguments{
-  \item{object}{ A mim model object}
+  \item{m}{ A mim model object}
   \item{arg}{Additional MIM arguments controlling the fitting algorithm}
+  \item{...}{Additional arguments, currently not used.}
   %\item{submitData}{If TRUE  data are submitted to MIM, otherwise
   %  not. If data is already loaded in MIM, setting submitData=FALSE
   %  saves some time}

@@ -1,3 +1,10 @@
+2008-03-11 Søren Højsgaard <sorenh@agrsci.dk>	
+
+	* fit adapted to generic fit method from gRbase
+
+	* Version 2.2.0 uploaded
+
+
 2008-02-07 Søren Højsgaard <sorenh@agrsci.dk>	
 
 	* Greater precision in numbers retrieved from MIM implemented.

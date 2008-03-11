@@ -17,7 +17,7 @@ export(
        "plot.mim",
        "editmim",
        "update.mim",
-       "fit",
+       "fit.mim",
        "fitted.mim",
        "fixEdges",
        "fixSet",

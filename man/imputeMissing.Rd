@@ -17,7 +17,7 @@ imputeMissing()
   Springer Verlag, 2002}
 \author{Søren Højsgaard, sorenh@agrsci.dk}
 \note{Before using mimR, make sure that the MIM program is runnning.}
-\seealso{\code{\link{emfit}}}
+\seealso{\code{\link{fit.mim}}}
 %\examples{
 %}
 \keyword{models}% at least one, from doc/KEYWORDS
