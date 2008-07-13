@@ -1,6 +1,6 @@
 \name{stepwise}
 
-\alias{stepwise}
+%\alias{stepwise}
 \alias{stepwise.mim}
 %- Also NEED an `\alias' for EACH other topic documented here.
 \title{Stepwise model selection in MIM}
@@ -9,18 +9,19 @@
   object.  }
 
 \usage{
-stepwise(x, arg = NULL, critlevel=NULL, infconstant=NULL)
+\method{stepwise}{mim}(object, arg = NULL, critlevel=NULL, infconstant=NULL,...)
 
 }
 %- maybe also `usage' for
 
 \arguments{
-  \item{x}{A mimModel object}
+  \item{object}{A mimModel object}
   \item{arg}{Stepwise options to MIM}
   \item{critlevel}{Set the critical level for the model
     selection. Default is 0.05}
   \item{infconstant}{Penalizing parameter used when model selection in
     based on information criteria, see 'details' below.}
+  \item{...}{Additional arguments, currently not used}
 }
 \details{
   Setting arg to contain "A" leads to model selection by AIC, i.e. the
@@ -32,7 +33,7 @@ stepwise(x, arg = NULL, critlevel=NULL, infconstant=NULL)
 }
 
 \value{
-  a mimModel object
+  A mim model object
 }
 \references{ David Edwards, An Introduction to Graphical Modelling,
   Springer Verlag, 2002}

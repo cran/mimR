@@ -31,7 +31,7 @@ None
 \note{Before using mimR, make sure that the MIM program is runnning.}
 
 
-\seealso{See Also as \code{\link{stepwise}}}
+\seealso{See Also as \code{\link{stepwise.mim}}}
 %\examples{
 %}
 \keyword{models}% at least one, from doc/KEYWORDS

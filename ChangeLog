@@ -1,3 +1,17 @@
+2008-07-13 Søren Højsgaard <sorenh@agrsci.dk>	
+
+	* Rgraphviz is no longer required, but if it is installed then
+	plot() will produce graphs.
+
+	* Version 2.3.2 uploaded
+
+
+2008-03-11 Søren Højsgaard <sorenh@agrsci.dk>	
+
+	* stepwise adapted to generic fit method from gRbase
+
+	
+
 2008-03-11 Søren Højsgaard <sorenh@agrsci.dk>	
 
 	* fit adapted to generic fit method from gRbase

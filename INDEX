@@ -20,6 +20,6 @@ nthOrderModel           Create generating class with nth order
 plot.mim                Plot MIM model
 print.mim               Print methods for objects in mimR
 retrieveData            Retrieve data from MIM engine
-stepwise                Stepwise model selection in MIM
+stepwise.mim            Stepwise model selection in MIM
 toMIM                   Wrapper for submitting data and models to MIM
 variableType            Information about variables in MIM model

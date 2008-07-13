@@ -1,8 +1,8 @@
 
 
-stepwise <- function(x,arg=NULL,critlevel=NULL,infconstant=NULL) UseMethod("stepwise")
-stepwise.mim <- function(x,arg=NULL,critlevel=NULL,infconstant=NULL){
-  
+stepwise.mim <- function(object, arg=NULL, critlevel=NULL, infconstant=NULL,...){
+
+  x <- object
   .stepwiseMIM <- function(options=NULL,short=FALSE){
     ##mim.out <- mim.cmd(paste("stepwise ", options, collapse=''), look.nice=!short)
     mim.cmd(paste("# stepwise ", options, collapse=''), return.look.nice=TRUE)

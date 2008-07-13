@@ -48,7 +48,7 @@ export(
        "src2tgt.character",
        "src2tgt.list",
        "src2tgt.NULL",
-       "stepwise",
+       ##"stepwise",
        "stepwise.mim",
        "string2listLetters",
        "string2listNames",

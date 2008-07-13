@@ -18,6 +18,19 @@
 ## .display.mim <- function(x){
 
 plot.mim <- function(x,...){
+
+##   if (!("package:Rgraphviz" %in% search())){
+##     cat("The Rgraphviz package (from Bioconductor) must be installed...\n")
+##     return()
+##   }
+
+  
+  if (!require("Rgraphviz")){
+    cat("The Rgraphviz package (from Bioconductor) must be installed to display the models\n")
+    return()
+  }
+
+
   
   d       <- .getgmData(x)
   Delta   <- x$modelInfo$mimDelta
