@@ -74,6 +74,8 @@
   mimFormula.as.list   <- src2tgt(Formula.as.list,
                                   src=value$Variables$letter,
                                   tgt=value$Variable$name)
+
+
   mimFormula.as.string <- list2stringNames(mimFormula.as.list)
   Delta    <- value$Delta
   Gamma    <- value$Gamma

@@ -18,8 +18,17 @@ mim <- function(mimFormula, data, fit=TRUE, marginal=data$name){
 
   Formula.as.string <- mimFormula2Formula.as.string(mimFormula,data)
   .varspec.toMIM(data)
+
   
-  str  <- paste("Model ", Formula.as.string); mim.cmd(str)
+  str  <- paste("Model ", Formula.as.string);
+  #print(str)
+  #mim.cmd(str)
+  
+  str2 <- .str2strlist(str)
+  #print(str2)
+  lapply(str2, mim.cmd)
+
+  
   rsm  <- .RSmodel();     
 
   value <-list("mimFormula"        =mimFormula,

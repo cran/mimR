@@ -79,3 +79,24 @@ list2stringLetters <- function(a){
   value <- lapply(val,function(y){x[y]})
   return(value)
 }
+
+
+## Use this for dealing with long input strings to MIM
+##
+.str2strlist <- function(x, len=50, pad="&"){
+  ans <- list()
+  ii <- 0
+  repeat{
+    if (nchar(x)==0)
+      break
+    ii <- ii + 1
+    ans[[ii]] <- substr(x, 1, len)
+    x <- substr(x,len+1, 100000)
+  }
+  if (nchar(pad)>0 && ii>1){
+    for (jj in 1:(ii-1)){
+      ans[[jj]] <- paste(ans[[jj]], pad, collapse=" ")
+    }
+  }
+  ans
+}
