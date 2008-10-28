@@ -10,7 +10,7 @@ mim <- function(mimFormula, data, fit=TRUE, marginal=data$name){
   }
   
   data <- switch(class(data)[1],
-                 'data.frame'=,'table'={as.gmData(data)},
+                 'data.frame'=,'table'=,'xtabs'={as.gmData(data)},
                  'gmData'={data},
                  {stop("Data must be either a dataframe, a table or a gmData.")})
   

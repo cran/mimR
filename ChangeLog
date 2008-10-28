@@ -1,3 +1,10 @@
+2008-10-28 Søren Højsgaard <sorenh@agrsci.dk>	
+
+	* A table is now sent to MIM via a file rather than by a direct
+	connection
+
+	* Version 2.5.0 uploaded
+
 2008-07-13 Søren Højsgaard <sorenh@agrsci.dk>	
 
 	* mim() function modified so that long formulas are broken into
