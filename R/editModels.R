@@ -29,10 +29,19 @@ editmim <- function(object, deleteEdge=NULL, addEdge=NULL, haddEdge=NULL,
   AT.let  <-    if (!is.null(addTerm))
     paste("AddTerm",     paste(.to(addTerm),    collapse=","))
 
-  str  <- paste(DE.let,";", AE.let,";", HAE.let,";", DT.let, ";",AT.let)
-  mim.cmd(paste("Model ", .Formula.as.string(object)))
-  mim.cmd(str, look.nice=FALSE)  
 
+
+  
+  modstr  <- paste(DE.let,";", AE.let,";", HAE.let,";", DT.let, ";",AT.let)
+  mim.cmd("# ### editmim:")
+  #mim.cmd(paste("Model ", .Formula.as.string(object)))
+
+  str <- paste("Model ", .Formula.as.string(object))
+  str2 <- .str2strlist(str)
+  lapply(str2, mim.cmd)
+
+  mim.cmd(modstr, look.nice=FALSE)  
+  
   rsm        <- .RSmodel()
   mimFormula <- rsm$mimFormula.as.string
   newmodel   <- mim(mimFormula, data=object$data, fit=fit) 

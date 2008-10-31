@@ -5,6 +5,8 @@
 
 .varspec.toMIM <- function(data,text=""){
   mim.cmd("clear; clear output")
+  mim.cmd("# ### .varspec.toMIM")
+  
   mim.cmd(text)
   vs  <- .findVarspec(data) ## .namesTable.to.varspec (data)
   lapply(vs, function(s){if(!is.null(s)) mim.cmd(s, look.nice=FALSE)})

@@ -9,7 +9,7 @@ toMIM.default <- function(data){
 }
 
 toMIM.gmData <- function(data){
-  do <- dataOrigin(data)   ##mim.cmd("clear; clear output")
+  do <- dataOrigin(data)   
   if (is.null(do))
     .varspec.toMIM(data,text="# gmData without observations")
   else
@@ -48,6 +48,7 @@ toMIM.gmData <- function(data){
   write("!", file, append=TRUE)
 
   mim.cmd(paste("clear; clear output;"))
+  mim.cmd("# ### .dataframe.to.mim")
   str  <- paste("input", file, ";", sep=' ');
   mim.cmd(str, look.nice=FALSE);  
   return(file)

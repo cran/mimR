@@ -16,18 +16,15 @@ mim <- function(mimFormula, data, fit=TRUE, marginal=data$name){
   
   mimFormula <- .handleSpecialModels(mimFormula, data, marginal=marginal)
 
+  #print(mimFormula)
+  
   Formula.as.string <- mimFormula2Formula.as.string(mimFormula,data)
   .varspec.toMIM(data)
 
-  
   str  <- paste("Model ", Formula.as.string);
-  #print(str)
-  #mim.cmd(str)
-  
+                                        #print(str)
   str2 <- .str2strlist(str)
-  #print(str2)
   lapply(str2, mim.cmd)
-
   
   rsm  <- .RSmodel();     
 
@@ -56,11 +53,16 @@ mim <- function(mimFormula, data, fit=TRUE, marginal=data$name){
                       ".."  = {"SatMod"   },
                       "..h" = {"HomSatMod"},
                       "."   = {"Main"     })
+
   if (!is.null(model.type)){
     .varspec.toMIM(data)
     marg <- names2letters(marginal, data)
-    str  <- paste(model.type, paste(marg,collapse=' ')); mim.cmd(str)
-    rsm  <- .RSmodel();    
+    #cat("marg:", marg, "\n")
+    str  <- paste(model.type, paste(marg,collapse=' '));
+    #cat("str:", str, "\n")
+    mim.cmd(str)
+    rsm  <- .RSmodel();
+    #print(rsm)
     mimFormula <- rsm$mimFormula.as.string
   } 
   return(mimFormula)

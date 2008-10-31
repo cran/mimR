@@ -1,5 +1,11 @@
 2008-10-28 Søren Højsgaard <sorenh@agrsci.dk>	
 
+	* Bug showing up for long model formulas fixed.
+
+	* Version 2.6.0 uploaded
+
+2008-10-28 Søren Højsgaard <sorenh@agrsci.dk>	
+
 	* A table is now sent to MIM via a file rather than by a direct
 	connection
 
