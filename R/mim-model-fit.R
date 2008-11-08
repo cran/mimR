@@ -32,8 +32,14 @@ fit.mim <- function(m, arg=NULL, ...){
     arg<-gsub(" ","",paste(arg, "e"))
   }
   toMIM(.getgmData(mim))
+
   mim.cmd(paste("# Model", mim))
-  mim.cmd(paste("Model", mimFormulaLetters(mim)))
+  
+  str  <- paste("Model ", mimFormulaLetters(mim))
+  str2 <- .str2strlist(str)
+  lapply(str2, mim.cmd)
+
+  ##mim.cmd(paste("Model", mimFormulaLetters(mim)))
 
   v <- tryfit(arg)
 

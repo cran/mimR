@@ -1,6 +1,10 @@
 .formula.toMIM <- function(object){
-  mim.cmd(paste("# Model", object))
-  mim.cmd(paste("Model", .Formula.as.string(object)))
+  ##mim.cmd(paste("# Model", object))
+  ##mim.cmd(paste("Model", .Formula.as.string(object)))
+
+  str  <- paste("Model ", .Formula.as.string(object))
+  str2 <- .str2strlist(str)
+  lapply(str2, mim.cmd)
 }
 
 .varspec.toMIM <- function(data,text=""){
