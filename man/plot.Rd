@@ -25,7 +25,7 @@
 %   ...
 % }
 % \references{ ~put references to the literature/web site here ~ }
-\author{ ~~who you are~~ }
+\author{Søren Højsgaard, sorenh@agrsci.dk}
 % \note{ ~~further notes~~ 
 
 %  ~Make other sections like Warning with \section{Warning }{....} ~

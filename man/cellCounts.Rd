@@ -15,32 +15,32 @@ empCov(S, counts = NULL, sd = NULL, mean = rep(0, ncol(S)))
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{varNames}{ ~~Describe \code{varNames} here~~ }
-  \item{nLevels}{ ~~Describe \code{nLevels} here~~ }
-  \item{valueLabels}{ ~~Describe \code{valueLabels} here~~ }
-  \item{observations}{ ~~Describe \code{observations} here~~ }
-  \item{S}{ ~~Describe \code{S} here~~ }
-  \item{counts}{ ~~Describe \code{counts} here~~ }
-  \item{sd}{ ~~Describe \code{sd} here~~ }
-  \item{mean}{ ~~Describe \code{mean} here~~ }
+  \item{varNames}{ Describe \code{varNames} here }
+  \item{nLevels}{ Describe \code{nLevels} here }
+  \item{valueLabels}{ Describe \code{valueLabels} here }
+  \item{observations}{ Describe \code{observations} here }
+  \item{S}{ Describe \code{S} here }
+  \item{counts}{ Describe \code{counts} here }
+  \item{sd}{ Describe \code{sd} here }
+  \item{mean}{ Describe \code{mean} here }
 
 }
-\details{
-  ~~ If necessary, more details than the description above ~~
-}
-\value{
-  ~Describe the value returned
-  If it is a LIST, use
-  \item{comp1 }{Description of 'comp1'}
-  \item{comp2 }{Description of 'comp2'}
-  ...
-}
+% \details{
+%    If necessary, more details than the description above 
+% }
+% \value{
+%   ~Describe the value returned
+%   If it is a LIST, use
+%   \item{comp1 }{Description of 'comp1'}
+%   \item{comp2 }{Description of 'comp2'}
+%   ...
+% }
 \references{ David Edwards, An Introduction to Graphical Modelling,
   Springer Verlag, 2002}
 \author{Søren Højsgaard, sorenh@agrsci.dk}
 \note{Before using mimR, make sure that the MIM program is runnning.}
 
-\seealso{ ~~objects to See Also as \code{\link{help}}, ~~~ }
+%\seealso{ ~~objects to See Also as \code{\link{help}}, ~~~ }
 \examples{
 x <- cellCounts(varNames=c("aa","bb"), 
   valueLabels=list(aa=c("a1","a2"), bb=c("b100","b200")), 

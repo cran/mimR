@@ -2,21 +2,6 @@
 ## display (mimR)
 ## 
 
-# if (!isGeneric("display")) {
-#   if (is.function("display")) 
-#     fun <- display
-#   else 
-#     fun <- function(x) standardGeneric("display")
-#   setGeneric("display", fun)
-# }
-
-# setMethod("display", signature(x = "mim"),
-#           function(x) {
-#             .display.mim(x)
-#           })
-
-## .display.mim <- function(x){
-
 plot.mim <- function(x,...){
 
 ##   if (!("package:Rgraphviz" %in% search())){
@@ -29,8 +14,6 @@ plot.mim <- function(x,...){
     cat("The Rgraphviz package (from Bioconductor) must be installed to display the models\n")
     return()
   }
-
-
   
   d       <- .getgmData(x)
   Delta   <- x$modelInfo$mimDelta
@@ -65,6 +48,23 @@ plot.mim <- function(x,...){
 
 
 
+
+
+
+# if (!isGeneric("display")) {
+#   if (is.function("display")) 
+#     fun <- display
+#   else 
+#     fun <- function(x) standardGeneric("display")
+#   setGeneric("display", fun)
+# }
+
+# setMethod("display", signature(x = "mim"),
+#           function(x) {
+#             .display.mim(x)
+#           })
+
+## .display.mim <- function(x){
 
 #   cliques <- x$modelInfo$Cliques
 #   cliques <- src2tgt (cliques, src=shortNames(d), tgt=varNames(d))

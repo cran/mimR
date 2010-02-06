@@ -19,7 +19,8 @@ toMIM(data)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{data}{ ~~Describe \code{data} here~~ }
+  \item{data}{Data can be either 1) a dataframe, 2) a table, 3) an
+    internal structure called momentstats or 4) a gmData object }
 }
 %\details{
 %  ~~ If necessary, more details than the __description__  above ~~

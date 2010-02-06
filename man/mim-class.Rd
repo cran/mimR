@@ -12,11 +12,11 @@
 Class \code{"\linkS4class{oldClass}"}, directly.
 }
 \section{Methods}{
-No methods defined with class "bayesnet" in the signature.
+  None
 }
-\references{ ~put references to the literature/web site here ~ }
-\author{ ~~who you are~~ }
-\note{ ~~further notes~~ }
+%\references{ ~put references to the literature/web site here ~ }
+\author{Søren Højsgaard, sorenh@agrsci.dk}
+%\note{ ~~further notes~~ }
 
 % ~Make other sections like Warning with \section{Warning }{....} ~
 

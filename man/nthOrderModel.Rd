@@ -3,7 +3,7 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Create generating class with nth order interactions for log--linear model}
 \description{
-  Creates  generating class with nth order interactions for log--linear
+  Creates generating class with nth order interactions for log--linear
   model
   }
 \usage{

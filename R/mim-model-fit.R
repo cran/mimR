@@ -1,11 +1,10 @@
-### BEGIN(EXPORT)
-fit.mim <- function(m, arg=NULL, ...){
-  mim <- m
+
+fit.mim <- function(object, arg=NULL, ...){
   tryfit <- function(arg){
     emAttempts <- 0
     repeat{
-      if (!is.null(.latentInModel(mim))){
-        .initLatent (.latentInModel(mim), .getgmData(mim))
+      if (!is.null(.latentInModel(object))){
+        .initLatent (.latentInModel(object), .getgmData(object))
         if(!is.na(match("r", unlist(strsplit(arg,"")))))
           arg2 <- 'er'
         else
@@ -27,19 +26,19 @@ fit.mim <- function(m, arg=NULL, ...){
 
   EMrequested <- !is.na(match("e", unlist(strsplit(arg,""))))
   
-  if (!EMrequested && !is.null(.latentInModel(mim))){
+  if (!EMrequested && !is.null(.latentInModel(object))){
     cat("Model has latent variable - trying EM algorithm\n")
     arg<-gsub(" ","",paste(arg, "e"))
   }
-  toMIM(.getgmData(mim))
+  toMIM(.getgmData(object))
 
-  mim.cmd(paste("# Model", mim))
+  mim.cmd(paste("# Model", object))
   
-  str  <- paste("Model ", mimFormulaLetters(mim))
+  str  <- paste("Model ", mimFormulaLetters(object))
   str2 <- .str2strlist(str)
   lapply(str2, mim.cmd)
 
-  ##mim.cmd(paste("Model", mimFormulaLetters(mim)))
+  ##mim.cmd(paste("Model", mimFormulaLetters(object)))
 
   v <- tryfit(arg)
 
@@ -60,11 +59,78 @@ fit.mim <- function(m, arg=NULL, ...){
   }
 
                                         #print(".retrieve.fittedMIM")
-  mim <- .retrieve.fittedMIM(mim)
-  return(mim)
+  object <- .retrieve.fittedMIM(object)
+  return(object)
 }
 
-### END(EXPORT)
+
+
+## fit.mim <- function(m, arg=NULL, ...){
+##   mim <- m
+##   tryfit <- function(arg){
+##     emAttempts <- 0
+##     repeat{
+##       if (!is.null(.latentInModel(mim))){
+##         .initLatent (.latentInModel(mim), .getgmData(mim))
+##         if(!is.na(match("r", unlist(strsplit(arg,"")))))
+##           arg2 <- 'er'
+##         else
+##           arg2 <- 'es'
+##       } else {
+##         arg2 <- arg
+##       }
+##       v <- .RSfit(arg2);  
+
+##       emAttempts <- emAttempts + 1
+##       if (!is.null(v[1]) || emAttempts>20)
+##         break()
+##     }
+##     return(v)
+##   } #-------------
+  
+##   if (is.null(arg))
+##     arg <- ""
+
+##   EMrequested <- !is.na(match("e", unlist(strsplit(arg,""))))
+  
+##   if (!EMrequested && !is.null(.latentInModel(mim))){
+##     cat("Model has latent variable - trying EM algorithm\n")
+##     arg<-gsub(" ","",paste(arg, "e"))
+##   }
+##   toMIM(.getgmData(mim))
+
+##   mim.cmd(paste("# Model", mim))
+  
+##   str  <- paste("Model ", mimFormulaLetters(mim))
+##   str2 <- .str2strlist(str)
+##   lapply(str2, mim.cmd)
+
+##   ##mim.cmd(paste("Model", mimFormulaLetters(mim)))
+
+##   v <- tryfit(arg)
+
+##   if (!EMrequested){
+##     if (is.na(v[1])){
+##       cat("Seems that there are incomplete observations - trying EMfit\n")
+##       v <- tryfit(paste(arg, "e"))
+##       if (is.null(v[1]) || is.na(v[1])){
+##         cat("... Fitting failed...\n")
+##         return ()
+##       } 
+##     }  
+##   } else {
+##     if (is.null(v[1]) || is.na(v[1])){
+##       cat("... Fitting failed...\n")
+##       return()
+##     }
+##   }
+
+##                                         #print(".retrieve.fittedMIM")
+##   mim <- .retrieve.fittedMIM(mim)
+##   return(mim)
+## }
+
+
 
 ### .functions below here ####
 

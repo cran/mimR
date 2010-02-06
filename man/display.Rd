@@ -1,4 +1,4 @@
-\name{display}
+\name{display.mim}
 \alias{display,mim-method}
 \alias{display.mim}
 \alias{display}
@@ -16,7 +16,7 @@ display(x)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{A mim model object}
-%  \item{...}{Additional arguments which are not used.}
+  \item{...}{Additional arguments which are not used.}
 }
 \details{
   None

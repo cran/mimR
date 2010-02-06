@@ -2,7 +2,7 @@ cellCounts              Convenience functions for specifying sufficient
                         statistics for purely discrete and purely
                         continuous graphical models
 cliques                 Get cliques, edges etc of MIM model objects
-display                 Display a 'mim' model graphically
+display.mim             Display a 'mim' model graphically
 edges-methods           Retrieve edges and nodes of a mim model
 editmim                 Editing a mim model object
 fit.mim                 Function to fit model in MIM

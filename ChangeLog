@@ -1,3 +1,13 @@
+2010-02-05 Søren Højsgaard <sorenh@agrsci.dk>	
+
+	* Certain small changes for compatibility with gRbase
+
+	* URL reference fixed
+
+	* CITATION file has been added
+
+	* Version 2.6.2 uploaded
+	
 2008-10-28 Søren Højsgaard <sorenh@agrsci.dk>	
 
 	* Yet another bug showing up for long model formulas fixed.
